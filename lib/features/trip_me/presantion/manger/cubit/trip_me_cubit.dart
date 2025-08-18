@@ -39,4 +39,8 @@ class TripMeCubit extends Cubit<TripMeState> {
       getMeTrips();
     });
   }
+
+  refrch() {
+    emit(TripMeLoading());
+  }
 }

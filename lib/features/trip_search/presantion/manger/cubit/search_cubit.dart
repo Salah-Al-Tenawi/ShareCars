@@ -1,9 +1,24 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:sharecars/features/trip_create/data/model/trip_model.dart';
+import 'package:sharecars/features/trip_search/data/repo/search_repo_im.dart';
 
 part 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
-  SearchCubit() : super(SearchInitial());
+  final SearchRepoIm repoIm;
+  SearchCubit(this.repoIm) : super(SearchInitial());
+
+  search(String sourcelat, String sourcelng, String destlat, String destlng,
+      String departureDate, int seatsRequired) async {
+    emit(SearchLoading());
+    final response = await repoIm.search(
+        sourcelat, sourcelng, destlat, destlng, departureDate, seatsRequired);
+
+    response.fold((erorr) {
+      emit(SearchErorr(error: erorr.message));
+    }, (listTrip) {
+      emit(SearchSucces(trips: listTrip));
+    });
+  }
 }

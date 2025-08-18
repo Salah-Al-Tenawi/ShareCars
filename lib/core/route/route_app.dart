@@ -9,7 +9,9 @@ import 'package:sharecars/features/home/preantion/manger/cubit/home_nav_cubit_cu
 import 'package:sharecars/features/maps/data/data_source/maps_data_source.dart';
 import 'package:sharecars/features/maps/data/repo/map_repo.dart';
 import 'package:sharecars/features/maps/presantion/manger/cubit/trip_details_map_cubit.dart';
+import 'package:sharecars/features/maps/presantion/manger/pick_location/cubit/pick_location_cubit.dart';
 import 'package:sharecars/features/maps/presantion/manger/push_ride_map/map_cubit.dart';
+import 'package:sharecars/features/maps/presantion/view/pick_location.dart';
 import 'package:sharecars/features/maps/presantion/view/route_map_view.dart';
 import 'package:sharecars/features/maps/presantion/view/search_ride_map.dart';
 import 'package:sharecars/features/profiles/data/date_source/profile_remote_date_source.dart';
@@ -47,7 +49,12 @@ import 'package:sharecars/features/trip_me/data/repo/trip_me_repo_im.dart';
 import 'package:sharecars/features/trip_me/presantion/manger/cubit/trip_me_cubit.dart';
 import 'package:sharecars/features/trip_me/presantion/view/trip_me_list.dart';
 import 'package:sharecars/features/trip_me/presantion/view/trip_me_one.dart';
+import 'package:sharecars/features/trip_search/data/data%20source/search_remote_data_source.dart';
+import 'package:sharecars/features/trip_search/data/repo/search_repo_im.dart';
+import 'package:sharecars/features/trip_search/presantion/manger/cubit/search_cubit.dart';
+import 'package:sharecars/features/trip_search/presantion/manger/cubit/tripsearch_list_cubit.dart';
 import 'package:sharecars/features/trip_search/presantion/view/trip_search.dart';
+import 'package:sharecars/features/trip_search/presantion/view/trip_search_list.dart';
 import 'package:sharecars/features/vieryfiy_user/data/data_source/verifit_user_remote_data_source.dart';
 import 'package:sharecars/features/vieryfiy_user/data/repo/verfiy_user_repo.dart';
 import 'package:sharecars/features/vieryfiy_user/presintion/manger/cubit/verfiy_user_cubit.dart';
@@ -61,6 +68,12 @@ List<GetPage<dynamic>> appRoute = [
       child: const SplashScreen(),
     ),
   ),
+
+  GetPage(
+      name: RouteName.pickLocation,
+      page: () => BlocProvider(
+          create: (context) => PickLocationCubit(MapRepoIm(mapsDataSource: MapsDataSourceIm(api: getit.get<DioConSumer>()))), child: const PickLocation())),
+
   GetPage(name: RouteName.test, page: () => const MyTest()),
   GetPage(
     name: RouteName.login,
@@ -111,18 +124,14 @@ List<GetPage<dynamic>> appRoute = [
     ),
   ),
 
-GetPage(
-  name: RouteName.routeMapView,
-  page: () => BlocProvider(
-    create: (context) =>   TripDetailsMapCubit(MapRepoIm(mapsDataSource: MapsDataSourceIm(api: getit.get<DioConSumer>()))),
-    child: const RouteMapView(),
+  GetPage(
+    name: RouteName.routeMapView,
+    page: () => BlocProvider(
+      create: (context) => TripDetailsMapCubit(MapRepoIm(
+          mapsDataSource: MapsDataSourceIm(api: getit.get<DioConSumer>()))),
+      child: const RouteMapView(),
+    ),
   ),
-),
-
-
-
-
-
 
   GetPage(
     name: RouteName.searchRideMap,
@@ -163,6 +172,14 @@ GetPage(
   // trip search
 
   GetPage(name: RouteName.tripSearch, page: () => const TripSearch()),
+  GetPage(
+      name: RouteName.tripSearchList,
+      page: () => BlocProvider(
+            create: (context) => TripsearchListCubit(SearchRepoIm(
+                searchRemoteDataSource:
+                    SearchRemoteDataSource(api: getit.get<DioConSumer>()))),
+            child: const TripSearchList(),
+          )),
 
   // trip me
   GetPage(
@@ -187,15 +204,26 @@ GetPage(
   ),
 
   // home
-
-  GetPage(
-    name: RouteName.home,
-    page: () => MultiBlocProvider(
-      providers: [
-        BlocProvider<HomeNavCubit>(create: (_) => HomeNavCubit()),
-        // BlocProvider<AnotherCubit>(create: (_) => AnotherCubit()), // إن احتجت المزيد
-      ],
-      child: const Home(),
-    ),
+GetPage(
+  name: RouteName.home,
+  page: () => MultiBlocProvider(
+    providers: [
+      BlocProvider<HomeNavCubit>(create: (_) => HomeNavCubit()),
+      BlocProvider<SearchCubit>(
+        create: (_) => SearchCubit(
+          SearchRepoIm(
+            searchRemoteDataSource: SearchRemoteDataSource(
+              api: getit.get<DioConSumer>(),
+            ),
+          ),
+        ),
+      ),
+      BlocProvider<TripMeCubit>(
+        create: (_) => getit.get<TripMeCubit>(),
+      ),
+    ],
+    child: const Home(), // Home الآن لا يحتاج لأي BlocProvider داخلي
   ),
+),
+
 ];

@@ -21,7 +21,8 @@ class CustomTextformfild extends StatelessWidget {
   final bool expands;
   final TextInputAction? textInputAction;
   final void Function(String)? onChanged;
- final Color? fillColor ;
+ final Color? fillColor ; 
+ final Widget? prefix;
 
 
   const CustomTextformfild({
@@ -43,7 +44,8 @@ class CustomTextformfild extends StatelessWidget {
     this.textInputAction,
     this.hint, 
     this. fill ,
-    this.fillColor
+    this.fillColor ,
+    this.prefix
   });
 
   @override
@@ -65,7 +67,7 @@ class CustomTextformfild extends StatelessWidget {
         expands: expands,
         textInputAction: textInputAction,
         decoration: InputDecoration(
-          
+          prefix:prefix ,
           labelText: title,
           labelStyle: const TextStyle(
             fontSize: 14,

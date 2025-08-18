@@ -28,6 +28,15 @@ Future<Either<Filuar, List<RouteModel>>> fetchRouteBYgraphHopper(
     } on ServerExpcptions catch (e) {
       return left(e.error);
     } 
+  } 
+
+  Future<Either<Filuar, String>> getPlaceName(LatLng location) async {
+    try {
+      final name = await mapsDataSource.getPlaceName(location);
+      return right(name);
+    } on ServerExpcptions catch (e) {
+      return left(e.error);
+    }
   }
 }
 

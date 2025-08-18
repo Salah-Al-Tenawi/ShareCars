@@ -18,8 +18,8 @@ class _TripDetailsState extends State<TripDetails> {
 
   @override
   void initState() {
-    // tripId = Get.arguments as int;
-    tripId = 1;
+    tripId = Get.arguments as int;
+    // tripId = 1;
     context.read<TripDetailsCubit>().fetchTrip(tripId);
     super.initState();
   }
@@ -39,8 +39,8 @@ class _TripDetailsState extends State<TripDetails> {
               // todo add route name chat
               // todo don't forget that
               // todo
-              Get.toNamed(RouteName.forgetpassword,
-                  arguments: {'userId': state.driverId});
+              // Get.toNamed(RouteName.forgetpassword,
+              //     arguments: {'userId': state.driverId});
             } else if (state is TripDetailsCancel) {
               Get.snackbar('تم إلغاء الرحلة', state.message,
                   snackPosition: SnackPosition.BOTTOM);

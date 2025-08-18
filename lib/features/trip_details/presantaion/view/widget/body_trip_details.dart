@@ -49,7 +49,44 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
           SizedBox(height: 5.h),
           _buildBookingTypeWidget(),
           SizedBox(height: 20.h),
-          _buildBookingButton(context),
+          widget.mode == TripDetailsMode.otherView
+              ? _buildBookingButton(context)
+              : showBookingButton()
+        ],
+      ),
+    );
+  }
+
+  ElevatedButton showBookingButton() {
+    return ElevatedButton(
+      onPressed: () {
+        // Get.toNamed(RouteName.tripBookings, arguments: {'tripId': widget.trip.id});
+      },
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 24.w),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+        elevation: 6,
+        backgroundColor: MyColors.primary, // اللون الأساسي
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.list_alt,
+            color: Colors.white,
+            size: 22.sp,
+          ),
+          SizedBox(width: 10.w),
+          Text(
+            "عرض الحجوزات - ${widget.trip.seatsBooked} محجوزة",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 16.sp,
+            ),
+          ),
         ],
       ),
     );
@@ -194,21 +231,18 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
   }
 
   Widget _buildTripRoute() {
-
     return InkWell(
-  onTap: () {
-    Get.toNamed(
-      RouteName.routeMapView,
-      arguments: {
-        'startLat': widget.trip.pickup.coordinates.lat,
-        'startLng': widget.trip.pickup.coordinates.lng,
-        'endLat': widget.trip.destination.coordinates.lat,
-        'endLng': widget.trip.destination.coordinates.lng,
-        'routeIndex': widget.trip.chosenRouteIndex,
-      },
-    );
-
-
+      onTap: () {
+        Get.toNamed(
+          RouteName.routeMapView,
+          arguments: {
+            'startLat': widget.trip.pickup.coordinates.lat,
+            'startLng': widget.trip.pickup.coordinates.lng,
+            'endLat': widget.trip.destination.coordinates.lat,
+            'endLng': widget.trip.destination.coordinates.lng,
+            'routeIndex': widget.trip.chosenRouteIndex,
+          },
+        );
       },
       child: Column(
         children: [

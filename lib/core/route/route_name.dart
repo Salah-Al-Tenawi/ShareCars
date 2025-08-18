@@ -1,3 +1,4 @@
+import 'package:sharecars/features/maps/presantion/view/pick_location.dart';
 import 'package:sharecars/features/maps/presantion/view/route_map_view.dart';
 import 'package:sharecars/features/maps/push_ride_map.dart';
 
@@ -15,9 +16,8 @@ class RouteName {
 // map
   static const pushRideMap = "/pushRideMap";
   static const searchRideMap = "/SearchRideMap";
-  static const routeMapView = "/routeMapView";  
-
-  
+  static const routeMapView = "/routeMapView";
+  static const pickLocation = "/pickLocation";
 
   //trip  create
   static const tripSelectSourceAndDistOnMap = "/TripSelectSourceAndDistOnMap";
@@ -31,6 +31,8 @@ class RouteName {
 
   // trip search
   static const tripSearch = "/tripSearch";
+  static const tripSearchList = "/tripSearchlist";
+
   // trip details
   static const tripDetails = "/tripDetails";
 }

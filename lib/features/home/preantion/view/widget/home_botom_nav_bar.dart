@@ -20,8 +20,8 @@ class BottomNavBarWidget extends StatelessWidget {
 
   final List<Color> _activeColors = const [
     MyColors.primary,
+    MyColors.accent,
     MyColors.primaryBackground,
-    MyColors.primary,
     MyColors.primaryBackground,
   ];
 

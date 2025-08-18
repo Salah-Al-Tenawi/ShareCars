@@ -118,5 +118,10 @@ class MapCubit extends Cubit<MapState> {
   double _calculateDistance(LatLng start, LatLng end) {
     const Distance distance = Distance();
     return distance(start, end) / 1000;
-  }
+  } 
+
+
+
+
+  
 }

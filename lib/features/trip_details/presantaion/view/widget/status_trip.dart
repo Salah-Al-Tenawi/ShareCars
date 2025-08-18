@@ -13,20 +13,21 @@ StatusInfo getStatusInfo(String? status) {
 
   switch (normalized) {
     case 'pending':
-      return StatusInfo('قيد الانتظار', const Color(0xFFFFA500)); // برتقالي
+      return StatusInfo('قيد الانتظار', MyColors.accent);
     case 'confirmed':
-      return StatusInfo('مؤكد', const Color(0xFF007BFF)); // أزرق
+      return StatusInfo('مؤكد', MyColors.primary);
     case 'cancelled':
-      return StatusInfo('ملغي', const Color(0xFFDC3545)); // أحمر
+      return StatusInfo('ملغي', const Color(0xFFDC3545));
     case 'no_show':
-      return StatusInfo('لم يحضر', const Color(0xFF6C757D)); // رمادي
+      return StatusInfo('لم يحضر', MyColors.secondary);
     case 'completed':
-      return StatusInfo('مكتمل', const Color(0xFF28A745)); // أخضر
+      return StatusInfo('مكتمل', const Color(0xFF28A745));
     case 'full':
-      return StatusInfo('ممتلئة', MyColors.primaryBackground); // بنفسجي
+      return StatusInfo('ممتلئة', MyColors.primaryBackground);
     case 'active':
-      return StatusInfo('متاح ', MyColors.primaryBackground); // بنفسجي
+      return StatusInfo('متاح', MyColors.primaryBackground);
     default:
-      return StatusInfo('غير معروف', const Color(0xFF343A40)); // أسود رمادي
+      return StatusInfo('غير معروف', MyColors.primaryText);
   }
 }
+

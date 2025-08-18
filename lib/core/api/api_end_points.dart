@@ -55,9 +55,7 @@ class ApiKey {
   static const totalRatings = "total_ratings";
   static const averageRating = "average_rating";
   static const phoneNumber = "phone_number";
-static const otpCode = "otp_code";
-
-  
+  static const otpCode = "otp_code";
 
   // Car Info
   static const typeOfCar = "type_of_car";
@@ -96,11 +94,8 @@ static const otpCode = "otp_code";
   static const notes = "notes";
   static const routeIndex = "route_index";
   static const paymentmethod = "payment_method";
-  static const bookingType = "booking_type"; 
-static const communicationNumber = "communication_number"; 
-
-
-  
+  static const bookingType = "booking_type";
+  static const communicationNumber = "communication_number";
 
   // maps
   static const coordinates = "coordinates";
@@ -113,4 +108,10 @@ static const communicationNumber = "communication_number";
   static const sourceAddress = "source_address";
   static const departureDate = "departure_date";
   static const seatsRequired = "seats_required";
+  static const sourcelat = "source_lat";
+static const sourcelng = "source_lng";
+static const destlat = "dest_lat";
+static const destlng = "dest_lng";
+
+
 }
