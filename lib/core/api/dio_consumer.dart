@@ -87,7 +87,7 @@ class DioConSumer extends ApiConSumer {
     dynamic data,
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? header,
-    bool isFormData = false,
+  bool isFormData = false,
   }) async {
     try {
       final response = await dio.patch(path,

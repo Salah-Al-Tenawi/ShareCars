@@ -1,3 +1,4 @@
+import 'package:sharecars/features/maps/presantion/view/route_map_view.dart';
 import 'package:sharecars/features/maps/push_ride_map.dart';
 
 class RouteName {
@@ -12,9 +13,9 @@ class RouteName {
   static const verfiyUser = "/verfiyUser";
 
 // map
-  static const pushRideMap = "/pushRideMap"; 
-static const searchRideMap = "/SearchRideMap"; 
-
+  static const pushRideMap = "/pushRideMap";
+  static const searchRideMap = "/SearchRideMap";
+  static const routeMapView = "/routeMapView";  
 
   
 
@@ -27,9 +28,9 @@ static const searchRideMap = "/SearchRideMap";
 
   // trip me
   static const tripMeList = "/tripMeList";
-  static const tripMeOne = "/tripMeone";
 
-  // trip search 
- static const tripSearch = "/tripSearch";
-
+  // trip search
+  static const tripSearch = "/tripSearch";
+  // trip details
+  static const tripDetails = "/tripDetails";
 }

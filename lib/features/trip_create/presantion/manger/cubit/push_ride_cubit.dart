@@ -23,9 +23,9 @@ class PushRideCubit extends Cubit<PushRideState> {
     int routeIndex = trip.path;
     String paymentMethod = trip.cashType;
     String bookingType = trip.bookingType;
+    String numberPhone = trip.numberPhone!;
 
     emit(PushRideLoading());
-
     final response = await tripCreateRepoIm.createTrip(
         startLat!,
         startLng!,
@@ -37,16 +37,18 @@ class PushRideCubit extends Cubit<PushRideState> {
         notes,
         routeIndex,
         paymentMethod,
-        bookingType);
+        bookingType,
+        numberPhone);
 
     response.fold((error) {
       emit(PushRideErorr());
     }, (tripModle) {
       emit(PushRideSuccsess(tripModel: tripModle));
     });
-  } 
+  }
+
   void validatePhone(String value) {
-  final isValid = inputvaild(value, "nubmerphone", 10, 10) == null;
-  emit(PushRideValidatePhoneState(isValid));
-}
+    final isValid = inputvaild(value, "nubmerphone", 10, 10) == null;
+    emit(PushRideValidatePhoneState(isValid));
+  }
 }

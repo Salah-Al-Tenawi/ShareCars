@@ -1,11 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:sharecars/core/api/dio_consumer.dart';
 import 'package:sharecars/core/route/route_name.dart';
 import 'package:sharecars/core/service/locator_ser.dart';
 import 'package:sharecars/features/home/preantion/manger/cubit/home_nav_cubit_cubit.dart';
+import 'package:sharecars/features/maps/data/data_source/maps_data_source.dart';
+import 'package:sharecars/features/maps/data/repo/map_repo.dart';
+import 'package:sharecars/features/maps/presantion/manger/cubit/trip_details_map_cubit.dart';
 import 'package:sharecars/features/maps/presantion/manger/push_ride_map/map_cubit.dart';
+import 'package:sharecars/features/maps/presantion/view/route_map_view.dart';
 import 'package:sharecars/features/maps/presantion/view/search_ride_map.dart';
 import 'package:sharecars/features/profiles/data/date_source/profile_remote_date_source.dart';
 import 'package:sharecars/features/splash_view/presentaion/manger/cubit/splash_view_cubit.dart';
@@ -23,6 +28,8 @@ import 'package:sharecars/features/profiles/data/repo/profile_repo_im.dart';
 import 'package:sharecars/features/profiles/presantaion/manger/profile_cubit.dart';
 import 'package:sharecars/features/profiles/presantaion/view/profile.dart';
 import 'package:sharecars/features/splash_view/presentaion/view/splash_view.dart';
+import 'package:sharecars/features/trip_booking/data/data%20source/booking_remote_data_source.dart';
+import 'package:sharecars/features/trip_booking/data/repo/booking_rep_im.dart';
 import 'package:sharecars/features/trip_create/data/data_source/trip_create_remote_data_source.dart';
 import 'package:sharecars/features/trip_create/data/repo/trip_create_repo_im.dart';
 import 'package:sharecars/features/trip_create/presantion/manger/cubit/push_ride_cubit.dart';
@@ -31,6 +38,10 @@ import 'package:sharecars/features/trip_create/presantion/view/trip_select_date_
 import 'package:sharecars/features/trip_create/presantion/view/trip_select_price_and_booking_type.dart';
 import 'package:sharecars/features/trip_create/presantion/view/trip_select_source_and_dist_on_map.dart';
 import 'package:sharecars/features/trip_create/presantion/view/trip_did_you_back.dart';
+import 'package:sharecars/features/trip_details/data/data_source/trip_details_remote_data_source.dart';
+import 'package:sharecars/features/trip_details/data/repo/trip_details_repo.dart';
+import 'package:sharecars/features/trip_details/presantaion/manger/cubit/tripdetails_cubit.dart';
+import 'package:sharecars/features/trip_details/presantaion/view/trip_details.dart';
 import 'package:sharecars/features/trip_me/data/data%20source/trip_me_remote_data_source.dart';
 import 'package:sharecars/features/trip_me/data/repo/trip_me_repo_im.dart';
 import 'package:sharecars/features/trip_me/presantion/manger/cubit/trip_me_cubit.dart';
@@ -101,6 +112,19 @@ List<GetPage<dynamic>> appRoute = [
   ),
 
 GetPage(
+  name: RouteName.routeMapView,
+  page: () => BlocProvider(
+    create: (context) =>   TripDetailsMapCubit(MapRepoIm(mapsDataSource: MapsDataSourceIm(api: getit.get<DioConSumer>()))),
+    child: const RouteMapView(),
+  ),
+),
+
+
+
+
+
+
+  GetPage(
     name: RouteName.searchRideMap,
     page: () => BlocProvider(
       create: (_) => MapCubit(),
@@ -136,27 +160,29 @@ GetPage(
   ),
 
   GetPage(name: RouteName.tripDidYouBack, page: () => const TripDidYouBack()),
-  // trip search 
+  // trip search
 
   GetPage(name: RouteName.tripSearch, page: () => const TripSearch()),
 
-  
-
-
- // trip me  
-GetPage(
+  // trip me
+  GetPage(
     name: RouteName.tripMeList,
     page: () => BlocProvider(
-      create: (context) => getit.get<TripMeCubit>(),
+      create: (context) => TripMeCubit(TripMeRepoIm(
+          tripMeRemoteDataSource:
+              TripMeRemoteDataSource(api: getit.get<DioConSumer>()))),
       child: const TripMeList(),
     ),
   ),
 
-GetPage(
-    name: RouteName.tripMeOne,
+  GetPage(
+    name: RouteName.tripDetails,
     page: () => BlocProvider(
-      create: (context) => getit.get<TripMeCubit>(),
-      child: const TripMeOne(),
+      create: (context) => TripDetailsCubit(
+          tripDetailsRepoIM: TripDetailsRepoIM(
+              remoteDataSource:
+                  TripDetailsRemoteDataSource(api: getit.get<DioConSumer>()))),
+      child: const TripDetails(),
     ),
   ),
 
@@ -171,7 +197,5 @@ GetPage(
       ],
       child: const Home(),
     ),
-  ), 
-
-  
+  ),
 ];

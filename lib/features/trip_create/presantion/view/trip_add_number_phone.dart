@@ -109,7 +109,7 @@ class _TripAddNumberPhoneState extends State<TripAddNumberPhone> {
                             ),
                             filled: true,
                             fillColor: Colors.grey[100],
-                            hintText: "مثال: 0912345789",
+                            hintText: "مثال: 091234567",
                           ),
                           validator: (value) =>
                               inputvaild(value!, "nubmerphone", 10, 10),

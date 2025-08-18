@@ -16,11 +16,11 @@ class TripMeList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('رحلاتي')),
       body: BlocConsumer<TripMeCubit, TripMeState>(
         listener: (context, state) {
           if (state is TripMeErorr) {
             showMySnackBar(context, state.message);
+            
           } else if (state is TripMeCancel) {
             showMySnackBar(context, state.message);
           }
@@ -45,7 +45,7 @@ class TripMeList extends StatelessWidget {
                   return ItemTrip(
                     trip: trip,
                     onTap: () {
-                      Get.toNamed(RouteName.tripMeOne, arguments: index);
+                      Get.toNamed(RouteName.tripDetails, arguments: index+1);
                     },
                     onCancel: () async {
                       final confirm = await showDialog<bool>(

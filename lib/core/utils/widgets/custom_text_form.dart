@@ -42,8 +42,8 @@ class CustomTextformfild extends StatelessWidget {
     this.expands = false,
     this.textInputAction,
     this.hint, 
-   this. fill ,
-   this.fillColor
+    this. fill ,
+    this.fillColor
   });
 
   @override

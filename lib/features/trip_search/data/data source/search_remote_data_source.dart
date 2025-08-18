@@ -22,7 +22,7 @@ class SearchRemoteDataSource {
       ApiKey.seatsRequired: seatsRequired
     });
      final trips = response
-      .map((e) => TripModel.fromjson(e))
+      .map((e) => TripModel.fromJson(e))
       .toList();
 
   return trips;

@@ -1,0 +1,25 @@
+import 'package:sharecars/core/api/api_end_points.dart';
+import 'package:sharecars/core/api/dio_consumer.dart';
+import 'package:sharecars/core/utils/functions/get_token.dart';
+import 'package:sharecars/features/trip_booking/data/model/request_booking_model.dart';
+import 'package:sharecars/features/trip_create/data/model/trip_model.dart';
+
+class TripDetailsRemoteDataSource {
+  final DioConSumer api;
+ 
+  TripDetailsRemoteDataSource({required this.api});
+
+Future<TripModel> featchTrip(int tripId) async {
+    final response = await api.get("${ApiEndPoint.rides}/$tripId",
+        header: {ApiKey.authorization: "Bearer ${mytoken()}"});
+
+    return TripModel.fromMap(response);
+  } 
+
+Future<RequestBookingModel> booking(int seats, int tripId) async {
+    final response = await api.post("${ApiEndPoint.rides}/$tripId/book",  
+    data: {ApiKey.seats: seats});
+    return response;
+  }
+  
+}

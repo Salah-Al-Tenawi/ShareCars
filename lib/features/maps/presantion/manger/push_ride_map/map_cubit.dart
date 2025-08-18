@@ -87,7 +87,6 @@ class MapCubit extends Cubit<MapState> {
       return;
     }
 
-    // إعادة البدء بنقطة جديدة
     startLocation = point;
     endLocation = null;
     allRoutes = [];

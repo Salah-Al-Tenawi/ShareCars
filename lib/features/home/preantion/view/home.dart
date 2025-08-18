@@ -7,10 +7,6 @@ import 'package:sharecars/features/home/preantion/manger/cubit/home_nav_cubit_cu
 import 'package:sharecars/features/home/preantion/view/widget/home_appbar.dart';
 import 'package:sharecars/features/home/preantion/view/widget/home_botom_nav_bar.dart';
 import 'package:sharecars/features/home/preantion/view/widget/home_drawer.dart';
-import 'package:sharecars/features/profiles/data/date_source/profile_remote_date_source.dart';
-import 'package:sharecars/features/profiles/data/repo/profile_repo_im.dart';
-import 'package:sharecars/features/profiles/presantaion/manger/profile_cubit.dart';
-import 'package:sharecars/features/profiles/presantaion/view/profile.dart';
 import 'package:sharecars/features/trip_create/presantion/view/trip_select_source_and_dist_on_map.dart';
 import 'package:sharecars/features/trip_me/presantion/manger/cubit/trip_me_cubit.dart';
 import 'package:sharecars/features/trip_me/presantion/view/trip_me_list.dart';

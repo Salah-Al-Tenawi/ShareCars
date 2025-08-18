@@ -15,10 +15,13 @@ class TripCreateRepoIm extends TripCreateRepo {
        String date, int seats, int price ,
     String? notes,
     int routeIndex,
-    String paymentMethod, String bookingType) async {
+    String paymentMethod, String bookingType ,String communicationNumber
+    
+    
+    ) async {
     try {
       final response = await tripCreateRemoteDataSource.createTrip(
-          startLat ,startLng ,endLat ,endLng, date, seats, price , notes ,routeIndex ,paymentMethod ,bookingType) ;
+          startLat ,startLng ,endLat ,endLng, date, seats, price , notes ,routeIndex ,paymentMethod ,bookingType ,communicationNumber) ;
       return right(response);
     } on ServerExpcptions catch (e) {
       return left(e.error);

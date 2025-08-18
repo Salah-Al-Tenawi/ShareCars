@@ -33,7 +33,7 @@ class _VerfiyUserState extends State<VerfiyUser> {
 
   @override
   Widget build(BuildContext context) {
-    final isDriver = userType == "passanger";
+    final isDriver = userType == "driver";
 
     return Scaffold(
       appBar: AppBar(title: const Text('التحقق من الهوية')),

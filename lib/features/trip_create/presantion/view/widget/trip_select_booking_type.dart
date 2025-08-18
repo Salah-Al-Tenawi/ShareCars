@@ -19,21 +19,21 @@ class TripSelectBookingType extends StatefulWidget {
 }
 
 class _TripSelectBookingTypeState extends State<TripSelectBookingType> {
-  String _bookeingType = "Direct";
+  String _bookeingType = "direct";
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: 30.h, bottom: 40),
       child: ToggleButtons(
-        isSelected: [_bookeingType == "Direct", _bookeingType == "Request"],
+        isSelected: [_bookeingType == "direct", _bookeingType == "request"],
         onPressed: (index) {
           setState(() {
             if (index == 0) {
-              _bookeingType = "Direct";
+              _bookeingType = "direct";
               widget.tripFrom.bookingType = _bookeingType;
             } else {
-              _bookeingType = "Request";
+              _bookeingType = "request";
 
               widget.tripFrom.bookingType = _bookeingType;
             }

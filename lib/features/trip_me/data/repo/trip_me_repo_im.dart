@@ -12,7 +12,7 @@ class TripMeRepoIm extends TripMeRepo {
       : _tripMeRemoteDataSource = tripMeRemoteDataSource;
 
   @override
-  Future<Either<Filuar, dynamic>> cancelTrip(int tripId) async {
+  Future<Either<Filuar, String>> cancelTrip(int tripId) async {
     try {
       final response = await _tripMeRemoteDataSource.cancelTrip(tripId);
       return right(response);

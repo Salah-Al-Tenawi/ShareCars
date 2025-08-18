@@ -14,6 +14,7 @@ abstract class TripCreateRepo {
     String? notes,
     int routeIndex,
     String paymentMethod, 
-    String bookingType,
+    String bookingType, 
+    String communicationNumber
   );
 }
