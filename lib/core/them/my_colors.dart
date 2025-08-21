@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 
 class MyColors {
-
-  static const Color primaryBackground = Color(0xFFaec0c2);
+  static const Color primaryBackground = Color(0xffE0E0E0);
   static const Color primaryText = Color(0xFF3d444b);
   static const Color secondary = Color(0xff505a63);
-  static const Color primary = Color(0xFF098698);
+  static const Color primary = Color(0xff356899);
   static const Color secondaryText = Color(0xFFd9d4d1);
-  static const Color secondaryBackground = Color(0xFFbab1ad); 
-    static const Color accent = Color(0xFFff7043);
+  static const Color secondaryBackground = Color(0xFFbab1ad);
+  static const Color accent = Color(0xFFff7043);
 
-  
-//  secondary colors 
+//  secondary colors
 
   static const Color lightRskey = Color(0xFF5FBBC8);
   static const Color bluedark = Color(0xFF0D1B2A);
@@ -23,6 +21,6 @@ class MyColors {
   static const Color greyTextField = Color(0xFFD9D9D9);
 
   static var greyTextfildColor;
-  
+
   // Green shades
 }

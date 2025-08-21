@@ -5,6 +5,9 @@ import 'package:latlong2/latlong.dart';
 import 'package:sharecars/core/api/dio_consumer.dart';
 import 'package:sharecars/core/route/route_name.dart';
 import 'package:sharecars/core/service/locator_ser.dart';
+import 'package:sharecars/features/auth/data/data_source/auth_local_data_source.dart';
+import 'package:sharecars/features/auth/data/data_source/auth_remote_data_source.dart';
+import 'package:sharecars/features/auth/presentation/view/verfiy_number_phone.dart';
 import 'package:sharecars/features/home/preantion/manger/cubit/home_nav_cubit_cubit.dart';
 import 'package:sharecars/features/maps/data/data_source/maps_data_source.dart';
 import 'package:sharecars/features/maps/data/repo/map_repo.dart';
@@ -72,7 +75,9 @@ List<GetPage<dynamic>> appRoute = [
   GetPage(
       name: RouteName.pickLocation,
       page: () => BlocProvider(
-          create: (context) => PickLocationCubit(MapRepoIm(mapsDataSource: MapsDataSourceIm(api: getit.get<DioConSumer>()))), child: const PickLocation())),
+          create: (context) => PickLocationCubit(MapRepoIm(
+              mapsDataSource: MapsDataSourceIm(api: getit.get<DioConSumer>()))),
+          child: const PickLocation())),
 
   GetPage(name: RouteName.test, page: () => const MyTest()),
   GetPage(
@@ -95,6 +100,15 @@ List<GetPage<dynamic>> appRoute = [
       child: const ForgetPassword(),
     ),
   ),
+// GetPage(
+//     name: RouteName.verfiyEmailSingin,
+//     page: () => BlocProvider(
+//       create: (context) => SinginCubit(getit.get<AuthRepoIm>()),
+//       child: const VerfiyEmailSingin(),
+//     ),
+//   ),
+
+  // proile
   GetPage(
       name: RouteName.profile,
       page: () => BlocProvider(
@@ -204,26 +218,29 @@ List<GetPage<dynamic>> appRoute = [
   ),
 
   // home
-GetPage(
-  name: RouteName.home,
-  page: () => MultiBlocProvider(
-    providers: [
-      BlocProvider<HomeNavCubit>(create: (_) => HomeNavCubit()),
-      BlocProvider<SearchCubit>(
-        create: (_) => SearchCubit(
-          SearchRepoIm(
-            searchRemoteDataSource: SearchRemoteDataSource(
-              api: getit.get<DioConSumer>(),
+  GetPage(
+    name: RouteName.home,
+    page: () => MultiBlocProvider(
+      providers: [
+        BlocProvider<HomeNavCubit>(
+            create: (_) => HomeNavCubit(AuthRepoIm(
+                authRemoteDataSource:
+                    AuthRemoteDataSourceIM(api: getit.get<DioConSumer>()),
+                authLocalDataSourceIm: AuthLocalDataSourceIm()))),
+        BlocProvider<SearchCubit>(
+          create: (_) => SearchCubit(
+            SearchRepoIm(
+              searchRemoteDataSource: SearchRemoteDataSource(
+                api: getit.get<DioConSumer>(),
+              ),
             ),
           ),
         ),
-      ),
-      BlocProvider<TripMeCubit>(
-        create: (_) => getit.get<TripMeCubit>(),
-      ),
-    ],
-    child: const Home(), // Home الآن لا يحتاج لأي BlocProvider داخلي
+        BlocProvider<TripMeCubit>(
+          create: (_) => getit.get<TripMeCubit>(),
+        ),
+      ],
+      child: const Home(), // Home الآن لا يحتاج لأي BlocProvider داخلي
+    ),
   ),
-),
-
 ];

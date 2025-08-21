@@ -17,23 +17,25 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  late Future<ProfileEntity> _loadProfileFuture;
   late ProfileCubit _profileCubit;
+  late int userId;
 
   @override
   void initState() {
     super.initState();
     _profileCubit = context.read<ProfileCubit>();
 
-    final userId = Get.arguments as int;
-    _loadProfileFuture = _fetchProfileData(userId);
+    userId = Get.arguments as int;
+    // _loadProfileFuture = _fetchProfileData(userId);
   }
 
   Future<ProfileEntity> _fetchProfileData(int userId) async {
     final currentUserid = myid();
     if (userId == currentUserid) {
+      print("me profile");
       return await _profileCubit.showMyProfile();
     } else {
+      print("me profile");
       return await _profileCubit.showOtherProfile(userId);
     }
   }
@@ -44,7 +46,7 @@ class _ProfileState extends State<Profile> {
       body: RefreshIndicator(
         onRefresh: () async {},
         child: FutureBuilder<ProfileEntity>(
-          future: _loadProfileFuture,
+          future: _fetchProfileData(userId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const LoadingWidgetSize150();
@@ -56,8 +58,7 @@ class _ProfileState extends State<Profile> {
               return ProfileErrorWidget(
                 onRetry: () {
                   setState(() {
-                    _loadProfileFuture =
-                        _fetchProfileData(Get.arguments as int);
+                    _fetchProfileData(userId);
                   });
                 },
               );

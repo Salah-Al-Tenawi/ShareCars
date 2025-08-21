@@ -19,8 +19,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Drawer(child: HomeDrawer()),
-      appBar: const HomeAppBard(),
+      drawer: Drawer(child: HomeDrawer(scaffoldContext: context)),
+      appBar: HomeAppBard(),
       body: PageView(
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),

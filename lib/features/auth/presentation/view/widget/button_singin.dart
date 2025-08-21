@@ -34,9 +34,12 @@ class ButtonSingin extends StatelessWidget {
 
     return BlocConsumer<SinginCubit, SinginState>(
       listener: (context, state) {
+        if (state is SingInGotoVerfiyOtp) {
+          Get.toNamed(RouteName.verfiyEmailSingin,
+              arguments: state.numberPhone );
+        }
         if (state is SinginSuccess) {
-          Get.offAllNamed(RouteName.home );
-          
+          Get.offAllNamed(RouteName.home);
         } else if (state is SinginErorre) {
           showMySnackBar(context, state.message);
         }

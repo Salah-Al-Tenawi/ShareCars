@@ -21,6 +21,9 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<ProfileEntity> showOtherProfile(int userid) async {
     emit(const ProfileLoadingState());
     final response = await profileRepoIm.showProfile(userid);
+    print("response-=========================");
+    print(response);
+    print("response-=========================");
 
     return response.fold(
       (error) {
@@ -30,6 +33,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       (profileEntity) {
         emit(ProfileLoadedState(
             mode: ProfileMode.otherView, profileEntity: profileEntity));
+
         return profileEntity;
       },
     );
@@ -48,6 +52,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       (myProfile) {
         emit(ProfileLoadedState(
             mode: ProfileMode.myView, profileEntity: myProfile));
+
         return myProfile;
       },
     );
