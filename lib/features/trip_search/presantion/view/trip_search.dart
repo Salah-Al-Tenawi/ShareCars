@@ -34,9 +34,18 @@ class _TripSearchState extends State<TripSearch> {
       body: BlocListener<SearchCubit, SearchState>(
         listener: (context, state) {
           if (state is SearchErorr) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.error)),
-            );
+            if (state.error.contains(
+                "You must be verified as a passenger to book rides.")) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("يحب عليك توثيق هويتك اولا ")),
+              );
+
+              Get.toNamed(RouteName.verfiyUser, arguments: "passanger");
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("حدثت مشكلة ما ")),
+              );
+            }
           } else if (state is SearchSucces) {
             if (state.trips.isEmpty) {
               showNoTripsDialog(context);

@@ -39,7 +39,7 @@ final class TripDetailsCancel extends TripDetailsState {
 final class TripDetailsBooking extends TripDetailsState {}
 
 final class TripDetailsRequestBooking extends TripDetailsState {
-  final RequestBookingModel booking;
+  final TripModel booking;
   const TripDetailsRequestBooking({required this.booking});
 
   @override

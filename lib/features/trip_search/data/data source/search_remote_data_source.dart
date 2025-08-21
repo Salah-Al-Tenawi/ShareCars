@@ -43,9 +43,9 @@ class SearchRemoteDataSource {
     return TripModel.fromMap(response);
   }
 
-  Future<RequestBookingModel> booking(int seats, int tripId) async {
-    final response = await api
-        .post("${ApiEndPoint.rides}/$tripId/book", data: {ApiKey.seats: seats});
-    return response;
-  }
+  // Future<RequestBookingModel> booking(int seats, int tripId) async {
+  //   final response = await api
+  //       .post("${ApiEndPoint.rides}/$tripId/book", data: {ApiKey.seats: seats});
+  //   return response;
+  // }
 }

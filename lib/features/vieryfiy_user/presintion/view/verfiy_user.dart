@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sharecars/core/route/route_name.dart';
 import 'package:sharecars/core/them/my_colors.dart';
 import 'package:sharecars/core/them/text_style_app.dart';
 import 'package:sharecars/core/utils/functions/show_my_snackbar.dart';
@@ -27,8 +28,8 @@ class _VerfiyUserState extends State<VerfiyUser> {
   void initState() {
     super.initState();
     // إذا تستخدم Get.arguments لفصل بين driver/passenger فكّد التعليق التالي:
-    // userType = (Get.arguments as String).toLowerCase();
-    userType = "driver";
+    userType = (Get.arguments as String).toLowerCase();
+    // userType = "driver";
   }
 
   @override
@@ -43,8 +44,11 @@ class _VerfiyUserState extends State<VerfiyUser> {
             showMySnackBar(context, state.message);
           } else if (state is VerfiySuccess) {
             showMySnackBar(context, "تم إرسال الصور بنجاح ✅'");
-            // مثال: العودة للصفحة السابقة بعد النجاح
-            // Navigator.of(context).pop();
+            try {
+              Get.offAllNamed(RouteName.home);
+            } catch (e) {
+              print(e);
+            }
           }
         },
         builder: (context, state) {
@@ -121,7 +125,7 @@ class _VerfiyUserState extends State<VerfiyUser> {
                       color: MyColors.primary,
                       height: 50.h,
                       width: 100.w,
-                      child: const Text("موافق", style: font10boldRamadi),
+                      child: const Text("موافق", style: font13NormalGrayText),
                     )
                   ],
                 ),

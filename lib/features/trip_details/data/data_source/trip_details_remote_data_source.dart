@@ -6,20 +6,26 @@ import 'package:sharecars/features/trip_create/data/model/trip_model.dart';
 
 class TripDetailsRemoteDataSource {
   final DioConSumer api;
- 
+
   TripDetailsRemoteDataSource({required this.api});
 
-Future<TripModel> featchTrip(int tripId) async {
+  Future<TripModel> featchTrip(int tripId) async {
     final response = await api.get("${ApiEndPoint.rides}/$tripId",
         header: {ApiKey.authorization: "Bearer ${mytoken()}"});
 
     return TripModel.fromMap(response);
-  } 
-
-Future<RequestBookingModel> booking(int seats, int tripId) async {
-    final response = await api.post("${ApiEndPoint.rides}/$tripId/book",  
-    data: {ApiKey.seats: seats});
-    return response;
   }
-  
+
+  Future<TripModel> booking(
+      int seats, int tripId, String communicationNumber) async {
+    final response = await api.post("${ApiEndPoint.rides}/$tripId/book",
+        header: {
+          ApiKey.authorization: "Bearer ${mytoken()}"
+        },
+        data: {
+          ApiKey.seats: seats,
+          ApiKey.communicationNumber: communicationNumber
+        });
+    return TripModel.fromMap(response);
+  }
 }

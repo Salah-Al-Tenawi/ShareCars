@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:sharecars/core/route/route_name.dart';
+import 'package:sharecars/core/utils/functions/show_my_snackbar.dart';
 import 'package:sharecars/core/utils/widgets/loading_widget_size_150.dart';
 import 'package:sharecars/features/trip_details/presantaion/manger/cubit/tripdetails_cubit.dart';
 import 'package:sharecars/features/trip_details/presantaion/view/widget/body_trip_details.dart';
@@ -53,27 +54,34 @@ class _TripDetailsState extends State<TripDetails> {
             if (state is TripDetailsLoading) {
               return const Center(child: LoadingWidgetSize150());
             } else if (state is TripDetailsError) {
-              return ListView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                children: [
-                  const SizedBox(height: 200),
-                  Center(child: Text("خطأ: ${state.message}")),
-                  const SizedBox(height: 20),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        context.read<TripDetailsCubit>().fetchTrip(tripId);
-                      },
-                      child: const Text("🔄 أعد المحاولة"),
+              if (state.message.contains(
+                  "You must be verified as a passenger to book rides")) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  Get.toNamed(RouteName.verfiyUser, arguments: "passanger");
+                  showMySnackBar(context, "يجب عليك توثيق حسابك");
+                });
+              } else {
+                return ListView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  children: [
+                    const SizedBox(height: 200),
+                    Center(child: Text("خطأ: ${state.message}")),
+                    const SizedBox(height: 20),
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          context.read<TripDetailsCubit>().fetchTrip(tripId);
+                        },
+                        child: const Text("🔄 أعد المحاولة"),
+                      ),
                     ),
-                  ),
-                ],
-              );
+                  ],
+                );
+              }
             } else if (state is TripDetailsLoaded) {
               return ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 children: [
-                  
                   BodyTripDetails(
                     trip: state.trip,
                     mode: state.mode,

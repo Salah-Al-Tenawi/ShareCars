@@ -52,15 +52,30 @@ class _TripAddNumberPhoneState extends State<TripAddNumberPhone> {
           if (state is PushRideSuccsess) {
             Get.offAllNamed(RouteName.tripDidYouBack, arguments: tripFrom);
           } else if (state is PushRideErorr) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text(
-                  'حدث خطأ أثناء إنشاء الرحلة',
-                  style: TextStyle(color: MyColors.primaryBackground),
+            if (state.erorr
+                .contains("You must be verified as a driver to create rides")) {
+              print("updlskjflkdsjflkjdslkfjlkdsjfkljdslkf");
+              Get.toNamed(RouteName.verfiyUser, arguments: "driver");
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    'يجب عليك توثيق هويتك أولا ',
+                    style: TextStyle(color: MyColors.primaryBackground),
+                  ),
+                  backgroundColor: MyColors.accent,
                 ),
-                backgroundColor: MyColors.accent,
-              ),
-            );
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    'حدث خطأ أثناء إنشاء الرحلة',
+                    style: TextStyle(color: MyColors.primaryBackground),
+                  ),
+                  backgroundColor: MyColors.accent,
+                ),
+              );
+            }
           }
         },
         child: Padding(

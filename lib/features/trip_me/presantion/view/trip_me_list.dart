@@ -57,12 +57,12 @@ class TripMeList extends StatelessWidget {
                                   BorderRadius.circular(20), // حواف دائرية
                             ),
                             backgroundColor: Colors.white, // خلفية بيضاء
-                            title: Row(
+                            title: const Row(
                               children: [
                                 Icon(Icons.warning_amber_rounded,
                                     color: MyColors.accent, size: 28),
-                                const SizedBox(width: 8),
-                                const Text(
+                                SizedBox(width: 8),
+                                Text(
                                   'تأكيد',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,

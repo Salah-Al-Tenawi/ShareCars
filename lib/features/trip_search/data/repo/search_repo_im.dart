@@ -26,15 +26,15 @@ class SearchRepoIm {
     }
   }
 
-  Future<Either<Filuar, RequestBookingModel>> booking(
-      int seats, int tripId) async {
-    try {
-      final response = await searchRemoteDataSource.booking(seats, tripId);
-      return right(response);
-    } on ServerExpcptions catch (e) {
-      return left(e.error);
-    }
-  }
+  // Future<Either<Filuar, RequestBookingModel>> booking(
+  //     int seats, int tripId) async {
+  //   try {
+  //     final response = await searchRemoteDataSource.booking(seats, tripId);
+  //     return right(response);
+  //   } on ServerExpcptions catch (e) {
+  //     return left(e.error);
+  //   }
+  // }
 
   Future<Either<Filuar, TripModel>> showOneTrip(int tripId) async {
     try {

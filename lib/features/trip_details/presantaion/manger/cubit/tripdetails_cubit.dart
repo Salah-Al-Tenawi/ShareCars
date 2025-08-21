@@ -16,13 +16,13 @@ class TripDetailsCubit extends Cubit<TripDetailsState> {
   TripDetailsCubit({required this.tripDetailsRepoIM})
       : super(TripDetailsInitial());
 
-  booking(int seats, int tripId) async {
+  booking(int seats, int tripId , String communicationNumber) async {
     emit(TripDetailsLoading());
-    final response = await tripDetailsRepoIM.booking(seats, tripId);
+    final response = await tripDetailsRepoIM.booking(seats, tripId ,communicationNumber);
     response.fold((error) {
       emit(TripDetailsError(message: error.message));
-    }, (requestBooking) {
-      emit(TripDetailsRequestBooking(booking: requestBooking));
+    }, (trip) {
+      emit(TripDetailsRequestBooking(booking: trip));
     });
   }
 

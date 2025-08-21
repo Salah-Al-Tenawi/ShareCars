@@ -10,7 +10,13 @@ sealed class PushRideState extends Equatable {
 final class PushRideInitial extends PushRideState {}
 
 final class PushRideLoading extends PushRideState {}
-final class PushRideErorr extends PushRideState {}
+
+final class PushRideErorr extends PushRideState {
+  final String erorr;
+
+  const PushRideErorr({required this.erorr});
+}
+
 class PushRideValidatePhoneState extends PushRideState {
   final bool isValid;
 
@@ -23,5 +29,5 @@ class PushRideValidatePhoneState extends PushRideState {
 final class PushRideSuccsess extends PushRideState {
   final TripModel tripModel;
 
-  const PushRideSuccsess({required this.tripModel}); 
+  const PushRideSuccsess({required this.tripModel});
 }

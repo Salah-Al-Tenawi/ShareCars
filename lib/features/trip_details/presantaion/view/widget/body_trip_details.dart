@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:sharecars/core/constant/imagesUrl.dart';
 import 'package:sharecars/core/route/route_name.dart';
 import 'package:sharecars/core/them/my_colors.dart';
+import 'package:sharecars/core/them/text_style_app.dart';
 import 'package:sharecars/features/trip_create/data/model/trip_model.dart';
 import 'package:sharecars/features/trip_details/data/model/trip_details_mode.dart';
 import 'package:sharecars/features/trip_details/presantaion/manger/cubit/tripdetails_cubit.dart';
@@ -723,28 +724,64 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
   }
 
   void _showBookingDialog(BuildContext context) {
-    final _controller = TextEditingController();
+    final _seatsController = TextEditingController();
+    final _contactController = TextEditingController();
     final int maxSeats = widget.trip.seatsAvailable;
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("اختر عدد الكراسي"),
+        backgroundColor: MyColors.primaryBackground,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+        title: Text(
+          "حجز الرحلة",
+          style: TextStyle(
+            color: MyColors.primaryText,
+            fontWeight: FontWeight.bold,
+            fontSize: 18.sp,
+          ),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               "العدد يجب أن يكون أكبر من 0 وأقل أو يساوي $maxSeats",
-              style: TextStyle(color: MyColors.secondary, fontSize: 14.sp),
+              style: TextStyle(
+                color: MyColors.primaryBackground,
+                fontSize: 14.sp,
+              ),
             ),
             SizedBox(height: 10.h),
             TextField(
-              controller: _controller,
+              controller: _seatsController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 hintText: "أدخل عدد الكراسي",
+                hintStyle:
+                    TextStyle(color: MyColors.primaryText.withOpacity(0.5)),
+                filled: true,
+                fillColor: Colors.white,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.r),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+            SizedBox(height: 10.h),
+            TextField(
+              controller: _contactController,
+              keyboardType: TextInputType.phone,
+              decoration: InputDecoration(
+                hintText: "أدخل رقم التواصل",
+                hintStyle:
+                    TextStyle(color: MyColors.primaryText.withOpacity(0.5)),
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.r),
+                  borderSide: BorderSide.none,
                 ),
               ),
             ),
@@ -753,11 +790,22 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text("إلغاء"),
+            child: Text(
+              "إلغاء",
+              style: TextStyle(color: Colors.grey[700]),
+            ),
           ),
           ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: MyColors.primary,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+            ),
             onPressed: () {
-              final int? seats = int.tryParse(_controller.text);
+              final int? seats = int.tryParse(_seatsController.text);
+              final String contactNumber = _contactController.text.trim();
+
               if (seats == null || seats < 1 || seats > maxSeats) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -768,18 +816,30 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
                 return;
               }
 
-              _bookSeats(seats, widget.trip.id);
+              if (contactNumber.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("الرجاء إدخال رقم التواصل"),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+                return;
+              }
 
-              Navigator.pop(context); // إغلاق الـ Dialog
+              _bookSeats(seats, widget.trip.id, contactNumber);
+              Navigator.pop(context);
             },
-            child: Text("موافق"),
+            child: const Text(
+              "موافق",
+              style: font13NormalGrayText,
+            ),
           ),
         ],
       ),
     );
   }
 
-  void _bookSeats(int seats, int tripId) async {
-    context.read<TripDetailsCubit>().booking(seats, tripId);
+  void _bookSeats(int seats, int tripId, String contactNumber) async {
+  await  context.read<TripDetailsCubit>().booking(seats, tripId, contactNumber);
   }
 }
