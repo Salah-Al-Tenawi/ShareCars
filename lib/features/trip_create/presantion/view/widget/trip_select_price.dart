@@ -20,15 +20,13 @@ class TripSelectPrice extends StatefulWidget {
 
 class _TripSelectPriceState extends State<TripSelectPrice> {
   incremant(int priceRecomanded) {
-    
-    if (priceRecomanded > 40000 ) { 
-      if(priceRecomanded<60000){priceRecomanded += 10000;}
-      
-    } else if (priceRecomanded < 40000 &&
-        priceRecomanded > 20000) { 
-          
+    if (priceRecomanded > 40000) {
+      if (priceRecomanded < 60000) {
+        priceRecomanded += 10000;
+      }
+    } else if (priceRecomanded < 40000 && priceRecomanded > 20000) {
       priceRecomanded += 5000;
-    } else if (priceRecomanded < 20000 ) {
+    } else if (priceRecomanded < 20000) {
       priceRecomanded += 2000;
     }
     widget.tripFrom.price = priceRecomanded;
@@ -77,7 +75,7 @@ class _TripSelectPriceState extends State<TripSelectPrice> {
           ),
           Text(
             "${widget.tripFrom.price}",
-            style: font20normalsky,
+            style: font20normalaccent,
           ),
           IconButton(
             onPressed: () {

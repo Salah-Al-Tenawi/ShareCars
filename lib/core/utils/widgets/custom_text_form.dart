@@ -9,7 +9,7 @@ class CustomTextformfild extends StatelessWidget {
   final void Function(String)? onFieldSubmitted;
   final String title;
   final Icon? icon;
-  final bool ? fill;
+  final bool? fill;
   final Widget? suffix;
   final bool scureText;
   final TextInputType? keyboardType;
@@ -21,32 +21,30 @@ class CustomTextformfild extends StatelessWidget {
   final bool expands;
   final TextInputAction? textInputAction;
   final void Function(String)? onChanged;
- final Color? fillColor ; 
- final Widget? prefix;
+  final Color? fillColor;
+  final Widget? prefix;
 
-
-  const CustomTextformfild({
-    super.key,
-    this.height,
-    this.width,
-    required this.title,
-    this.onChanged,
-    this.controller,
-    this.icon,
-    this.suffix,
-    this.onFieldSubmitted,
-    this.validator,
-    this.keyboardType,
-    this.scureText = false,
-    this.maxLines = 1,
-    this.minLines,
-    this.expands = false,
-    this.textInputAction,
-    this.hint, 
-    this. fill ,
-    this.fillColor ,
-    this.prefix
-  });
+  const CustomTextformfild(
+      {super.key,
+      this.height,
+      this.width,
+      required this.title,
+      this.onChanged,
+      this.controller,
+      this.icon,
+      this.suffix,
+      this.onFieldSubmitted,
+      this.validator,
+      this.keyboardType,
+      this.scureText = false,
+      this.maxLines = 1,
+      this.minLines,
+      this.expands = false,
+      this.textInputAction,
+      this.hint,
+      this.fill,
+      this.fillColor,
+      this.prefix});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +53,6 @@ class CustomTextformfild extends StatelessWidget {
       width: width,
       margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
       child: TextFormField(
-        
         controller: controller,
         validator: validator,
         onChanged: onChanged,
@@ -67,7 +64,7 @@ class CustomTextformfild extends StatelessWidget {
         expands: expands,
         textInputAction: textInputAction,
         decoration: InputDecoration(
-          prefix:prefix ,
+          prefix: prefix,
           labelText: title,
           labelStyle: const TextStyle(
             fontSize: 14,
@@ -76,9 +73,9 @@ class CustomTextformfild extends StatelessWidget {
           hintText: hint,
           suffix: suffix,
           prefixIcon: icon,
-          prefixIconColor: MyColors.primaryBackground,
+          prefixIconColor: MyColors.accent,
           filled: fill,
-          fillColor:fillColor ,
+          fillColor: fillColor,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
           ),

@@ -76,10 +76,10 @@ class _PushRideMapState extends State<PushRideMap> {
   void _handleMapError(BuildContext context, MapState state) {
     if (state is MapError) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(state.message),
+        const SnackBar(
+          content: Text("فشل تحديد الطريق حاول مجددا "),
           backgroundColor: Colors.red,
-          duration: const Duration(seconds: 3),
+          duration: Duration(seconds: 3),
         ),
       );
     }
@@ -209,7 +209,7 @@ class _PushRideMapState extends State<PushRideMap> {
                           arguments: tripFrom);
                     }
                   },
-                  color: MyColors.primaryText,
+                  color: MyColors.primary,
                   width: 130.w,
                   height: 50.h,
                   borderRadius: true,
@@ -252,7 +252,7 @@ class _PushRideMapState extends State<PushRideMap> {
         },
         backgroundColor: Colors.white,
         elevation: 8,
-        child: Icon(Icons.swap_horiz, color: Colors.blue[700], size: 30),
+        child: const Icon(Icons.swap_horiz, color: MyColors.accent, size: 30),
       ),
     );
   }

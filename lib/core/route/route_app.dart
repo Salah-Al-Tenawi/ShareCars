@@ -8,6 +8,10 @@ import 'package:sharecars/core/service/locator_ser.dart';
 import 'package:sharecars/features/auth/data/data_source/auth_local_data_source.dart';
 import 'package:sharecars/features/auth/data/data_source/auth_remote_data_source.dart';
 import 'package:sharecars/features/auth/presentation/view/verfiy_number_phone.dart';
+import 'package:sharecars/features/booking_user_in_trip/data/data_source/booking_user_trip_remote_data.dart';
+import 'package:sharecars/features/booking_user_in_trip/data/repo/booking_users_in_trip_repo_imp.dart';
+import 'package:sharecars/features/booking_user_in_trip/presantion/manger/cubit/booking_user_in_trip_cubit.dart';
+import 'package:sharecars/features/booking_user_in_trip/presantion/view/booking_user_in_trip.dart';
 import 'package:sharecars/features/home/preantion/manger/cubit/home_nav_cubit_cubit.dart';
 import 'package:sharecars/features/maps/data/data_source/maps_data_source.dart';
 import 'package:sharecars/features/maps/data/repo/map_repo.dart';
@@ -51,7 +55,7 @@ import 'package:sharecars/features/trip_me/data/data%20source/trip_me_remote_dat
 import 'package:sharecars/features/trip_me/data/repo/trip_me_repo_im.dart';
 import 'package:sharecars/features/trip_me/presantion/manger/cubit/trip_me_cubit.dart';
 import 'package:sharecars/features/trip_me/presantion/view/trip_me_list.dart';
-import 'package:sharecars/features/trip_me/presantion/view/trip_me_one.dart';
+
 import 'package:sharecars/features/trip_search/data/data%20source/search_remote_data_source.dart';
 import 'package:sharecars/features/trip_search/data/repo/search_repo_im.dart';
 import 'package:sharecars/features/trip_search/presantion/manger/cubit/search_cubit.dart';
@@ -216,6 +220,15 @@ List<GetPage<dynamic>> appRoute = [
       child: const TripDetails(),
     ),
   ),
+  GetPage(
+    name: RouteName.bookingUserInTrip,
+    page: () => BlocProvider(
+      create: (context) => BookingUserInTripCubit(BookingUsersInTripRepoImp(
+          remoteData:
+              BookingUserTripRemoteData(api: getit.get<DioConSumer>()))),
+      child: const BookingUserINTrip(),
+    ),
+  ),
 
   // home
   GetPage(
@@ -236,8 +249,10 @@ List<GetPage<dynamic>> appRoute = [
             ),
           ),
         ),
-        BlocProvider<TripMeCubit>(
-          create: (_) => getit.get<TripMeCubit>(),
+        BlocProvider(
+          create: (_) => TripMeCubit(TripMeRepoIm(
+              tripMeRemoteDataSource: TripMeRemoteDataSource(
+                  api: getit.get<DioConSumer>()))), // Cubit جديد لكل صفحة
         ),
       ],
       child: const Home(), // Home الآن لا يحتاج لأي BlocProvider داخلي

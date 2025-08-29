@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sharecars/core/them/my_colors.dart';
 import 'package:sharecars/core/them/text_style_app.dart';
 
 class TripTextNote extends StatelessWidget {
@@ -22,7 +23,7 @@ class TripTextNote extends StatelessWidget {
             const TextSpan(
               text: "أي شخص",
               style: TextStyle(
-                color: Colors.red,
+                color: MyColors.accent,
                 fontWeight: FontWeight.bold,
               ),
             ),

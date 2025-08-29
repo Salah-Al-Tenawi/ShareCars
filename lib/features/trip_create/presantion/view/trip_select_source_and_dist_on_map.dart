@@ -54,7 +54,7 @@ class _TripSelectSourceAndDestOnMapState
                 Get.toNamed(RouteName.pushRideMap, arguments: tripFrom);
               },
               child: const FaIcon(FontAwesomeIcons.mapLocationDot,
-                  size: 60, color: Colors.redAccent),
+                  size: 60, color: MyColors.accent),
             ),
           ],
         ),

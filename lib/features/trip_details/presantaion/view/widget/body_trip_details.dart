@@ -61,7 +61,8 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
   ElevatedButton showBookingButton() {
     return ElevatedButton(
       onPressed: () {
-        // Get.toNamed(RouteName.tripBookings, arguments: {'tripId': widget.trip.id});
+        Get.toNamed(RouteName.bookingUserInTrip,
+            arguments: widget.trip.booking);
       },
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 24.w),
@@ -840,6 +841,8 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
   }
 
   void _bookSeats(int seats, int tripId, String contactNumber) async {
-  await  context.read<TripDetailsCubit>().booking(seats, tripId, contactNumber);
+    await context
+        .read<TripDetailsCubit>()
+        .booking(seats, tripId, contactNumber);
   }
 }

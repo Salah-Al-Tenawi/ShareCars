@@ -6,7 +6,7 @@ import 'package:sharecars/features/auth/data/repo/auth_repo_im.dart';
 
 class HomeNavCubit extends Cubit<int> {
   final AuthRepoIm _authRepoIm;
-  HomeNavCubit(this._authRepoIm) : super(0);
+  HomeNavCubit(this._authRepoIm) : super(1);
 
   void changePage(int index) => emit(index);
 

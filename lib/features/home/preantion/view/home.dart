@@ -14,7 +14,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final _pageController = PageController();
+  final _pageController = PageController(initialPage: 1);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class _HomeState extends State<Home> {
           TripMeList(), // ولم يعد هناك BlocProvider هنا
         ],
       ),
-      bottomNavigationBar: BottomNavBarWidget(pageController: _pageController),
+      bottomNavigationBar: ModernBottomNavBar(pageController: _pageController),
     );
   }
 

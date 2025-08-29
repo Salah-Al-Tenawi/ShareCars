@@ -37,7 +37,13 @@ class _VerfiyUserState extends State<VerfiyUser> {
     final isDriver = userType == "driver";
 
     return Scaffold(
-      appBar: AppBar(title: const Text('التحقق من الهوية')),
+      appBar: AppBar(
+        title: const Text(
+          'التحقق من الهوية',
+          style: font16boldsky,
+        ),
+        backgroundColor: MyColors.primary,
+      ),
       body: BlocConsumer<VerifyUserCubit, VerfiyUserState>(
         listener: (context, state) {
           if (state is VerfiyError) {
@@ -170,7 +176,12 @@ class _VerfiyUserState extends State<VerfiyUser> {
                     borderRadius: BorderRadius.circular(10),
                     child: Image.file(File(image.path), fit: BoxFit.cover),
                   )
-                : const Center(child: Icon(Icons.add_a_photo, size: 40)),
+                : const Center(
+                    child: Icon(
+                    Icons.add_a_photo,
+                    size: 40,
+                    color: MyColors.accent,
+                  )),
           ),
         ),
         SizedBox(height: 20.h),

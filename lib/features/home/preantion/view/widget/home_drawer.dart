@@ -22,6 +22,7 @@ class HomeDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: MyColors.primaryBackground,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -34,7 +35,7 @@ class HomeDrawer extends StatelessWidget {
             },
             trailing: const Icon(
               Icons.person_pin_sharp,
-              color: MyColors.primaryText,
+              color: MyColors.accent,
               size: 30,
             ),
           ),
@@ -56,7 +57,7 @@ class HomeDrawer extends StatelessWidget {
                     content: const Text("هل أنت متأكد من تسجيل الخروج؟"),
                     actions: [
                       MyButton(
-                        color: MyColors.greyTextColor,
+                        color: MyColors.accent,
                         onPressed: () => Navigator.of(ctx).pop(),
                         child: const Text("لا", style: font13NormalGrayText),
                       ),
@@ -80,7 +81,7 @@ class HomeDrawer extends StatelessWidget {
             },
             trailing: const Icon(
               Icons.login_outlined,
-              color: MyColors.primaryText,
+              color: MyColors.accent,
               size: 30,
             ),
           ),

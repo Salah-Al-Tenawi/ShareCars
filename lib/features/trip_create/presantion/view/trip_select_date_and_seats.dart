@@ -91,7 +91,7 @@ class TripSelectAndSeatsState extends State<TripSelectDateAndSeats> {
                   Get.toNamed(RouteName.tripSelectPriceAndBookingType,
                       arguments: tripFrom);
                 },
-                color: MyColors.primaryText,
+                color: MyColors.primary,
                 width: 130.w,
                 height: 50.h,
                 borderRadius: true,

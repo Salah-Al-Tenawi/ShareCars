@@ -73,8 +73,7 @@ class _ProfileBodyState extends State<ProfileBody> {
           body: SafeArea(
             child: SingleChildScrollView(
               child: Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
+                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -82,7 +81,8 @@ class _ProfileBodyState extends State<ProfileBody> {
                       verification: profile.verification,
                       name: profile.fullname,
                       imageurl: profile.profilePhoto,
-                      profileEntitYEdit: isEdit ? _profileCopyWithforEdit : null,
+                      profileEntitYEdit:
+                          isEdit ? _profileCopyWithforEdit : null,
                       mode: mode,
                     ),
                     SizedBox(height: 20.h),
@@ -119,7 +119,8 @@ class _ProfileBodyState extends State<ProfileBody> {
                             _profileCopyWithforEdit =
                                 _profileCopyWithforEdit!.copyWith(car: newCar);
                           } else {
-                            _profileCopyWithforEdit = profile.copyWith(car: newCar);
+                            _profileCopyWithforEdit =
+                                profile.copyWith(car: newCar);
                           }
                         });
                       },

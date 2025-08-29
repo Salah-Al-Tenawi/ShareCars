@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sharecars/core/route/route_name.dart';
 import 'package:sharecars/core/them/my_colors.dart';
 import 'package:sharecars/core/utils/class/format_date_time.dart';
 import 'package:sharecars/features/trip_create/data/model/trip_model.dart';
@@ -159,7 +161,7 @@ class ItemTrip extends StatelessWidget {
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

@@ -52,9 +52,10 @@ class _TripAddNumberPhoneState extends State<TripAddNumberPhone> {
           if (state is PushRideSuccsess) {
             Get.offAllNamed(RouteName.tripDidYouBack, arguments: tripFrom);
           } else if (state is PushRideErorr) {
-            if (state.erorr
-                .contains("You must be verified as a driver to create rides")) {
-              print("updlskjflkdsjflkjdslkfjlkdsjfkljdslkf");
+            if (state.erorr.contains(
+                    "You must be verified as a driver to create rides") ||
+                state.erorr
+                    .contains("Missing required verification documents")) {
               Get.toNamed(RouteName.verfiyUser, arguments: "driver");
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
@@ -91,7 +92,7 @@ class _TripAddNumberPhoneState extends State<TripAddNumberPhone> {
                     const FaIcon(
                       FontAwesomeIcons.mobileScreen,
                       size: 50,
-                      color: MyColors.primary,
+                      color: MyColors.accent,
                     ),
                     SizedBox(height: 50.h),
                     const Text("رقم الهاتف للتواصل", style: font18boldramdi),
@@ -114,11 +115,12 @@ class _TripAddNumberPhoneState extends State<TripAddNumberPhone> {
                             labelText: "أدخل رقم الهاتف",
                             suffixIcon: Icon(
                               Icons.check_circle,
-                              color:
-                                  isValid ? MyColors.primaryText : Colors.red,
+                              color: isValid
+                                  ? MyColors.primaryText
+                                  : MyColors.accent,
                             ),
-                            prefixIcon: const Icon(Icons.phone,
-                                color: MyColors.primary),
+                            prefixIcon:
+                                const Icon(Icons.phone, color: MyColors.accent),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -139,7 +141,7 @@ class _TripAddNumberPhoneState extends State<TripAddNumberPhone> {
                           width: double.infinity,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: MyColors.primaryText,
+                              backgroundColor: MyColors.primary,
                               padding: const EdgeInsets.symmetric(vertical: 15),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),

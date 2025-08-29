@@ -7,6 +7,7 @@ class BookingModel {
   final int seats;
   final String status;
   final int totaPrice;
+  final String bookingat;
 
   BookingModel(
       {required this.id,
@@ -16,7 +17,9 @@ class BookingModel {
       required this.rating,
       required this.seats,
       required this.status,
-      required this.totaPrice});
+      required this.totaPrice ,
+      required this.bookingat
+      });
 
   factory BookingModel.fromJson(Map<String, dynamic> json) {
     return BookingModel(
@@ -27,7 +30,9 @@ class BookingModel {
         rating: json['user']['rating'],
         seats: json['seats'],
         status: json['status'],
-        totaPrice: json['total_price']);
+        totaPrice: json['total_price'] ,
+        bookingat: json['booked_at'],
+        );
   }
 }
 

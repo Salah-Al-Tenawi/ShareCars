@@ -40,7 +40,7 @@ class _TripSelectSeatsState extends State<TripSelectSeats> {
           ),
           Text(
             "${widget.tripFrom.numberSeats}",
-            style: font20normalsky,
+            style: font20normalaccent,
           ),
           IconButton(
             onPressed: () {
