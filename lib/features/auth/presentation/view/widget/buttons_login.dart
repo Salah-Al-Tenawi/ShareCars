@@ -29,6 +29,7 @@ class ColumnButtonsLogin extends StatelessWidget {
       listener: (context, state) {
         if (state is LoginSuccess) {
           Get.offAllNamed(RouteName.home);
+          
         } else if (state is LoginNavigateToSignup) {
           Get.toNamed(RouteName.singin);
         } else if (state is LoginNavigationToForgetPassword) {

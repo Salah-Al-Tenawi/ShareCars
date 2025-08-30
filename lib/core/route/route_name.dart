@@ -1,10 +1,11 @@
-import 'package:sharecars/features/booking_user_in_trip/presantion/view/booking_user_in_trip.dart';
-import 'package:sharecars/features/maps/presantion/view/pick_location.dart';
-import 'package:sharecars/features/maps/presantion/view/route_map_view.dart';
-import 'package:sharecars/features/maps/push_ride_map.dart';
-import 'package:sharecars/features/trip_details/presantaion/view/widget/status_trip.dart';
 
-class RouteName {
+
+class RouteName { 
+
+  //  onboarding 
+
+  static const onboarding = "/OnboardingScreen";
+    
   static const test = "/test";
   static const splashView = "/splashView";
   static const singin = "/singin";

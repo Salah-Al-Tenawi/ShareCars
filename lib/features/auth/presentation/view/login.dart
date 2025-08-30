@@ -25,7 +25,6 @@ class _LoginState extends State<Login> {
           key: formKey,
           child: Column(
             children: [
-              // الجزء العلوي مع الديكور + الشعار
               Stack(
                 alignment: Alignment.center,
                 children: [
@@ -35,9 +34,9 @@ class _LoginState extends State<Login> {
                     color: MyColors.primary,
                   ),
                   Positioned(
-                    top: 40.h, // لضبط مكان الشعار فوق المنحنى
+                    top: 40.h,
                     child: Image.asset(
-                      "assets/images/logo.jpg", // ضع مسار الصورة عندك
+                      "assets/images/iconpng.png",
                       height: 100.h,
                       width: 100.w,
                       fit: BoxFit.contain,
@@ -48,13 +47,11 @@ class _LoginState extends State<Login> {
 
               SizedBox(height: 50.h),
 
-              // حقول الإدخال
               TextFiledsLogin(
                 email: email,
                 password: password,
               ),
 
-              // الأزرار
               ColumnButtonsLogin(
                 email: email,
                 password: password,

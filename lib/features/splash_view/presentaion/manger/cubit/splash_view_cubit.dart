@@ -14,7 +14,7 @@ class SplashCubit extends Cubit<void> {
     if (user != null) {
       Get.offAllNamed(RouteName.home);
     } else {
-      Get.offAllNamed(RouteName.login);
+      Get.offAllNamed(RouteName.onboarding);
     }
   }
 }
