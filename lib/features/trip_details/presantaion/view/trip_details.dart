@@ -46,8 +46,10 @@ class _TripDetailsState extends State<TripDetails> {
               Get.snackbar('تم إلغاء الرحلة', state.message,
                   snackPosition: SnackPosition.BOTTOM);
             } else if (state is TripDetailsRequestBooking) {
-              Get.snackbar('تم الحجز', 'رقم الطلب: ${state.booking.id}',
+              context.read<TripDetailsCubit>().fetchTrip(tripId);
+              Get.snackbar('تم الحجز', 'رقم الطلب: ${state.booking.data?.id}',
                   snackPosition: SnackPosition.BOTTOM);
+               
             }
           },
           builder: (context, state) {
@@ -89,6 +91,7 @@ class _TripDetailsState extends State<TripDetails> {
                 ],
               );
             }
+
             return Center(
               child: ElevatedButton(
                 onPressed: () {

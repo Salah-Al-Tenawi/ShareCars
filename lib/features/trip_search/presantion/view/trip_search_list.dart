@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:sharecars/core/route/route_name.dart';
 import 'package:sharecars/core/them/my_colors.dart';
+import 'package:sharecars/core/them/text_style_app.dart';
 import 'package:sharecars/features/trip_create/data/model/trip_model.dart';
 import 'package:sharecars/features/trip_me/presantion/view/widget/trip_item.dart';
 
@@ -26,6 +27,14 @@ class _TripSearchListState extends State<TripSearchList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "الرحلات المتاحة",
+          style: font20boldgray,
+        ),
+        backgroundColor: MyColors.primary,
+        centerTitle: true,
+      ),
       body: ListView.builder(
         padding: const EdgeInsets.only(top: 8, bottom: 16),
         itemCount: trips.length,

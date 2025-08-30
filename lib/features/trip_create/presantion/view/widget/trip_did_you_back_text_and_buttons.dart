@@ -43,7 +43,7 @@ class _TripDidYouBackTextAndButtonsState
   Widget build(BuildContext context) {
     return Column(children: [
       const Text(
-        "هل ترغب بإنشاء رحلة عودة من الوجهة الحالية ",
+        " هل ترغب بإنشاء رحلة للعودة  ",
         style: font14boldblueblack,
       ),
       SizedBox(
@@ -59,21 +59,19 @@ class _TripDidYouBackTextAndButtonsState
                   arguments: widget.tripFrom);
             },
             color: MyColors.primary,
-            splashcolor: MyColors.primaryText,
             width: 120.w,
             height: 50,
             borderRadius: true,
             child: const Text(
               "نعم ",
-              style: font12boldRamadi,
+              style: font12boldgray,
             ),
           ),
           MyButton(
             onPressed: () {
               Get.offAllNamed(RouteName.home);
             },
-            color: MyColors.primaryText,
-            splashcolor: MyColors.primaryText,
+            color: MyColors.accent,
             width: 120.w,
             height: 50,
             borderRadius: true,

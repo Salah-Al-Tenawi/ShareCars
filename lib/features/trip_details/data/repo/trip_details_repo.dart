@@ -4,6 +4,7 @@ import 'package:sharecars/core/errors/filuar.dart';
 import 'package:sharecars/features/trip_booking/data/model/request_booking_model.dart';
 import 'package:sharecars/features/trip_create/data/model/trip_model.dart';
 import 'package:sharecars/features/trip_details/data/data_source/trip_details_remote_data_source.dart';
+import 'package:sharecars/features/trip_details/data/model/booking_model.dart';
 import 'package:sharecars/features/trip_details/domain/repo/trip_details_repo.dart';
 
 class TripDetailsRepoIM extends TripDetailsRepo {
@@ -21,7 +22,7 @@ class TripDetailsRepoIM extends TripDetailsRepo {
     }
   }
 
-  Future<Either<Filuar, TripModel>> booking(
+  Future<Either<Filuar, BookingResponse>> booking(
       int seats, int tripId, String communicationNumber) async {
     try {
       final response = await remoteDataSource.booking(seats, tripId ,communicationNumber);

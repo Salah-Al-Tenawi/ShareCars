@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sharecars/features/onboarding/data/onboarding_page.dart';
+import 'package:sharecars/features/onboarding/data/onboarding_data.dart';
 
 class OnboardingPageWidget extends StatelessWidget {
   final OnboardingPage page;

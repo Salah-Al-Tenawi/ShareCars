@@ -10,8 +10,6 @@ import 'package:sharecars/core/service/locator_ser.dart';
 import 'package:sharecars/core/them/them_app.dart';
 
 void main() async {
-  // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
   locatorService();

@@ -1,6 +1,11 @@
 class HandelErorrMessage {
   static String login(String message) {
-    return "";
+    switch (message) {
+      case "Invalid credentials":
+        return "كلمة المرور غير صحيحة";
+      default:
+        return "حدث خطأ غير متوقع";
+    }
   }
 
   static String singin(String message) {
@@ -20,74 +25,84 @@ class HandelErorrMessage {
   }
 
   static String createWallet(String message) {
-    return "";  
+    return "";
   }
-  
+
   static String checkbalance(String message) {
-    return "";  
-  } 
+    return "";
+  }
+
   static String showProfile(String message) {
-    return "";  
+    return "";
   }
-  
+
   static String updateProfile(String message) {
-    return "";  
+    return "";
   }
-  
+
   static String commet(String message) {
-    return "";  
+    return "";
   }
-  
+
   static String verfiyPassanger(String message) {
-    return "";  
+    return "";
   }
-  
+
   static String verfiyDriver(String message) {
-    return "";  
+    return "";
   }
-  
+
   static String rateUser(String message) {
-    return "";  
+    return "";
   }
-  
+
   static String showAllride(String message) {
-    return "";  
+    return "";
   }
-  
+
   static String showOneRide(String message) {
-    return "";  
+    return "";
   }
-  
+
   static String bookAset(String message) {
-    return "";  
+    switch (message) {
+      case "You have already booked this ride":
+        return "لقد قمت بالحجز فعلا";
+      default:
+        return "حدث خطأ غير متوقع";
+    }
   }
-  
-  static String search (String message) {
-    return "";  
+
+  static String search(String message) {
+    return "";
   }
 
   static String createWithRoute(String message) {
-    return "";  
+    return "";
   }
-  
+
   static String finishRide(String message) {
-    return "";  
-  } 
-  
+    switch (message) {
+      case "No confirmed bookings found for this ride":
+        return "لا يوجد حجوزات في هذه الرحلة يمكنك الغائها بدلا من ذلك";
+      default:
+        return "حدث خطأ غير متوقع";
+    }
+  }
+
   static String driverConfirm(String message) {
-    return "";  
+    return "";
   }
-  
+
   static String passangerConfirm(String message) {
-    return "";  
+    return "";
   }
-  
+
   static String acceptPassanger(String message) {
-    return "";  
+    return "";
   }
-  
+
   static String rejectPassanger(String message) {
-    return "";  
+    return "";
   }
 }
-

@@ -1,4 +1,5 @@
-import 'package:sharecars/features/onboarding/data/onboarding_page.dart';
+
+import 'package:sharecars/features/onboarding/data/onboarding_data.dart';
 
 final List<OnboardingPage> pages = [
   OnboardingPage(

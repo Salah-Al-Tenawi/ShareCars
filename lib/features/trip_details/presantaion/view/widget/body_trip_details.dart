@@ -70,7 +70,7 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
           borderRadius: BorderRadius.circular(16.r),
         ),
         elevation: 6,
-        backgroundColor: MyColors.primary, // اللون الأساسي
+        backgroundColor: MyColors.primary,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -667,11 +667,7 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
         width: double.infinity,
         padding: EdgeInsets.symmetric(vertical: 16.h),
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [MyColors.primary, MyColors.accent],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: MyColors.primary,
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
@@ -704,7 +700,6 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
     );
   }
 
-// Dialog عندما لا توجد مقاعد فارغة
   void _showNoSeatsDialog(BuildContext context) {
     showDialog(
       context: context,

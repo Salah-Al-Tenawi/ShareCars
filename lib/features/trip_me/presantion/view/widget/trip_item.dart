@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:sharecars/core/route/route_name.dart';
 import 'package:sharecars/core/them/my_colors.dart';
 import 'package:sharecars/core/utils/class/format_date_time.dart';
+import 'package:sharecars/core/utils/functions/get_userid.dart';
 import 'package:sharecars/features/trip_create/data/model/trip_model.dart';
 import 'package:sharecars/features/trip_details/presantaion/view/widget/status_trip.dart';
 
@@ -113,55 +114,58 @@ class ItemTrip extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               // Action button
-              Align(
-                alignment: Alignment.centerLeft,
-                child: PopupMenuButton<String>(
-                  onSelected: (value) {
-                    if (value == 'details' && onTap != null) onTap!();
-                    if (value == 'cancel' && onCancel != null) onCancel!();
-                  },
-                  itemBuilder: (_) => [
-                    const PopupMenuItem(
-                        value: 'details',
-                        child: _PopupMenuRowModern(
-                          icon: Icons.info_outline,
-                          color: MyColors.primary, // غيرت اللون هنا
-                          text: 'تفاصيل الرحلة',
-                        )),
-                    const PopupMenuItem(
-                        value: 'cancel',
-                        child: _PopupMenuRowModern(
-                          icon: Icons.cancel_outlined,
-                          color: Colors.red, // أو أي لون تريد
-                          text: 'إلغاء الرحلة',
-                        )),
-                  ],
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: MyColors.accent
-                          .withOpacity(0.4), // لون الخلفية الجديد
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'خيارات',
-                          style: TextStyle(
-                            color: MyColors.secondary, // لون النص الجديد
-                            fontWeight: FontWeight.w500,
+              trip.driver.id == myid()
+                  ? Align(
+                      alignment: Alignment.centerLeft,
+                      child: PopupMenuButton<String>(
+                        onSelected: (value) {
+                          if (value == 'details' && onTap != null) onTap!();
+                          if (value == 'cancel' && onCancel != null)
+                            onCancel!();
+                        },
+                        itemBuilder: (_) => [
+                          const PopupMenuItem(
+                              value: 'details',
+                              child: _PopupMenuRowModern(
+                                icon: Icons.info_outline,
+                                color: MyColors.primary, // غيرت اللون هنا
+                                text: 'تفاصيل الرحلة',
+                              )),
+                          const PopupMenuItem(
+                              value: 'cancel',
+                              child: _PopupMenuRowModern(
+                                icon: Icons.cancel_outlined,
+                                color: Colors.red, // أو أي لون تريد
+                                text: 'إلغاء الرحلة',
+                              )),
+                        ],
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 14, vertical: 8),
+                          decoration: BoxDecoration(
+                            color: MyColors.accent
+                                .withOpacity(0.4), // لون الخلفية الجديد
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'خيارات',
+                                style: TextStyle(
+                                  color: MyColors.secondary, // لون النص الجديد
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              SizedBox(width: 4),
+                              Icon(Icons.arrow_drop_down,
+                                  color: MyColors.secondary), // لون السهم
+                            ],
                           ),
                         ),
-                        SizedBox(width: 4),
-                        Icon(Icons.arrow_drop_down,
-                            color: MyColors.secondary), // لون السهم
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+                      ),
+                    )
+                  : const SizedBox(),
             ],
           ),
         ),

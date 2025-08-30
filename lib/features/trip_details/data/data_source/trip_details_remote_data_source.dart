@@ -3,6 +3,7 @@ import 'package:sharecars/core/api/dio_consumer.dart';
 import 'package:sharecars/core/utils/functions/get_token.dart';
 import 'package:sharecars/features/trip_booking/data/model/request_booking_model.dart';
 import 'package:sharecars/features/trip_create/data/model/trip_model.dart';
+import 'package:sharecars/features/trip_details/data/model/booking_model.dart';
 
 class TripDetailsRemoteDataSource {
   final DioConSumer api;
@@ -16,7 +17,7 @@ class TripDetailsRemoteDataSource {
     return TripModel.fromMap(response);
   }
 
-  Future<TripModel> booking(
+  Future<BookingResponse> booking(
       int seats, int tripId, String communicationNumber) async {
     final response = await api.post("${ApiEndPoint.rides}/$tripId/book",
         header: {
@@ -26,6 +27,6 @@ class TripDetailsRemoteDataSource {
           ApiKey.seats: seats,
           ApiKey.communicationNumber: communicationNumber
         });
-    return TripModel.fromMap(response);
+    return BookingResponse.fromJson(response);
   }
 }

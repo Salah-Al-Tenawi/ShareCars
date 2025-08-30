@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sharecars/core/constant/imagesUrl.dart';
+import 'package:sharecars/core/errors/handel_erorr_message.dart';
 import 'package:sharecars/core/route/route_name.dart';
 import 'package:sharecars/core/them/my_colors.dart';
 import 'package:sharecars/core/them/text_style_app.dart';
@@ -29,13 +30,13 @@ class ColumnButtonsLogin extends StatelessWidget {
       listener: (context, state) {
         if (state is LoginSuccess) {
           Get.offAllNamed(RouteName.home);
-          
         } else if (state is LoginNavigateToSignup) {
           Get.toNamed(RouteName.singin);
         } else if (state is LoginNavigationToForgetPassword) {
           Get.toNamed(RouteName.forgetpassword);
         } else if (state is LoginError) {
-          showMySnackBar(context, state.message,
+          final message = HandelErorrMessage.login(state.message);
+          showMySnackBar(context, message,
               duration: const Duration(seconds: 3));
         }
       },

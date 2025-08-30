@@ -4,6 +4,7 @@ import 'package:sharecars/core/utils/functions/get_userid.dart';
 import 'package:sharecars/features/trip_booking/data/model/request_booking_model.dart';
 import 'package:sharecars/features/trip_booking/data/repo/booking_rep_im.dart';
 import 'package:sharecars/features/trip_create/data/model/trip_model.dart';
+import 'package:sharecars/features/trip_details/data/model/booking_model.dart';
 import 'package:sharecars/features/trip_details/data/model/trip_details_mode.dart';
 import 'package:sharecars/features/trip_details/data/repo/trip_details_repo.dart';
 import 'package:sharecars/features/trip_me/data/repo/trip_me_repo_im.dart';
@@ -21,8 +22,8 @@ class TripDetailsCubit extends Cubit<TripDetailsState> {
     final response = await tripDetailsRepoIM.booking(seats, tripId ,communicationNumber);
     response.fold((error) {
       emit(TripDetailsError(message: error.message));
-    }, (trip) {
-      emit(TripDetailsRequestBooking(booking: trip));
+    }, (booking) {
+      emit(TripDetailsRequestBooking(booking: booking));
     });
   }
 

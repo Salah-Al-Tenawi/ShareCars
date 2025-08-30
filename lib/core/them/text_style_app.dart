@@ -10,17 +10,20 @@ const TextStyle font10boldRamadi = TextStyle(
 
 const TextStyle font12boldRamadi = TextStyle(
     fontSize: 12, fontWeight: FontWeight.bold, color: MyColors.primaryText);
+const TextStyle font12boldgray = TextStyle(
+    fontSize: 12, fontWeight: FontWeight.bold, color: MyColors.greyTextField);
+const TextStyle font20boldgray = TextStyle(
+    fontSize: 20, fontWeight: FontWeight.bold, color: MyColors.greyTextField);
 
 const TextStyle font12boldsky = TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.bold,
-    color: MyColors.primaryBackground); 
+    color: MyColors.primaryBackground);
 
 const TextStyle font16boldsky = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.bold,
     color: MyColors.primaryBackground);
-
 
 const TextStyle font15BoldRamadi = TextStyle(
     fontSize: 15, fontWeight: FontWeight.bold, color: MyColors.primaryText);
