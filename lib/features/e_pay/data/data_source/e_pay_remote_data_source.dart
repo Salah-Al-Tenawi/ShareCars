@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sharecars/core/api/api_end_points.dart';
 import 'package:sharecars/core/api/dio_consumer.dart';
 import 'package:sharecars/core/utils/functions/get_token.dart';
+import 'package:sharecars/features/e_pay/data/model/balance_model.dart';
 
 class EPayRemoteDataSource {
   final DioConSumer api;
@@ -31,11 +32,11 @@ class EPayRemoteDataSource {
     return response;
   }
 
-  Future<dynamic> getBalance() async {
+  Future<BalanceModel> getBalance() async {
     final response = await api.get(
-      ApiEndPoint.baserUrl,
+      ApiEndPoint.getbalance,
       header: {ApiKey.authorization: "Bearer ${mytoken()}"},
     );
-    return response;
+    return BalanceModel.fromJson(response);
   }
 }

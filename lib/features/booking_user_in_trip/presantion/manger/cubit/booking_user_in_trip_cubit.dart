@@ -7,6 +7,8 @@ part 'booking_user_in_trip_state.dart';
 class BookingUserInTripCubit extends Cubit<BookingUserInTripState> {
   final BookingUsersInTripRepoImp repo;
   BookingUserInTripCubit(this.repo) : super(BookingUserInTripInitial());
+
+  
   acceptPassanger(int tripId, int userId) async {
     emit(BookingUserInTripLoading());
     await Future.delayed(const Duration(seconds: 2));

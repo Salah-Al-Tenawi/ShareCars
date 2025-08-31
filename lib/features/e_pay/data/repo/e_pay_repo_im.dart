@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:sharecars/core/errors/excptions.dart';
 import 'package:sharecars/core/errors/filuar.dart';
 import 'package:sharecars/features/e_pay/data/data_source/e_pay_remote_data_source.dart';
+import 'package:sharecars/features/e_pay/data/model/balance_model.dart';
 import 'package:sharecars/features/e_pay/domain/e_pay_repo.dart';
 
 class EPayRepoIm extends EPayRepo {
@@ -33,7 +34,7 @@ class EPayRepoIm extends EPayRepo {
   }
 
   @override
-  Future<Either<Filuar, dynamic>> getBalance() async {
+  Future<Either<Filuar, BalanceModel>> getBalance() async {
     try {
       final response = await remoteDataSource.getBalance();
       return right(response);

@@ -21,6 +21,9 @@ class ApiEndPoint {
   static const rides = "$baserUrl/rides";
   static const createRide = "$rides/create-with-route";
   static const search = "$rides/search";
+
+  // epy
+  static const getbalance = "$baserUrl/wallet/balance";
 }
 
 class ApiKey {
@@ -109,9 +112,7 @@ class ApiKey {
   static const departureDate = "departure_date";
   static const seatsRequired = "seats_required";
   static const sourcelat = "source_lat";
-static const sourcelng = "source_lng";
-static const destlat = "dest_lat";
-static const destlng = "dest_lng";
-
-
+  static const sourcelng = "source_lng";
+  static const destlat = "dest_lat";
+  static const destlng = "dest_lng";
 }

@@ -6,8 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sharecars/core/constant/imagesUrl.dart';
 import 'package:sharecars/core/route/route_name.dart';
-import 'package:sharecars/core/utils/widgets/loading_widget_size_150.dart';
-import 'package:sharecars/core/utils/widgets/my_button.dart';
 import 'package:sharecars/features/booking_user_in_trip/presantion/manger/cubit/booking_user_in_trip_cubit.dart';
 import 'package:sharecars/features/trip_create/data/model/booking_model.dart';
 import 'package:sharecars/core/them/my_colors.dart';
@@ -187,6 +185,8 @@ class _BookingUserINTripState extends State<BookingUserINTrip> {
                       buildSeatsAndPrice(booking.seats, booking.totaPrice),
                       const SizedBox(height: 6),
                       buildBookingDate(booking.bookingat),
+                      SizedBox(height: 10.h),
+                      buildCommincationNumber(booking)
                     ],
                   ),
                 ),
@@ -194,13 +194,26 @@ class _BookingUserINTripState extends State<BookingUserINTrip> {
             ),
             if (booking.status == "pending") ...[
               const SizedBox(height: 12),
-              buildActions(booking), // الأزرار فقط عند pending
+              buildActions(booking),
             ] else ...[
-              const SizedBox(height: 12), // نفس المسافة بدون أزرار
+              const SizedBox(height: 12),
             ],
           ],
         ),
       ),
+    );
+  }
+
+  Row buildCommincationNumber(BookingModel booking) {
+    return Row(
+      children: [
+        const Icon(Icons.phone, size: 16, color: MyColors.secondary),
+        const SizedBox(width: 4),
+        Text(
+          booking.numberPhone,
+          style: const TextStyle(fontSize: 13, color: MyColors.secondary),
+        ),
+      ],
     );
   }
 
