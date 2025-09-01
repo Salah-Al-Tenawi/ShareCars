@@ -23,9 +23,9 @@ StatusInfo getStatusInfo(String? status) {
     case 'completed':
       return StatusInfo('مكتمل', const Color(0xFF28A745));
     case 'full':
-      return StatusInfo('ممتلئة', MyColors.primaryBackground);
+      return StatusInfo('ممتلئة', MyColors.secondary);
     case 'active':
-      return StatusInfo('متاح', MyColors.primaryBackground);
+      return StatusInfo('متاح', const Color(0xFF28A745));
     default:
       return StatusInfo('غير معروف', MyColors.primaryText);
   }

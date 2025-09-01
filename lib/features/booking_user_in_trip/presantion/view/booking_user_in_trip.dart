@@ -19,11 +19,11 @@ class BookingUserINTrip extends StatefulWidget {
 }
 
 class _BookingUserINTripState extends State<BookingUserINTrip> {
-  late List<BookingModel> users;
+  late List<BookingModel> usersBooking;
 
   @override
   void initState() {
-    users = Get.arguments as List<BookingModel>;
+    usersBooking = Get.arguments as List<BookingModel>;
     super.initState();
   }
 
@@ -37,12 +37,12 @@ class _BookingUserINTripState extends State<BookingUserINTrip> {
         title: const Text("الحجوزات", style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
-      body: users.isEmpty
+      body: usersBooking.isEmpty
           ? const Center(child: Text("لا يوجد حجوزات"))
           : ListView.builder(
               padding: const EdgeInsets.all(12),
-              itemCount: users.length,
-              itemBuilder: (context, index) => buildBookingCard(users[index]),
+              itemCount:usersBooking.length,
+              itemBuilder: (context, index) => buildBookingCard(usersBooking[index]),
             ),
     );
   }
@@ -82,7 +82,7 @@ class _BookingUserINTripState extends State<BookingUserINTrip> {
       builder: (context, state) {
         String currentStatus = status;
 
-        if (state is BookingUserInTripUpdated && state.userId == userId) {
+        if (state is BookingUserInTripUpdated) {
           currentStatus = state.newStatus;
         }
 
@@ -110,6 +110,7 @@ class _BookingUserINTripState extends State<BookingUserINTrip> {
                 style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
+                  color: MyColors.primaryBackground
                 ),
               ),
             ),
@@ -186,18 +187,14 @@ class _BookingUserINTripState extends State<BookingUserINTrip> {
                       const SizedBox(height: 6),
                       buildBookingDate(booking.bookingat),
                       SizedBox(height: 10.h),
-                      buildCommincationNumber(booking)
+                      buildCommincationNumber(booking),
                     ],
                   ),
                 ),
               ],
             ),
-            if (booking.status == "pending") ...[
-              const SizedBox(height: 12),
-              buildActions(booking),
-            ] else ...[
-              const SizedBox(height: 12),
-            ],
+            const SizedBox(height: 12),
+            buildActions(booking), 
           ],
         ),
       ),
@@ -231,43 +228,74 @@ class _BookingUserINTripState extends State<BookingUserINTrip> {
           );
         }
 
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                context.read<BookingUserInTripCubit>().acceptPassanger(
-                      booking.id,
-                      booking.userId,
-                    );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: MyColors.primary,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+        switch (booking.status) {
+          case "pending":
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    context.read<BookingUserInTripCubit>().acceptPassanger(
+                          booking.id,
+                        );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: MyColors.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child:
+                      const Text("قبول", style: TextStyle(color: Colors.white)),
                 ),
-              ),
-              child: const Text("قبول", style: TextStyle(color: Colors.white)),
-            ),
-            const SizedBox(width: 8),
-            ElevatedButton(
-              onPressed: () {
-                context.read<BookingUserInTripCubit>().rejectPassanger(
-                      booking.id,
-                      booking.userId,
-                    );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: MyColors.accent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                const SizedBox(width: 8),
+                ElevatedButton(
+                  onPressed: () {
+                    context.read<BookingUserInTripCubit>().rejectPassanger(
+                          booking.id,
+                        );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: MyColors.accent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child:
+                      const Text("رفض", style: TextStyle(color: Colors.white)),
                 ),
-              ),
-              child: const Text("رفض", style: TextStyle(color: Colors.white)),
-            ),
-          ],
-        );
+              ],
+            );
+
+          case "confirmed":
+            return _statusChip("تم القبول", Colors.green);
+
+          case "cancelled":
+            return _statusChip("ملغاة", Colors.red);
+
+          case "no_show":
+            return _statusChip("لم يحضر", Colors.orange);
+
+          case "completed":
+            return _statusChip("مكتملة", Colors.blue);
+          case "active":
+            return _statusChip("تم الحجز", Colors.blue);
+
+          default:
+            return const SizedBox.shrink();
+        }
       },
+    );
+  }
+
+  Widget _statusChip(String label, Color color) {
+    return Align(
+      alignment: Alignment.center,
+      child: Chip(
+        label: Text(label, style: const TextStyle(color: Colors.white)),
+        backgroundColor: color,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
     );
   }
 }

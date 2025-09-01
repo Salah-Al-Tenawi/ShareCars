@@ -20,7 +20,8 @@ class ApiEndPoint {
 //  trips endpoint
   static const rides = "$baserUrl/rides";
   static const createRide = "$rides/create-with-route";
-  static const search = "$rides/search";
+  static const search = "$rides/search"; 
+  
 
   // epy
   static const getbalance = "$baserUrl/wallet/balance";

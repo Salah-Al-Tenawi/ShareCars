@@ -50,8 +50,8 @@ class _HomeState extends State<Home> {
         physics: const NeverScrollableScrollPhysics(),
         children: const [
           TripSelectSourceAndDistOnMap(),
-          TripSearch(), // لم يعد هناك BlocProvider هنا
-          TripMeList(), // ولم يعد هناك BlocProvider هنا
+          TripSearch(), 
+          TripMeList(), 
         ],
       ),
       bottomNavigationBar: ModernBottomNavBar(pageController: _pageController),

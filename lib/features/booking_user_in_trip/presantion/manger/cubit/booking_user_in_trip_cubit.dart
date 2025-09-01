@@ -8,30 +8,25 @@ class BookingUserInTripCubit extends Cubit<BookingUserInTripState> {
   final BookingUsersInTripRepoImp repo;
   BookingUserInTripCubit(this.repo) : super(BookingUserInTripInitial());
 
-  
-  acceptPassanger(int tripId, int userId) async {
+  acceptPassanger(int bookingId) async {
     emit(BookingUserInTripLoading());
     await Future.delayed(const Duration(seconds: 2));
-    final response = await repo.acceptPassanger(tripId, userId);
+    final response = await repo.acceptPassanger(bookingId);
     response.fold(
       (error) => emit(BookingUserInTripErorr(message: error.message)),
       (succ) => emit(BookingUserInTripUpdated(
-        userId: userId,
-        newStatus: "completed",
+        newStatus: succ.statusRide,
       )),
     );
   }
 
-  rejectPassanger(int tripId, int userId) async {
+  rejectPassanger(int bookingId) async {
     emit(BookingUserInTripLoading());
     await Future.delayed(const Duration(seconds: 2));
-    final response = await repo.rejectPassanger(tripId, userId);
+    final response = await repo.rejectPassanger(bookingId);
     response.fold(
       (error) => emit(BookingUserInTripErorr(message: error.message)),
-      (succ) => emit(BookingUserInTripUpdated(
-        userId: userId,
-        newStatus: "rejected",
-      )),
+      (succ) => emit(BookingUserInTripUpdated(newStatus: succ.statusRide)),
     );
   }
 }
