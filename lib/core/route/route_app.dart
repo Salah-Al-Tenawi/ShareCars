@@ -40,7 +40,7 @@ import 'package:sharecars/features/profiles/presantaion/manger/profile_cubit.dar
 import 'package:sharecars/features/profiles/presantaion/view/profile.dart';
 import 'package:sharecars/features/splash_view/presentaion/view/splash_view.dart';
 import 'package:sharecars/features/trip_booking/data/data%20source/booking_remote_data_source.dart';
-import 'package:sharecars/features/trip_booking/data/repo/booking_rep_im.dart';
+import 'package:sharecars/features/trip_booking/data/repo/booking_me_repo.dart';
 import 'package:sharecars/features/trip_create/data/data_source/trip_create_remote_data_source.dart';
 import 'package:sharecars/features/trip_create/data/repo/trip_create_repo_im.dart';
 import 'package:sharecars/features/trip_create/presantion/manger/cubit/push_ride_cubit.dart';

@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sharecars/core/utils/functions/get_userid.dart';
-import 'package:sharecars/features/trip_booking/data/model/request_booking_model.dart';
-import 'package:sharecars/features/trip_booking/data/repo/booking_rep_im.dart';
+import 'package:sharecars/features/trip_booking/data/model/booking_me_model.dart';
+import 'package:sharecars/features/trip_booking/data/repo/booking_me_repo.dart';
 import 'package:sharecars/features/trip_create/data/model/trip_model.dart';
 import 'package:sharecars/features/trip_details/data/model/booking_model.dart';
 import 'package:sharecars/features/trip_details/data/model/trip_details_mode.dart';
