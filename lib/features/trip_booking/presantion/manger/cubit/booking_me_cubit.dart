@@ -1,0 +1,32 @@
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:sharecars/features/trip_booking/data/model/booking_me_model.dart';
+import 'package:sharecars/features/trip_booking/data/repo/booking_me_repo.dart';
+
+part 'booking_me_state.dart';
+
+class BookingMeCubit extends Cubit<BookingMeState> {
+  final BookingMeRepo _repo;
+
+  BookingMeCubit(this._repo) : super(BookingMeInitial());
+
+  getMybooking() async {
+    emit(BookingMeloading());
+    final response = await _repo.getMeBooking();
+    response.fold((erorr) {
+      emit(BookingMeErorr(message: erorr.message));
+    }, (listBooking) {
+      emit(BookingMeListLoaded(Bookings: listBooking));
+    });
+  }
+
+  cancelBooking(int bookingId, int seats) async {
+    emit(BookingMeloading());
+    final response = await _repo.cancelBooking(bookingId, seats);
+    response.fold((erorr) {
+      emit(BookingMeErorr(message: erorr.message));
+    }, (sucess) {
+      emit(const BookingMeCanceled(message: "تم الغاء الحجز بنجاح"));
+    });
+  }
+}

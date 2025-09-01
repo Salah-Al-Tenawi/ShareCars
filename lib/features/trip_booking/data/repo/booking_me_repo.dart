@@ -10,7 +10,7 @@ class BookingMeRepo {
   BookingMeRepo({required BookingRemoteDataSource remoteDataSource})
       : _remoteDataSource = remoteDataSource;
 
-  Future<Either<Filuar, BookingMeModel>> getMeBooking() async {
+  Future<Either<Filuar,List<BookingMeModel> >> getMeBooking() async {
     try {
       final response = await _remoteDataSource.getmeBooking();
       return right(response);

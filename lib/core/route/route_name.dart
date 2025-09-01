@@ -42,5 +42,10 @@ class RouteName {
   static const tripDetails = "/tripDetails";
   // trip user booking user
 
-  static const bookingUserInTrip = "/BookingUserINTrip";
+  static const bookingUserInTrip = "/BookingUserINTrip"; 
+
+  // booking me 
+static const  bookingMeList = "/BookingMeList"; 
+
+
 }

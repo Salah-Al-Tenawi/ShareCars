@@ -8,6 +8,7 @@ import 'package:sharecars/features/e_pay/data/repo/e_pay_repo_im.dart';
 import 'package:sharecars/features/home/preantion/view/widget/home_appbar.dart';
 import 'package:sharecars/features/home/preantion/view/widget/home_botom_nav_bar.dart';
 import 'package:sharecars/features/home/preantion/view/widget/home_drawer.dart';
+import 'package:sharecars/features/trip_booking/presantion/view/booking_me_list.dart';
 import 'package:sharecars/features/trip_create/presantion/view/trip_select_source_and_dist_on_map.dart';
 import 'package:sharecars/features/trip_me/presantion/view/trip_me_list.dart';
 import 'package:sharecars/features/trip_search/presantion/view/trip_search.dart';
@@ -87,6 +88,7 @@ TextButton(
             TripSelectSourceAndDistOnMap(),
             TripSearch(),
             TripMeList(),
+            BookingMeList()
           ],
         ),
         bottomNavigationBar: ModernBottomNavBar(pageController: _pageController),

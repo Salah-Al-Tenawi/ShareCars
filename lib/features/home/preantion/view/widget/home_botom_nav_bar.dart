@@ -13,12 +13,15 @@ class ModernBottomNavBar extends StatelessWidget {
     Icons.directions_car,
     Icons.search_rounded,
     Icons.list_alt_rounded,
+    Icons.event_note
+
   ];
 
   final List<String> _titles = const [
     "الرحلات",
     "بحث",
-    "قائمتي",
+    "رحلاتي", 
+    "حجوزاتي"
   ];
 
   @override
