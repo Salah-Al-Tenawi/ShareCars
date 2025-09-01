@@ -99,13 +99,13 @@ class _BookingUserINTripState extends State<BookingUserINTrip> {
   }
 
   // 🔹 Header: الاسم + الحالة
-  Widget buildHeader(String name, String status, int userId) {
+  Widget buildHeader(String name, String status, int bookingId) {
     return BlocBuilder<BookingUserInTripCubit, BookingUserInTripState>(
       builder: (context, state) {
         String currentStatus = status;
 
-        if (state is BookingUserInTripUpdated) {
-          currentStatus = state.newStatus;
+        if (state is BookingUserInTripUpdated && state.bookingId == bookingId) {
+          currentStatus = state.statusRide;
         }
 
         final statusInfo = getStatusInfo(currentStatus);
@@ -130,9 +130,10 @@ class _BookingUserINTripState extends State<BookingUserINTrip> {
               child: Text(
                 statusInfo.text,
                 style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: MyColors.primaryBackground),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: MyColors.primaryBackground,
+                ),
               ),
             ),
           ],
@@ -239,6 +240,13 @@ class _BookingUserINTripState extends State<BookingUserINTrip> {
   Widget buildActions(BookingModel booking) {
     return BlocBuilder<BookingUserInTripCubit, BookingUserInTripState>(
       builder: (context, state) {
+        String currentStatus = booking.status;
+
+        if (state is BookingUserInTripUpdated &&
+            state.bookingId == booking.id) {
+          currentStatus = state.statusRide;
+        }
+
         if (state is BookingUserInTripLoading) {
           return Center(
             child: LottieBuilder.asset(
@@ -249,16 +257,16 @@ class _BookingUserINTripState extends State<BookingUserINTrip> {
           );
         }
 
-        switch (booking.status) {
+        switch (currentStatus) {
           case "pending":
             return Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    context.read<BookingUserInTripCubit>().acceptPassanger(
-                          booking.id,
-                        );
+                    context
+                        .read<BookingUserInTripCubit>()
+                        .acceptPassanger(booking.id);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: MyColors.primary,
@@ -272,9 +280,9 @@ class _BookingUserINTripState extends State<BookingUserINTrip> {
                 const SizedBox(width: 8),
                 ElevatedButton(
                   onPressed: () {
-                    context.read<BookingUserInTripCubit>().rejectPassanger(
-                          booking.id,
-                        );
+                    context
+                        .read<BookingUserInTripCubit>()
+                        .rejectPassanger(booking.id);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: MyColors.accent,
@@ -291,6 +299,9 @@ class _BookingUserINTripState extends State<BookingUserINTrip> {
           case "confirmed":
             return _statusChip("تم القبول", Colors.green);
 
+          case "Booking rejected":
+            return _statusChip("تم رفض الحجز", MyColors.accent);
+
           case "cancelled":
             return _statusChip("ملغاة", Colors.red);
 
@@ -299,6 +310,7 @@ class _BookingUserINTripState extends State<BookingUserINTrip> {
 
           case "completed":
             return _statusChip("مكتملة", Colors.blue);
+
           case "active":
             return _statusChip("تم الحجز", Colors.blue);
 

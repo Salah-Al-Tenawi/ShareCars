@@ -16,19 +16,19 @@ final class BookingUserInTripErorr extends BookingUserInTripState {
 
   const BookingUserInTripErorr({required this.message});
 }
+
 final class BookingUserInTripUpdated extends BookingUserInTripState {
-  // final int userId;
-  final String newStatus; // مثلا "accepted" أو "rejected"
+  final int bookingId;
+  final String statusRide;
 
   const BookingUserInTripUpdated({
-    // required this.userId,
-    required this.newStatus,
+    required this.bookingId,
+    required this.statusRide,
   });
 
   @override
-  List<Object> get props => [newStatus];
+  List<Object> get props => [bookingId, statusRide];
 }
-  
 
-final class BookingUserInTripSucc extends BookingUserInTripState{}
-// final class BookingUserInTripAccep
+final class BookingUserInTripSucc extends BookingUserInTripState {}
+

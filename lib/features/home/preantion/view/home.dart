@@ -35,16 +35,16 @@ class _HomeState extends State<Home> {
           TextButton(
   onPressed: () => Get.back(result: false),
   style: TextButton.styleFrom(
-    foregroundColor: Colors.red, // لون النص
-    backgroundColor: Colors.grey[200], // لون الخلفية
+    foregroundColor: MyColors.accent, 
+    backgroundColor: Colors.grey[200], 
   ),
   child: const Text("لا"),
 ),
 TextButton(
   onPressed: () => Get.back(result: true),
   style: TextButton.styleFrom(
-    foregroundColor: MyColors.primary, // لون النص
-    backgroundColor: Colors.grey[200], // لون الخلفية
+    foregroundColor: MyColors.primary,
+    backgroundColor: Colors.grey[200],
   ),
   child: const Text("نعم"),
 ),

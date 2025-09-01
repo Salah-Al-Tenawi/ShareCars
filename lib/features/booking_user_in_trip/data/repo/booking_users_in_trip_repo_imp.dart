@@ -21,7 +21,7 @@ class BookingUsersInTripRepoImp extends BookingUserInTripRepo {
   }
 
   @override
-  Future<Either<Filuar, BookingUserModle>> rejectPassanger(int bookingId) async{
+  Future<Either<Filuar, dynamic>> rejectPassanger(int bookingId) async{
     try {
       final response = await remoteData.rejectPassanger(bookingId);
       return right(response);

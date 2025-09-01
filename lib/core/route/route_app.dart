@@ -34,7 +34,7 @@ import 'package:sharecars/features/auth/presentation/view/forget_password.dart';
 import 'package:sharecars/features/auth/presentation/view/login.dart';
 import 'package:sharecars/features/auth/presentation/view/singin.dart';
 import 'package:sharecars/features/home/preantion/view/home.dart';
-import 'package:sharecars/features/maps/push_ride_map.dart';
+import 'package:sharecars/features/maps/presantion/view/push_ride_map.dart';
 import 'package:sharecars/features/profiles/data/repo/profile_repo_im.dart';
 import 'package:sharecars/features/profiles/presantaion/manger/profile_cubit.dart';
 import 'package:sharecars/features/profiles/presantaion/view/profile.dart';

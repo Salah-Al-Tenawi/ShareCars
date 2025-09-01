@@ -13,10 +13,10 @@ class BookingUserTripRemoteData {
     return BookingUserModle.fromJson(response);
   }
 
-  Future<BookingUserModle> rejectPassanger(int bookingId) async {
+  Future<dynamic> rejectPassanger(int bookingId) async {
     final response = await api.post("${ApiEndPoint.rides}/$bookingId/reject",
         header: {ApiKey.authorization: "Bearer ${mytoken()}"});
 
-    return BookingUserModle.fromJson(response);
+    return response;
   }
 }
