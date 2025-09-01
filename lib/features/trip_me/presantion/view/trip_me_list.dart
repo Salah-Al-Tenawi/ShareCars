@@ -43,31 +43,32 @@ class TripMeList extends StatelessWidget {
                   ? SingleChildScrollView(
                       physics: const AlwaysScrollableScrollPhysics(),
                       child: SizedBox(
+                        width: double.infinity,
                         height: MediaQuery.of(context).size.height,
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/Empty.png',
-                                width: 250.w,
-                                height: 250.h,
-                                fit: BoxFit.contain,
+                        child: Column(
+                          // mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: 80.h,
+                            ),
+                            Image.asset(
+                              'assets/images/Empty.png',
+                              width: 300.w,
+                              height: 300.h,
+                              fit: BoxFit.contain,
+                            ),
+                            SizedBox(height: 16.h),
+                            const Text(
+                              'لا توجد رحلات',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
                               ),
-                              SizedBox(height: 16.h),
-                              const Text(
-                                'لا توجد رحلات',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     )
-                    
                   : ListView.builder(
                       physics: const AlwaysScrollableScrollPhysics(),
                       padding: const EdgeInsets.only(top: 8, bottom: 16),

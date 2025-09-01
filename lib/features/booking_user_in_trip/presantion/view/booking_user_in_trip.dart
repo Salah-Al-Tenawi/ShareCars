@@ -38,31 +38,33 @@ class _BookingUserINTripState extends State<BookingUserINTrip> {
         centerTitle: true,
       ),
       body: usersBooking.isEmpty
-          ?  Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/noBooking.png',
-                                width: 250.w,
-                                height: 250.h,
-                                fit: BoxFit.contain,
-                              ),
-                              SizedBox(height: 16.h),
-                              const Text(
-                                'لا توجد حجوزات',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/noBooking.png',
+                    width: 300.w,
+                    height: 300.h,
+                    fit: BoxFit.contain,
+                  ),
+                  SizedBox(height: 30.h),
+                  const Text(
+                    'لا توجد حجوزات بعد ..',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 70.h),
+                ],
+              ),
+            )
           : ListView.builder(
               padding: const EdgeInsets.all(12),
-              itemCount:usersBooking.length,
-              itemBuilder: (context, index) => buildBookingCard(usersBooking[index]),
+              itemCount: usersBooking.length,
+              itemBuilder: (context, index) =>
+                  buildBookingCard(usersBooking[index]),
             ),
     );
   }
@@ -128,10 +130,9 @@ class _BookingUserINTripState extends State<BookingUserINTrip> {
               child: Text(
                 statusInfo.text,
                 style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: MyColors.primaryBackground
-                ),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: MyColors.primaryBackground),
               ),
             ),
           ],
@@ -214,7 +215,7 @@ class _BookingUserINTripState extends State<BookingUserINTrip> {
               ],
             ),
             const SizedBox(height: 12),
-            buildActions(booking), 
+            buildActions(booking),
           ],
         ),
       ),

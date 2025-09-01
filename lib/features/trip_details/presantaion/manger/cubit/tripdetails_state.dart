@@ -38,13 +38,13 @@ final class TripDetailsCancel extends TripDetailsState {
 
 final class TripDetailsBooking extends TripDetailsState {}
 
-final class TripDetailsRequestBooking extends TripDetailsState {
-  final BookingResponse booking;
-  const TripDetailsRequestBooking({required this.booking});
+  final class TripDetailsRequestBooking extends TripDetailsState {
+    final BookingResponse booking;
+    const TripDetailsRequestBooking({required this.booking});
 
-  @override
-  List<Object?> get props => [booking];
-}
+    @override
+    List<Object?> get props => [booking];
+  }
 
 final class TripDetailsGoToProfile extends TripDetailsState {
   final int userId;
