@@ -315,7 +315,7 @@ class _BookingUserINTripState extends State<BookingUserINTrip> {
             return _statusChip("تم الحجز", Colors.blue);
 
           default:
-            return const SizedBox.shrink();
+            return _statusChip("تمت المعالجة", MyColors.secondary);
         }
       },
     );

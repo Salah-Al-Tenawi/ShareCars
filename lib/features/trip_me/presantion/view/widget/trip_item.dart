@@ -41,11 +41,16 @@ class ItemTrip extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
                         radius: 18,
                         backgroundColor: MyColors.secondary,
-                        child: Icon(Icons.person,
-                            color: MyColors.primaryBackground),
+                        backgroundImage: trip.driver.avatar != null
+                            ? NetworkImage(trip.driver.avatar!)
+                            : null,
+                        child: trip.driver.avatar == null
+                            ? const Icon(Icons.person,
+                                color: MyColors.primaryBackground)
+                            : null,
                       ),
                       const SizedBox(width: 8),
                       Text(
