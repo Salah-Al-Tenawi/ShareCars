@@ -33,7 +33,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           SizedBox(width: 6.w),
           Text(
-            "$balance SP",
+            "$balance ل.س",
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.bold,
@@ -70,7 +70,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                "$balance SP",
+                "$balance ل.س",
                 style: const TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,

@@ -8,19 +8,15 @@ class BookingUserTripRemoteData {
 
   BookingUserTripRemoteData({required this.api});
   Future<BookingUserModle> acceptPassanger(int bookingId) async {
-    final response = await api.post(
-      "${ApiEndPoint.rides}/$bookingId/accept",
-      header: {ApiKey.authorization: "Bearer ${mytoken()}"}
-    );
+    final response = await api.post("${ApiEndPoint.rides}/$bookingId/accept",
+        header: {ApiKey.authorization: "Bearer ${mytoken()}"});
     return BookingUserModle.fromJson(response);
   }
 
   Future<BookingUserModle> rejectPassanger(int bookingId) async {
-    final response = await api.post(
-      "${ApiEndPoint.rides}/$bookingId/accept", 
-      header: {ApiKey.authorization: "Bearer ${mytoken()}"}
-    );
-  
+    final response = await api.post("${ApiEndPoint.rides}/$bookingId/reject",
+        header: {ApiKey.authorization: "Bearer ${mytoken()}"});
+
     return BookingUserModle.fromJson(response);
   }
 }

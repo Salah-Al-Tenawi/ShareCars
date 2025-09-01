@@ -8,6 +8,8 @@ import 'package:sharecars/core/constant/imagesUrl.dart';
 import 'package:sharecars/core/route/route_name.dart';
 import 'package:sharecars/core/them/my_colors.dart';
 import 'package:sharecars/core/them/text_style_app.dart';
+import 'package:sharecars/core/utils/functions/get_userid.dart';
+import 'package:sharecars/features/trip_create/data/model/booking_model.dart';
 import 'package:sharecars/features/trip_create/data/model/trip_model.dart';
 import 'package:sharecars/features/trip_details/data/model/trip_details_mode.dart';
 import 'package:sharecars/features/trip_details/presantaion/manger/cubit/tripdetails_cubit.dart';
@@ -51,7 +53,7 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
           _buildBookingTypeWidget(),
           SizedBox(height: 20.h),
           widget.mode == TripDetailsMode.otherView
-              ? _buildBookingButton(context)
+              ? _buildConditionalBookingButton(context)
               : showBookingButton()
         ],
       ),
@@ -655,23 +657,159 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
   }
 
   Widget _buildBookingButton(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        if (widget.trip.seatsAvailable == 0) {
-          _showNoSeatsDialog(context);
-        } else {
-          _showBookingDialog(context);
+    return BlocBuilder<TripDetailsCubit, TripDetailsState>(
+      builder: (context, state) {
+        if (state is TripDetailsLoading) {
+          return Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(vertical: 16.h),
+            decoration: BoxDecoration(
+              color: MyColors.primary.withOpacity(0.7),
+              borderRadius: BorderRadius.circular(16.r),
+            ),
+            child: const Center(
+              child: CircularProgressIndicator(color: Colors.white),
+            ),
+          );
         }
+
+        if (state is TripDetailsRequestBooking) {
+          return GestureDetector(
+            onTap: () {},
+            child: Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(vertical: 16.h),
+              decoration: BoxDecoration(
+                color: MyColors.accent,
+                borderRadius: BorderRadius.circular(16.r),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.check_circle, color: Colors.white, size: 22.sp),
+                  SizedBox(width: 10.w),
+                  Text(
+                    "تم الحجز",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.sp,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+
+        return GestureDetector(
+          onTap: () {
+            if (widget.trip.seatsAvailable == 0) {
+              _showNoSeatsDialog(context);
+            } else {
+              _showBookingDialog(context);
+            }
+          },
+          child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(vertical: 16.h),
+            decoration: BoxDecoration(
+              color: MyColors.primary,
+              borderRadius: BorderRadius.circular(16.r),
+              boxShadow: [
+                BoxShadow(
+                  color: MyColors.primary.withOpacity(0.4),
+                  blurRadius: 8,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.event_seat_sharp,
+                  color: Colors.white,
+                  size: 22.sp,
+                ),
+                SizedBox(width: 10.w),
+                Text(
+                  "احجز الآن - ${widget.trip.pricePerSeat} ل.س",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.sp,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
       },
+    );
+  }
+
+// دالة لإظهار تفاصيل الحجز
+  Widget _buildConditionalBookingButton(BuildContext context) {
+    // البحث عن حجز المستخدم الحالي، إذا وجد
+    BookingModel? booking;
+    for (var b in widget.trip.booking) {
+      if (b.userId == myid()) {
+        booking = b;
+        break;
+      }
+    }
+
+    if (booking != null) {
+      // التحقق من حالة الحجز
+      switch (booking.status) {
+        case "confirmed":
+          return _buildBookingStatusButton(
+            context,
+            color: Colors.green,
+            text: "تم قبول الحجز",
+            icon: Icons.check_circle,
+          );
+        case "pending":
+          return _buildBookingStatusButton(
+            context,
+            color: Colors.orange,
+            text: "قيد الانتظار",
+            icon: Icons.hourglass_top,
+          );
+        case "rejected":
+          return _buildBookingStatusButton(
+            context,
+            color: Colors.red,
+            text: "تم رفض الحجز",
+            icon: Icons.cancel,
+          );
+        default:
+          return _buildBookingButton(context);
+      }
+    } else {
+      // إذا لم يقم المستخدم بالحجز
+      return _buildBookingButton(context);
+    }
+  }
+
+  Widget _buildBookingStatusButton(
+    BuildContext context, {
+    required Color color,
+    required String text,
+    required IconData icon,
+  }) {
+    return GestureDetector(
+      onTap: () {},
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.symmetric(vertical: 16.h),
         decoration: BoxDecoration(
-          color: MyColors.primary,
+          color: color,
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
-              color: MyColors.primary.withOpacity(0.4),
+              color: color.withOpacity(0.4),
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
@@ -680,14 +818,10 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.event_seat_sharp,
-              color: Colors.white,
-              size: 22.sp,
-            ),
+            Icon(icon, color: Colors.white, size: 22.sp),
             SizedBox(width: 10.w),
             Text(
-              "احجز الآن - ${widget.trip.pricePerSeat} ل.س",
+              text,
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,

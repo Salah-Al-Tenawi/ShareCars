@@ -38,7 +38,27 @@ class _BookingUserINTripState extends State<BookingUserINTrip> {
         centerTitle: true,
       ),
       body: usersBooking.isEmpty
-          ? const Center(child: Text("لا يوجد حجوزات"))
+          ?  Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/images/noBooking.png',
+                                width: 250.w,
+                                height: 250.h,
+                                fit: BoxFit.contain,
+                              ),
+                              SizedBox(height: 16.h),
+                              const Text(
+                                'لا توجد حجوزات',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
           : ListView.builder(
               padding: const EdgeInsets.all(12),
               itemCount:usersBooking.length,

@@ -33,7 +33,6 @@ class HomeDrawer extends StatelessWidget {
     );
   }
 
-  /// 🔹 بروفايلي
   Widget _buildProfileTile() {
     return CustomListTile(
       title: "بروفايلي",
@@ -48,7 +47,6 @@ class HomeDrawer extends StatelessWidget {
     );
   }
 
-  /// 🔹 توثيق الهوية
   Widget _buildVerificationTile() {
     return CustomListTile(
       title: "توثيق الهوية",
@@ -148,7 +146,6 @@ class HomeDrawer extends StatelessWidget {
     );
   }
 
-  /// 🔹 تسجيل الخروج
   Widget _buildLogoutTile() {
     return CustomListTile(
       title: "تسجيل الخروج",
@@ -190,7 +187,6 @@ class HomeDrawer extends StatelessWidget {
     );
   }
 
-  /// 🔹 Divider مشترك
   Widget _buildDivider() {
     return Divider(
       color: MyColors.greyTextfildColor,

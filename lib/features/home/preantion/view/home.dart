@@ -40,7 +40,7 @@ class _HomeState extends State<Home> {
                 (error) => null,
                 (balanceModel) => balanceModel,
               );
-              return HomeAppBar(balance: balanceModel?.balance ?? "0");
+              return HomeAppBar(balance: balanceModel?.balance ?? "خطأ ما");
             }
           },
         ),
@@ -50,8 +50,8 @@ class _HomeState extends State<Home> {
         physics: const NeverScrollableScrollPhysics(),
         children: const [
           TripSelectSourceAndDistOnMap(),
-          TripSearch(), 
-          TripMeList(), 
+          TripSearch(),
+          TripMeList(),
         ],
       ),
       bottomNavigationBar: ModernBottomNavBar(pageController: _pageController),
