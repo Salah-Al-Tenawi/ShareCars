@@ -23,6 +23,7 @@ import 'package:sharecars/features/maps/presantion/view/route_map_view.dart';
 import 'package:sharecars/features/maps/presantion/view/search_ride_map.dart';
 import 'package:sharecars/features/onboarding/ui/manger/cubit/onboarding_cubit.dart';
 import 'package:sharecars/features/onboarding/ui/onboarding.dart';
+import 'package:sharecars/features/policy/policy.dart';
 import 'package:sharecars/features/profiles/data/date_source/profile_remote_date_source.dart';
 import 'package:sharecars/features/splash_view/presentaion/manger/cubit/splash_view_cubit.dart';
 import 'package:sharecars/features/test/my_test.dart';
@@ -284,4 +285,7 @@ List<GetPage<dynamic>> appRoute = [
       child: const Home(),
     ),
   ),
+
+  // policy
+  GetPage(name: RouteName.policy, page: () => const Policy())
 ];

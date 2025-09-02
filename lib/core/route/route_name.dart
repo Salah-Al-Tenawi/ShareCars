@@ -1,11 +1,8 @@
-
-
-class RouteName { 
-
-  //  onboarding 
+class RouteName {
+  //  onboarding
 
   static const onboarding = "/OnboardingScreen";
-    
+
   static const test = "/test";
   static const splashView = "/splashView";
   static const singin = "/singin";
@@ -42,10 +39,10 @@ class RouteName {
   static const tripDetails = "/tripDetails";
   // trip user booking user
 
-  static const bookingUserInTrip = "/BookingUserINTrip"; 
+  static const bookingUserInTrip = "/BookingUserINTrip";
 
-  // booking me 
-static const  bookingMeList = "/BookingMeList"; 
-
-
+  // booking me
+  static const bookingMeList = "/BookingMeList";
+  // pilicy
+  static const policy = "/policy";
 }

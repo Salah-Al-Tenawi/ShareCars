@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 
 import 'package:sharecars/core/constant/imagesUrl.dart';
+import 'package:sharecars/core/route/route_name.dart';
 import 'package:sharecars/core/them/my_colors.dart';
 import 'package:sharecars/core/utils/widgets/my_button.dart';
 import 'package:sharecars/features/trip_booking/data/model/booking_me_model.dart';
@@ -368,7 +370,8 @@ class _BookingItemState extends State<BookingItem> {
   }
 
   Widget _buildActionButtons(BuildContext context, String bookingState) {
-    Future<bool?> _showConfirmationDialog(String message) {
+    Future<bool?> _showConfirmationDialog(String message,
+        {bool showPolicyLink = true}) {
       return showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
@@ -378,7 +381,29 @@ class _BookingItemState extends State<BookingItem> {
             "تأكيد",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          content: Text(message),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(message),
+              if (showPolicyLink) ...[
+                const SizedBox(height: 16),
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed(RouteName.policy);
+                  },
+                  child: const Text(
+                    "تعرف على سياسية التطبيق",
+                    style: TextStyle(
+                      color: MyColors.accent,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
           actionsAlignment: MainAxisAlignment.center,
           actions: [
             SizedBox(
@@ -423,76 +448,114 @@ class _BookingItemState extends State<BookingItem> {
 
     return Row(
       children: [
-        bookingState == "pending"
-            ? const SizedBox()
-            : Expanded(
-                child: ElevatedButton.icon(
-                  onPressed: () async {
-                    final confirm = await _showConfirmationDialog(
-                        "هل أنت متأكد من إنهاء الرحلة؟ تأكيد الخيار هذا يدل على وصلك الى الموقع المحدد و نجاح الرحلة ");
-                    if (confirm ?? false) {
-                      context
-                          .read<BookingMeCubit>()
-                          .finishTrip(widget.booking.rideId);
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: MyColors.primary,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16)),
-                    elevation: 4,
-                  ).copyWith(
-                    backgroundColor:
-                        MaterialStateProperty.resolveWith<Color>((states) {
-                      if (states.contains(MaterialState.pressed)) {
-                        return MyColors.primary.withOpacity(0.8);
-                      }
-                      return MyColors.primary;
-                    }),
+        switch (bookingState) {
+          "pending" => const SizedBox(),
+          "canceled" => Expanded(
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("تم إلغاء الحجز مسبقاً")),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.redAccent,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                  icon: const Icon(Icons.check, size: 20),
-                  label: const Text(
-                    "إنهاء الرحلة",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+                  elevation: 4,
+                ),
+                icon: const Icon(Icons.block, size: 20),
+                label: const Text(
+                  "الحجز ملغي",
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: ElevatedButton.icon(
-            onPressed: () async {
-              final confirm = await _showConfirmationDialog(
-                  "هل أنت متأكد من إلغاء الحجز قد يتم خصم جزء من المبلغ او كامل المبلغ ؟");
-              if (confirm ?? false) {
-                context.read<BookingMeCubit>().cancelBooking(
-                    widget.booking.bookingId, widget.booking.seats);
-              }
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: MyColors.accent,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 14),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)),
-              elevation: 4,
-            ).copyWith(
-              backgroundColor:
-                  MaterialStateProperty.resolveWith<Color>((states) {
-                if (states.contains(MaterialState.pressed)) {
-                  return MyColors.accent.withOpacity(0.8);
-                }
-                return MyColors.accent;
-              }),
             ),
-            icon: const Icon(Icons.cancel, size: 20),
-            label: const Text(
-              "إلغاء الحجز",
-              style: TextStyle(fontWeight: FontWeight.bold),
+          _ => Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () async {
+                        final confirm = await _showConfirmationDialog(
+                          "هل أنت متأكد من إنهاء الرحلة؟ تأكيد الخيار هذا يدل على وصلك الى الموقع المحدد و نجاح الرحلة ",
+                        );
+                        if (confirm ?? false) {
+                          context
+                              .read<BookingMeCubit>()
+                              .finishTrip(widget.booking.rideId);
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: MyColors.primary,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        elevation: 4,
+                      ).copyWith(
+                        backgroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                          (states) => states.contains(MaterialState.pressed)
+                              ? MyColors.primary.withOpacity(0.8)
+                              : MyColors.primary,
+                        ),
+                      ),
+                      icon: const Icon(Icons.check, size: 20),
+                      label: const Text(
+                        "إنهاء الرحلة",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () async {
+                        final seatsToCancel = await _showCancelSeatsDialog();
+
+                        if (seatsToCancel != null) {
+                          final confirm = await _showConfirmationDialog(
+                            "هل أنت متأكد من إلغاء $seatsToCancel مقعد(مقاعد)؟ قد يتم خصم جزء من المبلغ أو كامل المبلغ.",
+                          );
+                          if (confirm ?? false) {
+                            context.read<BookingMeCubit>().cancelBooking(
+                                  widget.booking.bookingId,
+                                  seatsToCancel,
+                                );
+                          }
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: MyColors.accent,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        elevation: 4,
+                      ).copyWith(
+                        backgroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                          (states) => states.contains(MaterialState.pressed)
+                              ? MyColors.accent.withOpacity(0.8)
+                              : MyColors.accent,
+                        ),
+                      ),
+                      icon: const Icon(Icons.cancel, size: 20),
+                      label: const Text(
+                        "إلغاء الحجز",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ),
+        }
       ],
     );
   }
@@ -528,5 +591,168 @@ class _BookingItemState extends State<BookingItem> {
     if (minutes > 0) parts.add("$minutes دقيقة");
 
     return "باقٍ على الانطلاق: ${parts.join(" و ")}";
+  }
+
+  Future<int?> _showCancelSeatsDialog() async {
+    int selectedSeats = 1;
+    int maxSeats = widget.booking.seats;
+
+    return showDialog<int>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Directionality(
+              textDirection: TextDirection.rtl,
+              child: Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                elevation: 10,
+                backgroundColor: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "إلغاء المقاعد",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: MyColors.primary,
+                            ),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.close,
+                                color: MyColors.secondary),
+                            onPressed: () => Navigator.of(context).pop(),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        "حدد عدد المقاعد التي تريد إلغاء حجزها",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: MyColors.secondary,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade100,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // زر التقليل
+                            IconButton(
+                              icon: Icon(
+                                Icons.remove_circle_outline,
+                                color: selectedSeats <= 1
+                                    ? Colors.grey
+                                    : MyColors.accent,
+                              ),
+                              onPressed: selectedSeats <= 1
+                                  ? null
+                                  : () {
+                                      setState(() {
+                                        selectedSeats--;
+                                      });
+                                    },
+                            ),
+
+                            // عدد المقاعد المختارة
+                            Text(
+                              "$selectedSeats",
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: MyColors.primary,
+                              ),
+                            ),
+
+                            // زر الزيادة
+                            IconButton(
+                              icon: Icon(
+                                Icons.add_circle_outline,
+                                color: selectedSeats >= maxSeats
+                                    ? Colors.grey
+                                    : MyColors.accent,
+                              ),
+                              onPressed: selectedSeats >= maxSeats
+                                  ? null
+                                  : () {
+                                      setState(() {
+                                        selectedSeats++;
+                                      });
+                                    },
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        "الحد الأقصى للإلغاء: $maxSeats مقاعد",
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: MyColors.secondary,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: OutlinedButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: MyColors.primary,
+                                side: const BorderSide(color: MyColors.primary),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 12),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              child: const Text("تراجع"),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () =>
+                                  Navigator.of(context).pop(selectedSeats),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: MyColors.accent,
+                                foregroundColor: Colors.white,
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 12),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              child: const Text("تأكيد الإلغاء"),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 }

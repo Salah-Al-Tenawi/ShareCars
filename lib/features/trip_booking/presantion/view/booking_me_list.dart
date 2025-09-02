@@ -5,6 +5,7 @@ import 'package:get/get_core/get_core.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:sharecars/core/route/route_name.dart';
 import 'package:sharecars/core/them/my_colors.dart';
+import 'package:sharecars/core/utils/functions/show_my_snackbar.dart';
 import 'package:sharecars/core/utils/widgets/loading_widget_size_150.dart';
 import 'package:sharecars/features/trip_booking/presantion/manger/cubit/booking_me_cubit.dart';
 import 'package:sharecars/features/trip_booking/presantion/view/widget/booking_item.dart';
@@ -26,7 +27,9 @@ class _BookingMeListState extends State<BookingMeList> {
     return Scaffold(
       body: BlocConsumer<BookingMeCubit, BookingMeState>(
         listener: (context, state) {
-          if (state is BookingMeErorr) {}
+          if (state is BookingMeCanceled) {
+            showMySnackBar(context, "تم الغاء الحجز بنجاح");
+          }
         },
         builder: (context, state) {
           if (state is BookingMeloading) {

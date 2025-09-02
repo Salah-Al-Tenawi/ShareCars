@@ -7,9 +7,9 @@ sealed class BookingMeState extends Equatable {
   List<Object> get props => [];
 }
 
-final class BookingMeInitial extends BookingMeState {} 
-final class BookingMeloading extends BookingMeState {} 
+final class BookingMeInitial extends BookingMeState {}
 
+final class BookingMeloading extends BookingMeState {}
 
 final class BookingMeErorr extends BookingMeState {
   final String message;
@@ -27,8 +27,10 @@ final class BookingMeCanceled extends BookingMeState {
 
   const BookingMeCanceled({required this.message});
 }
+
 final class BookingMeFinish extends BookingMeState {
   final String message;
 
   const BookingMeFinish({required this.message});
 }
+
