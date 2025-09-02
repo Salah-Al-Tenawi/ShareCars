@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sharecars/core/them/my_colors.dart';
 import 'package:sharecars/core/utils/class/format_date_time.dart';
 import 'package:sharecars/core/utils/functions/get_userid.dart';
@@ -169,12 +170,133 @@ class ItemTrip extends StatelessWidget {
                       ),
                     )
                   : const SizedBox(),
+
+              ButtonFinishRide(context)
             ],
           ),
         ),
       ),
     );
   }
+
+  // ignore: non_constant_identifier_names
+  Align ButtonFinishRide(BuildContext context) {
+    return Align(
+      alignment: Alignment.bottomRight,
+      child: ElevatedButton(
+        onPressed: () {
+          showEndTripDialog(context);
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: MyColors.accent,
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 14.h),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.r),
+          ),
+          elevation: 6,
+          shadowColor: MyColors.accent.withOpacity(0.4),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(
+              Icons.flag,
+              color: Colors.white,
+              size: 20,
+            ),
+            SizedBox(width: 8.w),
+            Text(
+              "إنهاء الرحلة",
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+void showEndTripDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
+        backgroundColor: MyColors.primaryBackground,
+        title: Row(
+          children: [
+            const Icon(Icons.warning_amber_rounded,
+                color: MyColors.accent, size: 28),
+            SizedBox(width: 8.w),
+            Text(
+              "لقد تمت الرحلة بالفعل ",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18.sp,
+                color: MyColors.accent,
+              ),
+            ),
+          ],
+        ),
+        content: Text(
+          "عند التأكيد بإنهاء الرحلة من قبل السائق والمسافرين سيتم تحويل حساب الرحلة من المسافرين الى السائق ",
+          style: TextStyle(
+            fontSize: 15.sp,
+            color: Colors.black87,
+          ),
+        ),
+        actionsAlignment: MainAxisAlignment.spaceEvenly,
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // إلغاء
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.grey.shade300,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+            ),
+            child: Text(
+              "رجوع",
+              style: TextStyle(
+                color: Colors.black87,
+                fontSize: 14.sp,
+              ),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: MyColors.primary,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+              elevation: 4,
+            ),
+            child: Text(
+              "تأكيد",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+      );
+    },
+  );
 }
 
 class _LocationRowModern extends StatelessWidget {

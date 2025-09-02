@@ -10,14 +10,15 @@ class BookingMeCubit extends Cubit<BookingMeState> {
 
   BookingMeCubit(this._repo) : super(BookingMeInitial());
 
-  getMybooking() async {
+  Future getMyBooking() async {
     emit(BookingMeloading());
+
     final response = await _repo.getMeBooking();
-    response.fold((erorr) {
-      emit(BookingMeErorr(message: erorr.message));
-    }, (listBooking) {
-      emit(BookingMeListLoaded(Bookings: listBooking));
-    });
+
+    response.fold(
+      (error) => emit(BookingMeErorr(message: error.message)),
+      (listBooking) => emit(BookingMeListLoaded(bookings: listBooking)),
+    );
   }
 
   cancelBooking(int bookingId, int seats) async {
@@ -27,6 +28,16 @@ class BookingMeCubit extends Cubit<BookingMeState> {
       emit(BookingMeErorr(message: erorr.message));
     }, (sucess) {
       emit(const BookingMeCanceled(message: "تم الغاء الحجز بنجاح"));
+    });
+  }
+
+  finishTrip(int tripID) async {
+    emit(BookingMeloading());
+    final response = await _repo.finshTrip(tripID);
+    response.fold((erorr) {
+      emit(BookingMeErorr(message: erorr.message));
+    }, (sucess) {
+      emit(const BookingMeFinish(message: "تم التأكيد"));
     });
   }
 }

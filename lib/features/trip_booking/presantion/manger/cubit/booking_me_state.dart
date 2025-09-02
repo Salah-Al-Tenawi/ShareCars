@@ -18,13 +18,17 @@ final class BookingMeErorr extends BookingMeState {
 }
 
 final class BookingMeListLoaded extends BookingMeState {
-  final List<BookingMeModel> Bookings;
-
-  const BookingMeListLoaded({required this.Bookings});
+  final List<BookingMe> bookings;
+  const BookingMeListLoaded({required this.bookings});
 }
 
 final class BookingMeCanceled extends BookingMeState {
   final String message;
 
   const BookingMeCanceled({required this.message});
+}
+final class BookingMeFinish extends BookingMeState {
+  final String message;
+
+  const BookingMeFinish({required this.message});
 }

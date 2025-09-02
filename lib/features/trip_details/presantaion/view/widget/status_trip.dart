@@ -26,8 +26,10 @@ StatusInfo getStatusInfo(String? status) {
       return StatusInfo('ممتلئة', MyColors.secondary);
     case 'active':
       return StatusInfo('متاح', const Color(0xFF28A745));
+    case 'finished':
+      return StatusInfo('انتهت الرحلة', MyColors.primary);
+
     default:
       return StatusInfo('غير معروف', MyColors.primaryText);
   }
 }
-

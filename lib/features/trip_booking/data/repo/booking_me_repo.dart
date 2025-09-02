@@ -10,23 +10,32 @@ class BookingMeRepo {
   BookingMeRepo({required BookingRemoteDataSource remoteDataSource})
       : _remoteDataSource = remoteDataSource;
 
-  Future<Either<Filuar,List<BookingMeModel> >> getMeBooking() async {
+  Future<Either<Filuar, List<BookingMe>>> getMeBooking() async {
     try {
-      final response = await _remoteDataSource.getmeBooking();
-      return right(response);
+      final bookings = await _remoteDataSource.getMeBooking();
+      return Right(bookings);
     } on ServerExpcptions catch (e) {
       return left(e.error);
     }
-  } 
+  }
+
 // todo Modeling
-  Future<Either<Filuar, dynamic>> cancelBooking(int bookingId ,int seats) async {
+  Future<Either<Filuar, dynamic>> cancelBooking(
+      int bookingId, int seats) async {
     try {
       final response = await _remoteDataSource.cancelBooking(bookingId, seats);
       return right(response);
     } on ServerExpcptions catch (e) {
       return left(e.error);
     }
-  } 
+  }
 
-  
+  Future<Either<Filuar, dynamic>> finshTrip(int tripId) async {
+    try {
+      final response = await _remoteDataSource.finishRide(tripId);
+      return right(response);
+    } on ServerExpcptions catch (e) {
+      return left(e.error);
+    }
+  }
 }

@@ -253,7 +253,7 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
           _buildPickupCard(),
           SizedBox(height: 8.h),
           FaIcon(
-            FontAwesomeIcons.route, // أيقونة المسار
+            FontAwesomeIcons.route, 
             size: 25.w,
             color: MyColors.accent,
           ),

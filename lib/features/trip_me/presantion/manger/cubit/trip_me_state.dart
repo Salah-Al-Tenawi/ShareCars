@@ -33,3 +33,7 @@ final class TripMeCancel extends TripMeState {
   final String message;
   const TripMeCancel( {required this.message});
 }
+
+final class TripMeFinishTrip extends TripMeState{ 
+  
+}

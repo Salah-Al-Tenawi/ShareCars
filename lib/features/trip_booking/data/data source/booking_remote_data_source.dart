@@ -7,16 +7,15 @@ class BookingRemoteDataSource {
   final ApiConSumer _api;
 
   BookingRemoteDataSource({required ApiConSumer api}) : _api = api;
-Future<List<BookingMeModel>> getmeBooking() async {
-  final response = await _api.get(
-    ApiEndPoint.baserUrl,
-    header: {ApiKey.authorization: "Bearer ${mytoken()}"},
-  );
+  Future<List<BookingMe>> getMeBooking() async {
+    final response = await _api.get(
+      ApiEndPoint.bookingme,
+      header: {ApiKey.authorization: "Bearer ${mytoken()}"},
+    );
 
-  final List<dynamic> data = response as List<dynamic>;
-
-  return data.map((json) => BookingMeModel.fromJson(json)).toList();
-}
+    final bookingModel = BookingMeModel.fromJson(response);
+    return bookingModel.data; 
+  }
 
 // todo Modleing
   Future<dynamic> cancelBooking(int bookingId, int seats) async {
@@ -32,6 +31,16 @@ Future<List<BookingMeModel>> getmeBooking() async {
       },
     );
 
+    return response;
+  }
+
+  Future<dynamic> finishRide(int tripId) async {
+    final response = await _api.post(
+      "${ApiEndPoint.rides}/$tripId/passenger-confirm",
+      header: {
+        ApiKey.authorization: "Bearer ${mytoken()}",
+      },
+    );
     return response;
   }
 }

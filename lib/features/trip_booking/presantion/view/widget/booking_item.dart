@@ -1,10 +1,532 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class BookingItem extends StatelessWidget {
-  const BookingItem({super.key});
+import 'package:sharecars/core/constant/imagesUrl.dart';
+import 'package:sharecars/core/them/my_colors.dart';
+import 'package:sharecars/core/utils/widgets/my_button.dart';
+import 'package:sharecars/features/trip_booking/data/model/booking_me_model.dart';
+import 'package:sharecars/features/trip_booking/presantion/manger/cubit/booking_me_cubit.dart';
+import 'package:sharecars/features/trip_details/presantaion/view/widget/status_trip.dart';
+
+class BookingItem extends StatefulWidget {
+  final BookingMe booking;
+  final VoidCallback onTapDetails;
+
+  const BookingItem({
+    super.key,
+    required this.booking,
+    required this.onTapDetails,
+  });
+
+  @override
+  State<BookingItem> createState() => _BookingItemState();
+}
+
+class _BookingItemState extends State<BookingItem> {
+  late final StatusInfo statusInfoRide;
+  late final StatusInfo statusInfobooking;
+
+  @override
+  void initState() {
+    statusInfoRide = getStatusInfo(widget.booking.rideStatus);
+    statusInfobooking = getStatusInfo(widget.booking.status);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Card(
+      elevation: 2,
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: widget.onTapDetails,
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header with driver info and status
+              _buildHeader(context),
+              SizedBox(height: 16.h),
+
+              // Trip details section
+              _buildTripDetails(),
+              SizedBox(height: 16.h),
+
+              // Divider
+              const Divider(height: 1, color: Color(0xFFE5E7EB)),
+              SizedBox(height: 16.h),
+              // Pricing and seats info
+              _buildPricingInfo(),
+              SizedBox(height: 16.h),
+              _buildAdditionalInfo(),
+
+              SizedBox(height: 16.h),
+              widget.booking.rideStatus == "finished"
+                  ? MyButton(
+                      onPressed: () {}, child: const Text("انتهت الرحلة "))
+                  : BlocBuilder<BookingMeCubit, BookingMeState>(
+                      builder: (context, state) {
+                        if (state is BookingMeloading) {
+                          return const CircularProgressIndicator();
+                        } else if (state is BookingMeFinish) {
+                          MyButton(
+                              onPressed: () {},
+                              child: const Text("انتهت الرحلة "));
+                        } else if (state is BookingMeCanceled) {
+                          MyButton(
+                              onPressed: () {},
+                              child: const Text("الحجز ملغي"));
+                        } else {
+                          return _buildActionButtons(
+                              context, widget.booking.status);
+                        }
+
+                        return const SizedBox();
+                      },
+                    )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        InkWell(
+          onTap: () {
+            // Get.toNamed(RouteName.profile ,arguments:  widget.booking.driverId)
+          },
+          borderRadius: BorderRadius.circular(30),
+          child: Stack(
+            alignment: Alignment.bottomRight,
+            children: [
+              // Driver avatar
+              Container(
+                width: 50.w,
+                height: 50.w,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: MyColors.primary.withOpacity(0.2),
+                    width: 2,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: ClipOval(
+                  child: (widget.booking.driverAvatar.isEmpty)
+                      ? Image.asset(
+                          ImagesUrl.profileImage,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.network(
+                          widget.booking.driverAvatar,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              ImagesUrl.profileImage,
+                              fit: BoxFit.cover,
+                            );
+                          },
+                        ),
+                ),
+              ),
+
+              // Online status indicator
+              Container(
+                width: 12.w,
+                height: 12.w,
+                decoration: BoxDecoration(
+                  color: statusInfobooking.color,
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 2,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(width: 12.w),
+        Expanded(
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              widget.booking.driverName,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: MyColors.primaryText,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.right,
+            ),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: statusInfobooking.color.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: statusInfobooking.color,
+              width: 1,
+            ),
+          ),
+          child: Text(
+            statusInfobooking.text,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: statusInfobooking.color,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTripDetails() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 12),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Icon(Icons.my_location, size: 18, color: MyColors.accent),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                "من: ${widget.booking.pickupAddress}",
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: MyColors.primaryText,
+                ),
+              ),
+            ),
+          ],
+        ),
+        Padding(
+          padding: EdgeInsetsGeometry.symmetric(vertical: 10.h),
+          child: Center(
+            child: FaIcon(
+              FontAwesomeIcons.route,
+              size: 25.w,
+              color: MyColors.secondary,
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Icon(Icons.location_on, size: 18, color: MyColors.accent),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                "إلى: ${widget.booking.destinationAddress}",
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: MyColors.primaryText,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            const Icon(Icons.calendar_today,
+                size: 16, color: MyColors.secondary),
+            const SizedBox(width: 8),
+            Text(
+              _formatDate(widget.booking.bookingDate),
+              style: const TextStyle(
+                fontSize: 13,
+                color: MyColors.secondary,
+              ),
+            ),
+            const SizedBox(width: 16),
+            const Icon(Icons.access_time, size: 16, color: MyColors.secondary),
+            const SizedBox(width: 8),
+            Text(
+              _formatTime(widget.booking.departureTime),
+              style: const TextStyle(
+                fontSize: 13,
+                color: MyColors.secondary,
+              ),
+            ),
+            SizedBox(
+              width: 30.w,
+            ),
+            Text(
+              timeUntil(widget.booking.bookingDate),
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 13,
+                  color: MyColors.accent),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPricingInfo() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        _buildInfoItem(
+            "عدد المقاعد", "${widget.booking.seats}", Icons.event_seat),
+        _buildInfoItem("سعر المقعد", "${widget.booking.pricePerSeat} ل.س",
+            Icons.attach_money),
+        _buildInfoItem(
+            "السعر الكلي", "${widget.booking.totalPrice} ل.س", Icons.payment),
+      ],
+    );
+  }
+
+  Widget _buildInfoItem(String title, String value, IconData icon) {
+    return Column(
+      children: [
+        Icon(icon, size: 18, color: MyColors.accent),
+        const SizedBox(height: 4),
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 12,
+            color: MyColors.secondary,
+          ),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: MyColors.primaryText,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAdditionalInfo() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        _buildAdditionalInfoItem(
+            "المركبة", widget.booking.vehicleType, Icons.directions_car),
+        _buildAdditionalInfoItem(
+            "طريقة الدفع", widget.booking.paymentMethod, Icons.credit_card),
+        _buildAdditionalInfoItem(
+            "حالة الرحلة", statusInfobooking.text, Icons.trip_origin),
+      ],
+    );
+  }
+
+  Widget _buildAdditionalInfoItem(String title, String value, IconData icon) {
+    return Column(
+      children: [
+        Icon(icon, size: 16, color: MyColors.secondary),
+        const SizedBox(height: 4),
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 11,
+            color: MyColors.secondary,
+          ),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color: MyColors.primaryText,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildActionButtons(BuildContext context, String bookingState) {
+    Future<bool?> _showConfirmationDialog(String message) {
+      return showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: const Text(
+            "تأكيد",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          content: Text(message),
+          actionsAlignment: MainAxisAlignment.center,
+          actions: [
+            SizedBox(
+              width: 100,
+              height: 40,
+              child: ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: MyColors.secondary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: const Text(
+                  "لا",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            SizedBox(
+              width: 100,
+              height: 40,
+              child: ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: MyColors.accent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: const Text(
+                  "نعم",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return Row(
+      children: [
+        bookingState == "pending"
+            ? const SizedBox()
+            : Expanded(
+                child: ElevatedButton.icon(
+                  onPressed: () async {
+                    final confirm = await _showConfirmationDialog(
+                        "هل أنت متأكد من إنهاء الرحلة؟ تأكيد الخيار هذا يدل على وصلك الى الموقع المحدد و نجاح الرحلة ");
+                    if (confirm ?? false) {
+                      context
+                          .read<BookingMeCubit>()
+                          .finishTrip(widget.booking.rideId);
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: MyColors.primary,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16)),
+                    elevation: 4,
+                  ).copyWith(
+                    backgroundColor:
+                        MaterialStateProperty.resolveWith<Color>((states) {
+                      if (states.contains(MaterialState.pressed)) {
+                        return MyColors.primary.withOpacity(0.8);
+                      }
+                      return MyColors.primary;
+                    }),
+                  ),
+                  icon: const Icon(Icons.check, size: 20),
+                  label: const Text(
+                    "إنهاء الرحلة",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: ElevatedButton.icon(
+            onPressed: () async {
+              final confirm = await _showConfirmationDialog(
+                  "هل أنت متأكد من إلغاء الحجز قد يتم خصم جزء من المبلغ او كامل المبلغ ؟");
+              if (confirm ?? false) {
+                context.read<BookingMeCubit>().cancelBooking(
+                    widget.booking.bookingId, widget.booking.seats);
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: MyColors.accent,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16)),
+              elevation: 4,
+            ).copyWith(
+              backgroundColor:
+                  MaterialStateProperty.resolveWith<Color>((states) {
+                if (states.contains(MaterialState.pressed)) {
+                  return MyColors.accent.withOpacity(0.8);
+                }
+                return MyColors.accent;
+              }),
+            ),
+            icon: const Icon(Icons.cancel, size: 20),
+            label: const Text(
+              "إلغاء الحجز",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  String _formatDate(DateTime date) {
+    return "${date.day}/${date.month}/${date.year}";
+  }
+
+  String _formatTime(DateTime time) {
+    int hour = time.hour;
+    String period = hour >= 12 ? 'م' : 'ص'; // ص = AM ، م = PM
+    hour = hour % 12;
+    if (hour == 0) hour = 12; // للتعامل مع منتصف الليل والظهيرة
+    String minute = time.minute.toString().padLeft(2, '0');
+    return "$hour:$minute $period";
+  }
+
+  String timeUntil(DateTime tripTime) {
+    final now = DateTime.now();
+    if (tripTime.isBefore(now)) {
+      return "انطلقت الرحلة"; // إذا كان الوقت قد مر
+    }
+
+    final difference = tripTime.difference(now);
+
+    final days = difference.inDays;
+    final hours = difference.inHours % 24;
+    final minutes = difference.inMinutes % 60;
+
+    List<String> parts = [];
+    if (days > 0) parts.add("$days يوم${days > 1 ? "ين" : ""}");
+    if (hours > 0) parts.add("$hours ساعة${hours > 1 ? "ساعات" : ""}");
+    if (minutes > 0) parts.add("$minutes دقيقة");
+
+    return "باقٍ على الانطلاق: ${parts.join(" و ")}";
   }
 }

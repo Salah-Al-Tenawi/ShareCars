@@ -272,11 +272,16 @@ List<GetPage<dynamic>> appRoute = [
         ),
         BlocProvider(
           create: (_) => TripMeCubit(TripMeRepoIm(
-              tripMeRemoteDataSource: TripMeRemoteDataSource(
-                  api: getit.get<DioConSumer>()))), // Cubit جديد لكل صفحة
+              tripMeRemoteDataSource:
+                  TripMeRemoteDataSource(api: getit.get<DioConSumer>()))),
+        ),
+        BlocProvider(
+          create: (_) => BookingMeCubit(BookingMeRepo(
+              remoteDataSource:
+                  BookingRemoteDataSource(api: getit.get<DioConSumer>()))),
         ),
       ],
-      child: const Home(), // Home الآن لا يحتاج لأي BlocProvider داخلي
+      child: const Home(),
     ),
   ),
 ];

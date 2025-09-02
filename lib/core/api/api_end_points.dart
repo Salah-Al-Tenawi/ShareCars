@@ -24,7 +24,12 @@ class ApiEndPoint {
   
 
   // epy
-  static const getbalance = "$baserUrl/wallet/balance";
+  static const getbalance = "$baserUrl/wallet/balance"; 
+
+
+static const bookingme = "$baserUrl/my-bookings"; 
+
+  
 }
 
 class ApiKey {

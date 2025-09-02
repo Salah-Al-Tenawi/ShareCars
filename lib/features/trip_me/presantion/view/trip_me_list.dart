@@ -32,7 +32,6 @@ class TripMeList extends StatelessWidget {
           } else if (state is TripMeListLoaded) {
             final List<TripModel> trips = state.trips;
 
-            // دالة التحديث
             Future<void> refreshData() async {
               await context.read<TripMeCubit>().getMeTrips();
             }
@@ -153,7 +152,8 @@ class TripMeList extends StatelessWidget {
                                   .cancelTrip(trip.id);
                             }
                           },
-                        );
+                        ); 
+                      
                       },
                     ),
             );

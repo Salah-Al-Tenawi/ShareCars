@@ -70,7 +70,7 @@ TextButton(
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return HomeAppBar(balance: "Loading...");
               } else if (snapshot.hasError) {
-                return HomeAppBar(balance: "");
+                return HomeAppBar(balance: "erorr");
               } else {
                 final balanceModel = snapshot.data?.fold(
                   (error) => null,
@@ -87,7 +87,7 @@ TextButton(
           children: const [
             TripSelectSourceAndDistOnMap(),
             TripSearch(),
-            TripMeList(),
+          TripMeList(),
             BookingMeList()
           ],
         ),

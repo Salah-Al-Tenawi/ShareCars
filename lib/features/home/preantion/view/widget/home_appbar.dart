@@ -10,6 +10,11 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeAppBar({super.key, required this.balance});
 
   Widget buildBalanceBadge(String balance) {
+    
+    if (balance == "erorr") {
+      return const SizedBox(child: Text("قم بإنشاء محفظة"),); 
+    }
+
     return Container(
       margin: EdgeInsets.only(right: 12.w, top: 8.h, bottom: 8.h),
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
