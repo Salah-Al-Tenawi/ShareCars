@@ -38,9 +38,9 @@ class _SinginState extends State<Singin> {
                     color: MyColors.primary,
                   ),
                   Positioned(
-                    top: 40.h, // لضبط مكان الشعار فوق المنحنى
+                    top: 40.h, 
                     child: Image.asset(
-                      "assets/images/logo.jpg", // ضع مسار الصورة عندك
+                      "assets/images/iconpng.png", 
                       height: 100.h,
                       width: 100.w,
                       fit: BoxFit.contain,

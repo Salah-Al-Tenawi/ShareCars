@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/state_manager.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
+import 'package:sharecars/core/route/route_name.dart';
 import 'package:sharecars/core/them/my_colors.dart';
 import 'package:sharecars/core/utils/widgets/custom_text_form.dart';
 
@@ -54,13 +57,13 @@ class _VerifyOtpEPayScreenState extends State<VerifyOtpEPay> {
               ),
             );
           } else if (state is VeriyotpEpySuccCreate) {
+            Get.offAllNamed(RouteName.home);
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('تم إنشاء المحفظة الإلكترونية بنجاح'),
                 backgroundColor: Colors.green,
               ),
             );
-            Navigator.pop(context, true);
           }
         },
         builder: (context, state) {
