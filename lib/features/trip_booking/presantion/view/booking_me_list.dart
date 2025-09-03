@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/get_core.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:sharecars/core/errors/handel_erorr_message.dart';
 import 'package:sharecars/core/route/route_name.dart';
 import 'package:sharecars/core/them/my_colors.dart';
 import 'package:sharecars/core/utils/functions/show_my_snackbar.dart';
@@ -30,7 +31,8 @@ class _BookingMeListState extends State<BookingMeList> {
           if (state is BookingMeCanceled) {
             showMySnackBar(context, "تم الغاء الحجز بنجاح");
           } else if (state is BookingMeErorr) {
-            showMySnackBar(context, "لا يمكنك انهاء الحجز");
+            final message = HandelErorrMessage.bookingMe(state.message);
+            showMySnackBar(context, message);
           }
         },
         builder: (context, state) {
@@ -46,7 +48,6 @@ class _BookingMeListState extends State<BookingMeList> {
                         width: double.infinity,
                         height: MediaQuery.of(context).size.height,
                         child: Column(
-                          // mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SizedBox(
                               height: 80.h,

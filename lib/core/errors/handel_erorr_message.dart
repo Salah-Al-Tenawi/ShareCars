@@ -78,13 +78,31 @@ class HandelErorrMessage {
   }
 
   static String createWithRoute(String message) {
-    return "";
+    switch (message) {
+      case "Missing required verification documents.":
+        return "يجب علك توثيق حسابك لضمان الأمان";
+
+      case "You must be verified as a driver to create rides.":
+        return "يجب علك توثيق حسابك لضمان الأمان";
+
+      default:
+        return "حدث خطأ غير متوقع";
+    }
   }
 
   static String finishRide(String message) {
     switch (message) {
       case "No confirmed bookings found for this ride":
         return "لا يوجد حجوزات في هذه الرحلة يمكنك الغائها بدلا من ذلك";
+      default:
+        return "حدث خطأ غير متوقع";
+    }
+  }
+
+  static String bookingMe(String message) {
+    switch (message) {
+      case "You must be verified as a passenger to view bookings":
+        return "لم يتم توثيق الحساب ";
       default:
         return "حدث خطأ غير متوقع";
     }

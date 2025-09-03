@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:sharecars/core/constant/imagesUrl.dart';
 import 'package:sharecars/core/route/route_name.dart';
 import 'package:sharecars/core/them/my_colors.dart';
+import 'package:sharecars/core/utils/functions/show_my_snackbar.dart';
 import 'package:sharecars/core/utils/widgets/loading_widget_size_150.dart';
 import 'package:sharecars/core/utils/widgets/my_button.dart';
 import 'package:sharecars/features/trip_booking/data/model/booking_me_model.dart';
@@ -983,11 +984,6 @@ class _BookingItemState extends State<BookingItem> {
   }
 
   void _showThankYouMessage(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('شكراً لك على تقييمك!'),
-        duration: Duration(seconds: 2),
-      ),
-    );
+    showMySnackBar(context, "شكرا لك على تقييمك ");
   }
 }

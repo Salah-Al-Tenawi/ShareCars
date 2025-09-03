@@ -12,9 +12,9 @@ final class PushRideInitial extends PushRideState {}
 final class PushRideLoading extends PushRideState {}
 
 final class PushRideErorr extends PushRideState {
-  final String erorr;
+  final String message;
 
-  const PushRideErorr({required this.erorr});
+  const PushRideErorr({required this.message});
 }
 
 class PushRideValidatePhoneState extends PushRideState {

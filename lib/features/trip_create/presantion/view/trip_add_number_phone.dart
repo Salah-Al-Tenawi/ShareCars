@@ -3,10 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:sharecars/core/errors/handel_erorr_message.dart';
 import 'package:sharecars/core/route/route_name.dart';
 import 'package:sharecars/core/them/my_colors.dart';
 import 'package:sharecars/core/them/text_style_app.dart';
 import 'package:sharecars/core/utils/functions/input_valid.dart';
+import 'package:sharecars/core/utils/functions/my_dilaog.dart';
+import 'package:sharecars/core/utils/functions/show_my_snackbar.dart';
 import 'package:sharecars/features/trip_create/data/model/trip_from.dart';
 import 'package:sharecars/features/trip_create/presantion/manger/cubit/push_ride_cubit.dart';
 
@@ -52,30 +55,16 @@ class _TripAddNumberPhoneState extends State<TripAddNumberPhone> {
           if (state is PushRideSuccsess) {
             Get.offAllNamed(RouteName.tripDidYouBack, arguments: tripFrom);
           } else if (state is PushRideErorr) {
-            if (state.erorr.contains(
+            String message = HandelErorrMessage.createWithRoute(state.message);
+
+            if (state.message.contains(
                     "You must be verified as a driver to create rides") ||
-                state.erorr
+                state.message
                     .contains("Missing required verification documents")) {
-              Get.toNamed(RouteName.verfiyUser, arguments: "driver");
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    'يجب عليك توثيق هويتك أولا ',
-                    style: TextStyle(color: MyColors.primaryBackground),
-                  ),
-                  backgroundColor: MyColors.accent,
-                ),
-              );
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    'حدث خطأ أثناء إنشاء الرحلة',
-                    style: TextStyle(color: MyColors.primaryBackground),
-                  ),
-                  backgroundColor: MyColors.accent,
-                ),
-              );
+              myConfirmDilaogWithPolicy(context, message,
+                  title: "فشل انشاء رحلة",
+                  onConfirm: gotoVerfiyUser,
+                  onCancel: gotoHome);
             }
           }
         },
@@ -187,5 +176,13 @@ class _TripAddNumberPhoneState extends State<TripAddNumberPhone> {
         ),
       ),
     );
+  }
+
+  void gotoVerfiyUser() {
+    Get.toNamed(RouteName.verfiyUser, arguments: "driver");
+  }
+
+  void gotoHome() {
+    Get.offAllNamed(RouteName.home);
   }
 }

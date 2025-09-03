@@ -41,7 +41,7 @@ class PushRideCubit extends Cubit<PushRideState> {
         numberPhone);
 
     response.fold((error) {
-      emit(PushRideErorr(erorr: error.message));
+      emit(PushRideErorr(message: error.message));
     }, (tripModle) {
       emit(PushRideSuccsess(tripModel: tripModle));
     });
