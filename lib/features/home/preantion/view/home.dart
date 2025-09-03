@@ -13,6 +13,9 @@ import 'package:sharecars/features/trip_create/presantion/view/trip_select_sourc
 import 'package:sharecars/features/trip_me/presantion/view/trip_me_list.dart';
 import 'package:sharecars/features/trip_search/presantion/view/trip_search.dart';
 
+
+
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -25,6 +28,17 @@ class _HomeState extends State<Home> {
   final EPayRepoIm _epy =
       EPayRepoIm(remoteDataSource: EPayRemoteDataSource(api: DioConSumer()));
   String balance = "";
+  
+  // مفتاح لتحديث FutureBuilder
+  final GlobalKey _refreshKey = GlobalKey();
+
+  // دالة لتحديث الرصيد
+  Future<void> _refreshBalance() async {
+    setState(() {
+      // إعادة بناء الـ FutureBuilder عن طريق تغيير المفتاح
+      _refreshKey.currentState?.setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,21 +49,34 @@ class _HomeState extends State<Home> {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(60),
           child: FutureBuilder(
+            key: _refreshKey, // إضافة المفتاح للتحديث
             future: _epy.getBalance(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return HomeAppBar(balance: "Loading...");
+                return HomeAppBar(
+                  balance: "Loading...",
+                  onRefresh: _refreshBalance, // تمرير دالة التحديث
+                );
               } else if (snapshot.hasData) {
                 return snapshot.data!.fold(
                   (error) {
-                    return HomeAppBar(balance: error.message);
+                    return HomeAppBar(
+                      balance: error.message,
+                      onRefresh: _refreshBalance, // تمرير دالة التحديث
+                    );
                   },
                   (balanceModel) {
-                    return HomeAppBar(balance: balanceModel.balance);
+                    return HomeAppBar(
+                      balance: balanceModel.balance,
+                      onRefresh: _refreshBalance, // تمرير دالة التحديث
+                    );
                   },
                 );
               } else {
-                return HomeAppBar(balance: "خطأ");
+                return HomeAppBar(
+                  balance: "خطأ",
+                  onRefresh: _refreshBalance, // تمرير دالة التحديث
+                );
               }
             },
           ),
@@ -69,8 +96,7 @@ class _HomeState extends State<Home> {
       ),
     );
   }
-
-  @override
+@override
   void dispose() {
     _pageController.dispose();
     super.dispose();
