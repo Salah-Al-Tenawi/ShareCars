@@ -1,6 +1,8 @@
 import 'package:sharecars/core/api/api_consumer.dart';
 import 'package:sharecars/core/api/api_end_points.dart';
 import 'package:sharecars/core/utils/functions/get_token.dart';
+import 'package:sharecars/features/profiles/data/model/comment_model.dart';
+import 'package:sharecars/features/profiles/data/model/rating_modle.dart';
 import 'package:sharecars/features/trip_booking/data/model/booking_me_model.dart';
 
 class BookingRemoteDataSource {
@@ -42,5 +44,23 @@ class BookingRemoteDataSource {
       },
     );
     return response;
+  } 
+
+
+
+  Future<CommentModel> addcommit(String commit, int userId) async {
+    final response = await _api.post("${ApiEndPoint.profile}/$userId/comments",
+        header: {ApiKey.authorization: "Bearer ${mytoken()}"},
+        data: {ApiKey.comment: commit});
+
+    return CommentModel.fromJson(response);
+  } 
+  
+  Future<RatingModle> rateUser(double rating, int userId) async {
+    final response = await _api.post("${ApiEndPoint.profile}/$userId/rate",
+        header: {ApiKey.authorization: "Bearer ${mytoken()}"},
+        data: {ApiKey.rating: rating});
+
+    return RatingModle.fromJson(response);
   }
 }

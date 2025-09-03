@@ -19,9 +19,8 @@ class ProfileRating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // يمكنك مثلاً لاحقًا إخفاء التقييمات في وضع التعديل إن أردت:
     if (mode == ProfileMode.myEdit) {
-      return const SizedBox(); // أو return edit widget لاحقًا
+      return const SizedBox(); 
     }
 
     return Column(

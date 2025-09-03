@@ -1,3 +1,5 @@
+import 'package:sharecars/features/e_pay/presantion/view/verfiy_otp_epy.dart';
+
 class RouteName {
   //  onboarding
 
@@ -44,5 +46,7 @@ class RouteName {
   // booking me
   static const bookingMeList = "/BookingMeList";
   // pilicy
-  static const policy = "/policy";
+  static const policy = "/policy"; 
+  // verfiy otp epy 
+  static const verfiyOtpEpy = "/VerfiyotpEpy";
 }

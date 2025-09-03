@@ -12,6 +12,10 @@ import 'package:sharecars/features/booking_user_in_trip/data/data_source/booking
 import 'package:sharecars/features/booking_user_in_trip/data/repo/booking_users_in_trip_repo_imp.dart';
 import 'package:sharecars/features/booking_user_in_trip/presantion/manger/cubit/booking_user_in_trip_cubit.dart';
 import 'package:sharecars/features/booking_user_in_trip/presantion/view/booking_user_in_trip.dart';
+import 'package:sharecars/features/e_pay/data/data_source/e_pay_remote_data_source.dart';
+import 'package:sharecars/features/e_pay/data/repo/e_pay_repo_im.dart';
+import 'package:sharecars/features/e_pay/presantion/manger/cubit/veriyotp_epy_cubit.dart';
+import 'package:sharecars/features/e_pay/presantion/view/verfiy_otp_epy.dart';
 import 'package:sharecars/features/home/preantion/manger/cubit/home_nav_cubit_cubit.dart';
 import 'package:sharecars/features/maps/data/data_source/maps_data_source.dart';
 import 'package:sharecars/features/maps/data/repo/map_repo.dart';
@@ -287,5 +291,14 @@ List<GetPage<dynamic>> appRoute = [
   ),
 
   // policy
-  GetPage(name: RouteName.policy, page: () => const Policy())
+  GetPage(name: RouteName.policy, page: () => const Policy()),
+
+  GetPage(
+      name: RouteName.verfiyOtpEpy,
+      page: () => BlocProvider(
+            create: (context) => VeriyotpEpyCubit(EPayRepoIm(
+                remoteDataSource:
+                    EPayRemoteDataSource(api: getit.get<DioConSumer>()))),
+            child: const VerifyOtpEPay(),
+          )),
 ];

@@ -20,16 +20,16 @@ class ApiEndPoint {
 //  trips endpoint
   static const rides = "$baserUrl/rides";
   static const createRide = "$rides/create-with-route";
-  static const search = "$rides/search"; 
-  
+  static const search = "$rides/search";
 
   // epy
-  static const getbalance = "$baserUrl/wallet/balance"; 
+  static const getbalance = "$baserUrl/wallet/balance";
+  static const initialwallet = "$baserUrl/wallet/initiate";
+static const createwallet = "$baserUrl/wallet/verify-and-create";
 
 
-static const bookingme = "$baserUrl/my-bookings"; 
 
-  
+  static const bookingme = "$baserUrl/my-bookings";
 }
 
 class ApiKey {

@@ -11,7 +11,7 @@ class BookingMeCubit extends Cubit<BookingMeState> {
   BookingMeCubit(this._repo) : super(BookingMeInitial());
 
   Future getMyBooking() async {
-    emit(BookingMeloading());
+    emit(BookingMeListloading());
 
     final response = await _repo.getMeBooking();
 
@@ -41,5 +41,23 @@ class BookingMeCubit extends Cubit<BookingMeState> {
     });
   }
 
-  // دو
+  reateUser(double rating, int userId) async {
+    emit(BookingMeloading());
+    final response = await _repo.rateUser(rating, userId);
+
+    response.fold((erorr) {
+      emit(const BookingMeErorr(message: "فشل التقيم"));
+    }, (rate) {
+      emit(BookingMeRated(rate: rate.averageRating));
+    });
+  }
+
+  addComment(String comment, int userid) async {
+    final response = await _repo.addcommit(comment, userid);
+    response.fold((erorr) {
+      emit(const BookingMeErorr(message: "فشل في اضافة تعليق"));
+    }, (succ) {
+      emit(BookingMeCommented());
+    });
+  }
 }

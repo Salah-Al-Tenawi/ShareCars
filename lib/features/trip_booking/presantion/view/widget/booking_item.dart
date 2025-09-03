@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -67,12 +68,31 @@ class _BookingItemState extends State<BookingItem> {
                   if (state is BookingMeloading) {
                     return const LoadingWidgetSize150();
                   } else if (state is BookingMeFinish) {
-                    MyButton(
-                        onPressed: () {}, child: const Text("انتهت الرحلة "));
+                    return MyButton(
+                      onPressed: () {},
+                      child: const Text("انتهت الرحلة "),
+                    );
                   } else if (state is BookingMeCanceled) {
-                    MyButton(
-                        onPressed: () {}, child: const Text("تم الغاء الحجز"));
+                    return MyButton(
+                      onPressed: () {},
+                      child: const Text("تم الغاء الحجز"),
+                    );
+                  } else if (state is BookingMeRated) {
+                    return RatingBarIndicator(
+                      rating: state.rate,
+                      itemBuilder: (context, index) => const Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
+                      itemCount: 5,
+                      itemSize: 20.0,
+                      direction: Axis.horizontal,
+                    );
+                  } else if (state is BookingMeFinish) {
+                    return _buildFeedBackButton(
+                        context, widget.booking.userDriver);
                   }
+
                   return _buildActionButtons(context, widget.booking.status);
                 },
               )
@@ -378,7 +398,7 @@ class _BookingItemState extends State<BookingItem> {
                 ),
                 icon: const Icon(Icons.cancel, size: 20),
                 label: const Text(
-                  "تم رفض طلبك",
+                  "تم الالغاء",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
@@ -816,6 +836,157 @@ class _BookingItemState extends State<BookingItem> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildFeedBackButton(BuildContext context, int userId) {
+    const starCount = 5;
+    final stars = List.generate(
+      starCount,
+      (index) => const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 2),
+        child: Icon(
+          Icons.star_rate_rounded,
+          size: 20,
+          color: Colors.white,
+        ),
+      ),
+    );
+
+    final buttonStyle = ElevatedButton.styleFrom(
+      backgroundColor: Colors.transparent,
+      foregroundColor: Colors.white,
+      padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 24),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
+      elevation: 0,
+      shadowColor: Colors.transparent,
+    ).copyWith(
+      overlayColor: MaterialStateProperty.all(Colors.amber.withOpacity(0.3)),
+    );
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 60.w),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          gradient: const LinearGradient(
+            colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.amber.withOpacity(0.5),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: ElevatedButton(
+          onPressed: () => _showRatingDialog(context, userId),
+          style: buttonStyle, // استخدام النمط الذي أنشأناه
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: stars,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showRatingDialog(BuildContext context, int userId) {
+    double userRating = 0;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text(
+                'قيم السائق',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    'كيف تقيم تجربتك مع السائق',
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 16.h),
+                  RatingBar.builder(
+                    initialRating: 0,
+                    minRating: 1,
+                    direction: Axis.horizontal,
+                    allowHalfRating: true,
+                    itemCount: 5,
+                    itemSize: 28.0, // تم تصغير حجم النجوم
+                    itemPadding: const EdgeInsets.symmetric(
+                        horizontal: 2.0), // تم تقليل المسافة
+                    itemBuilder: (context, _) => const Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                    onRatingUpdate: (rating) {
+                      setState(() {
+                        userRating = rating;
+                      });
+                    },
+                  ),
+                  SizedBox(height: 16.h),
+                  if (userRating > 0)
+                    Text(
+                      'تقييمك: ${userRating.toStringAsFixed(1)}',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14, // حجم نص أصغر
+                      ),
+                    ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('إلغاء'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (userRating > 0) {
+                      _saveRating(userRating, userId);
+                      Navigator.of(context).pop();
+                      _showThankYouMessage(context);
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.amber,
+                    foregroundColor: Colors.white,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  ),
+                  child: const Text('إرسال التقييم'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void _saveRating(double rating, int userId) async {
+    await context.read<BookingMeCubit>().reateUser(rating, userId);
+  }
+
+  void _showThankYouMessage(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('شكراً لك على تقييمك!'),
+        duration: Duration(seconds: 2),
       ),
     );
   }

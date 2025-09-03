@@ -27,6 +27,8 @@ class HomeDrawer extends StatelessWidget {
           _buildDivider(),
           _buildVerificationTile(),
           _buildDivider(),
+          _buildPolicyTile(),
+          _buildDivider(),
           _buildLogoutTile(),
         ],
       ),
@@ -41,6 +43,20 @@ class HomeDrawer extends StatelessWidget {
       onTap: () => Get.toNamed(RouteName.profile, arguments: myid()),
       trailing: const Icon(
         Icons.person_pin_sharp,
+        color: MyColors.accent,
+        size: 30,
+      ),
+    );
+  }
+
+  Widget _buildPolicyTile() {
+    return CustomListTile(
+      title: "سياسة التطبيق",
+      padding: EdgeInsets.symmetric(horizontal: 15.w),
+      titleTextStyle: font15ggreyw600,
+      onTap: () => Get.toNamed(RouteName.policy),
+      trailing: const Icon(
+        Icons.policy,
         color: MyColors.accent,
         size: 30,
       ),

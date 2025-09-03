@@ -34,7 +34,7 @@ class _BookingMeListState extends State<BookingMeList> {
           }
         },
         builder: (context, state) {
-          if (state is BookingMeloading) {
+          if (state is BookingMeListloading) {
             return const Center(child: LoadingWidgetSize150());
           } else if (state is BookingMeListLoaded) {
             return RefreshIndicator(

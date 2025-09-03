@@ -9,6 +9,8 @@ sealed class BookingMeState extends Equatable {
 
 final class BookingMeInitial extends BookingMeState {}
 
+final class BookingMeListloading extends BookingMeState {}
+
 final class BookingMeloading extends BookingMeState {}
 
 final class BookingMeErorr extends BookingMeState {
@@ -34,3 +36,10 @@ final class BookingMeFinish extends BookingMeState {
   const BookingMeFinish({required this.message});
 }
 
+final class BookingMeRated extends BookingMeState {
+  final double rate;
+
+  const BookingMeRated({required this.rate});
+}
+
+final class BookingMeCommented extends BookingMeState {}

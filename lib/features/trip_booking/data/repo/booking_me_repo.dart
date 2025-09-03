@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:sharecars/core/errors/excptions.dart';
 import 'package:sharecars/core/errors/filuar.dart';
+import 'package:sharecars/features/profiles/data/model/rating_modle.dart';
+import 'package:sharecars/features/profiles/domain/entity/comment_entity.dart';
 import 'package:sharecars/features/trip_booking/data/data%20source/booking_remote_data_source.dart';
 import 'package:sharecars/features/trip_booking/data/model/booking_me_model.dart';
 
@@ -33,6 +35,26 @@ class BookingMeRepo {
   Future<Either<Filuar, dynamic>> finshTrip(int tripId) async {
     try {
       final response = await _remoteDataSource.finishRide(tripId);
+      return right(response);
+    } on ServerExpcptions catch (e) {
+      return left(e.error);
+    }
+  } 
+  Future<Either<Filuar, CommentEntity>> addcommit(
+      String commit, int userid) async {
+    try {
+      final response =
+          await _remoteDataSource.addcommit(commit, userid);
+      return right(response);
+    } on ServerExpcptions catch (e) {
+      return left(e.error);
+    }
+  }
+
+  Future<Either<Filuar, RatingModle>> rateUser(
+      double rating, int userId) async {
+    try {
+      final response = await _remoteDataSource.rateUser(rating, userId);
       return right(response);
     } on ServerExpcptions catch (e) {
       return left(e.error);

@@ -39,7 +39,7 @@ Future<void> showNoTripsDialog(BuildContext context) async {
           const SizedBox(height: 16),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: MyColors.secondary,
+              backgroundColor: MyColors.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),

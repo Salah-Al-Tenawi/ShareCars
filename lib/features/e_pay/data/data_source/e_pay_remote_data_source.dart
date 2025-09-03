@@ -10,7 +10,7 @@ class EPayRemoteDataSource {
   EPayRemoteDataSource({required this.api});
 
   Future<dynamic> initWallet(String numberPhone, String password) async {
-    final response = await api.post(ApiEndPoint.baserUrl, header: {
+    final response = await api.post(ApiEndPoint.initialwallet, header: {
       ApiKey.authorization: "Bearer ${mytoken()}"
     }, data: {
       ApiKey.phoneNumber: numberPhone,
@@ -22,12 +22,9 @@ class EPayRemoteDataSource {
 //todo model
   Future<dynamic> createWallet(String numberPhone, String otpCode) async {
     final response = await api.post(
-      ApiEndPoint.baserUrl,
+      ApiEndPoint.createwallet,
       header: {ApiKey.authorization: "Bearer ${mytoken()}"},
-      data: {
-        ApiKey.phoneNumber: numberPhone,
-        ApiKey.otpCode: Orientation.portrait
-      },
+      data: {ApiKey.phoneNumber: numberPhone, ApiKey.otpCode: otpCode},
     );
     return response;
   }
