@@ -12,14 +12,40 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeAppBar({super.key, required this.balance});
 
   Widget buildBalanceBadge(String balance) {
-    if (balance == "erorr" || balance == "خطأ ما") {
+    if (balance == "Wallet not found for this user") {
       return InkWell(
           onTap: () {
             Get.toNamed(RouteName.verfiyOtpEpy);
           },
-          child: const SizedBox(
-            child: Text("قم بإنشاء محفظة"),
-          ));
+          child: Container(
+              margin: EdgeInsets.only(right: 12.w, top: 8.h, bottom: 8.h),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+              decoration: BoxDecoration(
+                color: MyColors.primaryBackground,
+                borderRadius: BorderRadius.circular(20.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 6,
+                    offset: const Offset(2, 3),
+                  ),
+                ],
+              ),
+              child: const Row(
+                children: [
+                  Icon(
+                    Icons.add,
+                    color: MyColors.accent,
+                  ),
+                  Text(
+                    "اضف محفظة",
+                    style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: MyColors.accent),
+                  )
+                ],
+              )));
     }
 
     return Container(

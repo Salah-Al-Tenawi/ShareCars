@@ -26,36 +26,6 @@ class _HomeState extends State<Home> {
       EPayRepoIm(remoteDataSource: EPayRemoteDataSource(api: DioConSumer()));
   String balance = "";
 
-  Future<bool> _onWillPop() async {
-    final shouldExit = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text("تأكيد"),
-        content: const Text("هل تريد الخروج من التطبيق؟"),
-        actions: [
-          TextButton(
-  onPressed: () => Get.back(result: false),
-  style: TextButton.styleFrom(
-    foregroundColor: MyColors.accent, 
-    backgroundColor: Colors.grey[200], 
-  ),
-  child: const Text("لا"),
-),
-TextButton(
-  onPressed: () => Get.back(result: true),
-  style: TextButton.styleFrom(
-    foregroundColor: MyColors.primary,
-    backgroundColor: Colors.grey[200],
-  ),
-  child: const Text("نعم"),
-),
-
-        ],
-      ),
-    );
-    return shouldExit ?? false;
-  }
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -69,14 +39,17 @@ TextButton(
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return HomeAppBar(balance: "Loading...");
-              } else if (snapshot.hasError) {
-                return HomeAppBar(balance: "erorr");
-              } else {
-                final balanceModel = snapshot.data?.fold(
-                  (error) => null,
-                  (balanceModel) => balanceModel,
+              } else if (snapshot.hasData) {
+                return snapshot.data!.fold(
+                  (error) {
+                    return HomeAppBar(balance: error.message);
+                  },
+                  (balanceModel) {
+                    return HomeAppBar(balance: balanceModel.balance);
+                  },
                 );
-                return HomeAppBar(balance: balanceModel?.balance ?? "خطأ ما");
+              } else {
+                return HomeAppBar(balance: "خطأ");
               }
             },
           ),
@@ -91,7 +64,8 @@ TextButton(
             BookingMeList()
           ],
         ),
-        bottomNavigationBar: ModernBottomNavBar(pageController: _pageController),
+        bottomNavigationBar:
+            ModernBottomNavBar(pageController: _pageController),
       ),
     );
   }
@@ -100,5 +74,34 @@ TextButton(
   void dispose() {
     _pageController.dispose();
     super.dispose();
+  }
+
+  Future<bool> _onWillPop() async {
+    final shouldExit = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("تأكيد"),
+        content: const Text("هل تريد الخروج من التطبيق؟"),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(result: false),
+            style: TextButton.styleFrom(
+              foregroundColor: MyColors.accent,
+              backgroundColor: Colors.grey[200],
+            ),
+            child: const Text("لا"),
+          ),
+          TextButton(
+            onPressed: () => Get.back(result: true),
+            style: TextButton.styleFrom(
+              foregroundColor: MyColors.primary,
+              backgroundColor: Colors.grey[200],
+            ),
+            child: const Text("نعم"),
+          ),
+        ],
+      ),
+    );
+    return shouldExit ?? false;
   }
 }
