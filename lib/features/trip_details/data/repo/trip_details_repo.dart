@@ -31,4 +31,29 @@ class TripDetailsRepoIM extends TripDetailsRepo {
       return left(e.error);
     }
   }
+  
+  @override
+  Future<Either<Filuar, dynamic>> confirmTrip(int tripId) async{
+     try {
+      final response = await remoteDataSource.confirmTrip(tripId);
+      return right(response);
+    } on ServerExpcptions catch (e) {
+      return left(e.error);
+    }
+    
+  }
+  
+  
+  @override
+  Future<Either<Filuar, dynamic>> finishTrip(int tripId) async{ 
+    try {
+      final response = await remoteDataSource.finishTrip(tripId);
+      return right(response);
+    } on ServerExpcptions catch (e) {
+      return left(e.error);
+    }
+    
+    
+  } 
+
 }

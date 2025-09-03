@@ -14,6 +14,9 @@ StatusInfo getStatusInfo(String? status) {
   switch (normalized) {
     case 'pending':
       return StatusInfo('قيد الانتظار', MyColors.accent);
+    case 'awaiting_confirmation':
+      return StatusInfo('بانظار تأكيد الوصول', MyColors.accent);
+
     case 'confirmed':
       return StatusInfo('مؤكد', MyColors.primary);
     case 'cancelled':

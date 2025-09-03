@@ -4,4 +4,7 @@ import 'package:sharecars/features/trip_create/data/model/trip_model.dart';
 
 abstract class TripDetailsRepo {
   Future<Either<Filuar, TripModel>> featchTrip(int tripId);
+  Future<Either<Filuar, dynamic>> finishTrip(int tripId); 
+  Future<Either<Filuar, dynamic>> confirmTrip(int tripId); 
+  
 }

@@ -9,6 +9,7 @@ import 'package:sharecars/core/route/route_name.dart';
 import 'package:sharecars/core/them/my_colors.dart';
 import 'package:sharecars/core/them/text_style_app.dart';
 import 'package:sharecars/core/utils/functions/get_userid.dart';
+import 'package:sharecars/core/utils/widgets/my_button.dart';
 import 'package:sharecars/features/trip_create/data/model/booking_model.dart';
 import 'package:sharecars/features/trip_create/data/model/trip_model.dart';
 import 'package:sharecars/features/trip_details/data/model/trip_details_mode.dart';
@@ -30,34 +31,79 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
       width: double.infinity,
-      child: Column(
-        children: [
-          _buildStatusChip(),
-          SizedBox(
-            height: 10.h,
-          ),
-          _buildDriverInfo(),
-          // SizedBox(height: 5.h),
-          _buildContactAndCreatedAtRow(),
-          _buildTripRoute(),
-          SizedBox(height: 17.h),
-          _buildDistanceDurationRow(),
+      child: Column(children: [
+        _buildStatusChip(),
 
-          _buildDepartureBadge(),
-          _buildSeatsInfo(),
+        SizedBox(
+          height: 10.h,
+        ),
+        _buildDriverInfo(),
+        // SizedBox(height: 5.h),
+        _buildContactAndCreatedAtRow(),
+        _buildTripRoute(),
+        SizedBox(height: 17.h),
+        _buildDistanceDurationRow(),
 
-          SizedBox(height: 17.h),
-          _buildPaymentMethodWidget(),
+        _buildDepartureBadge(),
+        _buildSeatsInfo(),
 
-          SizedBox(height: 5.h),
-          _buildBookingTypeWidget(),
-          SizedBox(height: 20.h),
-          widget.mode == TripDetailsMode.otherView
-              ? _buildConditionalBookingButton(context)
-              : showBookingButton()
-        ],
-      ),
+        SizedBox(height: 17.h),
+        _buildPaymentMethodWidget(),
+
+        SizedBox(height: 5.h),
+        _buildBookingTypeWidget(),
+        SizedBox(height: 20.h),
+        widget.mode == TripDetailsMode.otherView
+            ? _buildConditionalBookingButton(context)
+            : showBookingButton(),
+        widget.mode == TripDetailsMode.myView
+            ? _buildFinishRideButton()
+            : const SizedBox()
+      ]),
     );
+  }
+
+  Widget _buildFinishRideButton() {
+    return switch (widget.trip.status) {
+      'active' => Container(
+          width: double.infinity,
+          margin: EdgeInsets.symmetric(vertical: 10.h),
+          child: ElevatedButton(
+            onPressed: () {
+              context.read<TripDetailsCubit>().finishRide(widget.trip.id);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: MyColors.accent,
+              foregroundColor: Colors.white,
+              padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 24.w),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              elevation: 4,
+              shadowColor: MyColors.accent.withOpacity(0.3),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.flag_rounded,
+                  size: 24.w,
+                  color: Colors.white,
+                ),
+                SizedBox(width: 12.w),
+                Text(
+                  "إنهاء الرحلة",
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      _ => const SizedBox(),
+    };
   }
 
   ElevatedButton showBookingButton() {
@@ -253,7 +299,7 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
           _buildPickupCard(),
           SizedBox(height: 8.h),
           FaIcon(
-            FontAwesomeIcons.route, 
+            FontAwesomeIcons.route,
             size: 25.w,
             color: MyColors.accent,
           ),
@@ -788,7 +834,6 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
           return _buildBookingButton(context);
       }
     } else {
-      // إذا لم يقم المستخدم بالحجز
       return _buildBookingButton(context);
     }
   }

@@ -39,5 +39,8 @@ class TripMeRepoIm extends TripMeRepo {
     } on ServerExpcptions catch (e) {
       return left(e.error);
     }
+    
   }
+  
+
 }

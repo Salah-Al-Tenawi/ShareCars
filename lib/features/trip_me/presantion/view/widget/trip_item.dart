@@ -117,7 +117,7 @@ class ItemTrip extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 12),
-              // Action button
+              
               trip.driver.id == myid()
                   ? Align(
                       alignment: Alignment.centerLeft,

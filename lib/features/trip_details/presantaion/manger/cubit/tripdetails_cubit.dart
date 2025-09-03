@@ -1,13 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sharecars/core/utils/functions/get_userid.dart';
-import 'package:sharecars/features/trip_booking/data/model/booking_me_model.dart';
-import 'package:sharecars/features/trip_booking/data/repo/booking_me_repo.dart';
 import 'package:sharecars/features/trip_create/data/model/trip_model.dart';
 import 'package:sharecars/features/trip_details/data/model/booking_model.dart';
 import 'package:sharecars/features/trip_details/data/model/trip_details_mode.dart';
 import 'package:sharecars/features/trip_details/data/repo/trip_details_repo.dart';
-import 'package:sharecars/features/trip_me/data/repo/trip_me_repo_im.dart';
 
 part 'tripdetails_state.dart';
 
@@ -27,15 +24,6 @@ class TripDetailsCubit extends Cubit<TripDetailsState> {
     });
   }
 
-  // cancelTripMe(int tripId) async {
-  //   emit(TripInfoLoading());
-  //   final response = await tripMeRepoIm.cancelTrip(tripId);
-  //   response.fold((erorr) {
-  //     emit(TripInfoError(message: erorr.message));
-  //   }, (message) {
-  //     emit(TripInfoCancel(message: message));
-  //   });
-  // }
 
   fetchTrip(int tripId) async {
     emit(TripDetailsLoading());
@@ -57,5 +45,20 @@ class TripDetailsCubit extends Cubit<TripDetailsState> {
 
   gotoChatWithDriver(int userId) {
     emit(TripDetailsGoToChat(driverId: userId));
+  } 
+
+  finishRide(int tripId) async {
+    emit(TripDetailsLoading());
+    final response = await tripDetailsRepoIM.finishTrip(tripId);
+    response.fold((erorr) {
+      emit(TripDetailsError(message: erorr.message));
+    }, (response) async {
+      final response = await tripDetailsRepoIM.confirmTrip(tripId);
+      response.fold((erorr) {
+        emit(TripDetailsError(message: erorr.message));
+      }, (succ) {
+        emit(TripDetailsFinishTrip());
+      });
+    });
   }
 }

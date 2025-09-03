@@ -63,6 +63,7 @@ final class TripDetailsGoToChat extends TripDetailsState {
 }
 
 class TripDetailsButtonLoading extends TripDetailsState {}
+class TripDetailsFinishTrip extends TripDetailsState {}
 
 class TripDetailsBookingSuccess extends TripDetailsState {
   final String message;

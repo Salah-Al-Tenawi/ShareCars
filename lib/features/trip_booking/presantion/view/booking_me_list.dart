@@ -29,6 +29,8 @@ class _BookingMeListState extends State<BookingMeList> {
         listener: (context, state) {
           if (state is BookingMeCanceled) {
             showMySnackBar(context, "تم الغاء الحجز بنجاح");
+          } else if (state is BookingMeErorr) {
+            showMySnackBar(context, "لا يمكنك انهاء الحجز");
           }
         },
         builder: (context, state) {
@@ -105,6 +107,9 @@ class _BookingMeListState extends State<BookingMeList> {
                             size: 50,
                           ),
                         ),
+                        SizedBox(
+                          height: 70.h,
+                        )
                       ],
                     ),
                   ),

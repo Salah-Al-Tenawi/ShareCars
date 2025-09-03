@@ -28,4 +28,20 @@ class TripDetailsRemoteDataSource {
         });
     return BookingResponse.fromJson(response);
   }
+  // todo model
+  Future<dynamic> finishTrip(int tripId) async {
+    final response = await api.post("${ApiEndPoint.rides}/$tripId/finish" , 
+    header: {ApiKey.authorization: "Bearer ${mytoken()}"} ) ;
+    return response;
+    
+  }
+
+  // todo model
+  Future<dynamic> confirmTrip(int tripId) async {
+    final response = await api.post("${ApiEndPoint.rides}/$tripId/driver-confirm" , 
+    header: {ApiKey.authorization: "Bearer ${mytoken()}"} ) ;
+    return response;
+    
+  }
+
 }
