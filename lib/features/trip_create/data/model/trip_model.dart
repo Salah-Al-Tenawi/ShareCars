@@ -1,4 +1,3 @@
-
 import 'package:sharecars/features/trip_create/data/model/booking_model.dart';
 import 'package:sharecars/features/trip_create/data/model/distan_model.dart';
 import 'package:sharecars/features/trip_create/data/model/driver_model.dart';
@@ -23,9 +22,8 @@ class TripModel {
   final String? notes;
   final DateTime createdAt;
   final int chosenRouteIndex;
-  final String communicationNumber; 
-  final List<BookingModel> booking ;
-  
+  final String communicationNumber;
+  final List<BookingModel> booking;
 
   TripModel({
     required this.id,
@@ -45,54 +43,59 @@ class TripModel {
     required this.notes,
     required this.createdAt,
     required this.chosenRouteIndex,
-    required this.communicationNumber,  
-    required this.booking ,
+    required this.communicationNumber,
+    required this.booking,
   });
 
   /// لتحويل JSON كائن رحلة واحدة
   factory TripModel.fromMap(Map<String, dynamic> json) {
-  // إذا الرد ملفوف بـ { data: {...} } خذ الداخل، وإلا استخدم json نفسه
-  final data = (json['data'] is Map) ? Map<String, dynamic>.from(json['data']) : json;
+    // إذا الرد ملفوف بـ { data: {...} } خذ الداخل، وإلا استخدم json نفسه
+    final data =
+        (json['data'] is Map) ? Map<String, dynamic>.from(json['data']) : json;
 
-  return TripModel(
-    id: data['id'],
-    driver: DriverModel.fromJson(data['driver']),
-    pickup: LocationModel.fromJson(data['pickup']),
-    destination: LocationModel.fromJson(data['destination']),
-    departure: DateTime.parse(data['departure']),
-    seatsAvailable: data['seats_available'],
-    seatsBooked: data['seats_booked'],
-    pricePerSeat: data['price_per_seat'],
-    status: data['status'],
-    distance: DistanceModel.fromJson(data['distance']),
-    duration: DurationInfoModel.fromJson(data['duration']),
-    vehicleType: data['vehicle_type'],
-    paymentMethod: data['payment_method'],
-    bookingType: data['booking_type'],
-    notes: data['notes'],
-    createdAt: DateTime.parse(data['created_at']),
-    chosenRouteIndex: data['chosen_route_index'],
-    communicationNumber: data['communication_number'],
-    booking: (data['bookings'] as List?)
-            ?.map((e) => BookingModel.fromJson(e as Map<String, dynamic>))
-            .toList() 
-            ?? [],
-  );
-}
+    return TripModel(
+      id: data['id'],
+      driver: DriverModel.fromJson(data['driver']),
+      pickup: LocationModel.fromJson(data['pickup']),
+      destination: LocationModel.fromJson(data['destination']),
+      departure: DateTime.parse(data['departure']).toLocal(),
+      seatsAvailable: data['seats_available'],
+      seatsBooked: data['seats_booked'],
+      pricePerSeat: data['price_per_seat'],
+      status: data['status'],
+      distance: DistanceModel.fromJson(data['distance']),
+      duration: DurationInfoModel.fromJson(data['duration']),
+      vehicleType: data['vehicle_type'],
+      paymentMethod: data['payment_method'],
+      bookingType: data['booking_type'],
+      notes: data['notes'],
+      createdAt: DateTime.parse(data['created_at']),
+      chosenRouteIndex: data['chosen_route_index'],
+      communicationNumber: data['communication_number'],
+      booking: (data['bookings'] as List?)
+              ?.map((e) => BookingModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+  }
 
   static List<TripModel> fromJson(dynamic json) {
-  if (json is Map<String, dynamic>) {
-    final body = json['data'] ?? json; // يدعم وجود/عدم وجود data
-    if (body is List) {
-      return body.map((e) => TripModel.fromMap(e as Map<String, dynamic>)).toList();
-    } else if (body is Map<String, dynamic>) {
-      return [TripModel.fromMap(body)];
+    if (json is Map<String, dynamic>) {
+      final body = json['data'] ?? json; // يدعم وجود/عدم وجود data
+      if (body is List) {
+        return body
+            .map((e) => TripModel.fromMap(e as Map<String, dynamic>))
+            .toList();
+      } else if (body is Map<String, dynamic>) {
+        return [TripModel.fromMap(body)];
+      }
+    } else if (json is List) {
+      return json
+          .map((e) => TripModel.fromMap(e as Map<String, dynamic>))
+          .toList();
     }
-  } else if (json is List) {
-    return json.map((e) => TripModel.fromMap(e as Map<String, dynamic>)).toList();
+    throw Exception("صيغة JSON غير مدعومة");
   }
-  throw Exception("صيغة JSON غير مدعومة");
-}
 
   Map<String, dynamic> toJson() {
     return {

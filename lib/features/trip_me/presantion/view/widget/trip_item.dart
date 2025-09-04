@@ -22,7 +22,11 @@ class ItemTrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final departure = trip.departure;
+    final now = DateTime.now();
+    final difference = departure.difference(now);
     final statusInfo = getStatusInfo(trip.status);
+
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -36,7 +40,6 @@ class ItemTrip extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header: Driver + Status
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -68,13 +71,13 @@ class ItemTrip extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: statusInfo.color.withOpacity(0.15), // لون الخلفية
+                      color: statusInfo.color.withOpacity(0.15),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
-                      statusInfo.text, // النص المناسب
+                      statusInfo.text,
                       style: TextStyle(
-                        color: statusInfo.color, // لون النص
+                        color: statusInfo.color,
                         fontWeight: FontWeight.w500,
                         fontSize: 13,
                       ),
@@ -83,7 +86,6 @@ class ItemTrip extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 12),
-              // Route info
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -99,7 +101,6 @@ class ItemTrip extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 12),
-              // Trip info: date, time, seats
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -119,65 +120,108 @@ class ItemTrip extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 12),
-
               trip.driver.id == myid()
                   ? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ButtonFinishRide(context, trip.id),
-
+                        if (trip.status == "finished")
+                          ElevatedButton(
+                            onPressed: null,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              disabledBackgroundColor: Colors.blueGrey,
+                            ),
+                            child: const Text(
+                              "الرحلة انتهت",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          )
+                        else if (trip.status == "awaiting_confirmation")
+                          ElevatedButton(
+                            onPressed: () {
+                              // Get.toNamed(RouteName.bookingUserInTrip,
+                              //     arguments: trip.booking);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.amber,
+                              disabledBackgroundColor: Colors.amber,
+                            ),
+                            child: const Text(
+                              "بانتظار تأكيد الركاب",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12.11,
+                              ),
+                            ),
+                          )
+                        else if (trip.status == "cancelled")
+                          ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red.shade300, // أحمر فاتح
+                            ),
+                            child: const Text(
+                              "ملغية",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                              ),
+                            ),
+                          )
+                        else
+                          difference.inSeconds <= 0
+                              ? ButtonFinishRide(context, trip.id)
+                              : buildRemainingTime(difference),
                         SizedBox(width: 70.w),
-
-                        PopupMenuButton<String>(
-                          onSelected: (value) {
-                            if (value == 'details' && onTap != null) onTap!();
-                            if (value == 'cancel' && onCancel != null)
-                              onCancel!();
-                          },
-                          itemBuilder: (_) => [
-                            const PopupMenuItem(
-                              value: 'details',
-                              child: _PopupMenuRowModern(
-                                icon: Icons.info_outline,
-                                color: MyColors.primary,
-                                text: 'تفاصيل الرحلة',
-                              ),
-                            ),
-                            const PopupMenuItem(
-                              value: 'cancel',
-                              child: _PopupMenuRowModern(
-                                icon: Icons.cancel_outlined,
-                                color: Colors.red,
-                                text: 'إلغاء الرحلة',
-                              ),
-                            ),
-                          ],
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 14, vertical: 8),
-                            decoration: BoxDecoration(
-                              color: MyColors.accent.withOpacity(0.4),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  'خيارات',
-                                  style: TextStyle(
-                                    color: MyColors.secondary,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                        if (trip.status == "active")
+                          PopupMenuButton<String>(
+                            onSelected: (value) {
+                              if (value == 'details' && onTap != null) onTap!();
+                              if (value == 'cancel' && onCancel != null)
+                                onCancel!();
+                            },
+                            itemBuilder: (_) => [
+                              const PopupMenuItem(
+                                value: 'details',
+                                child: _PopupMenuRowModern(
+                                  icon: Icons.info_outline,
+                                  color: MyColors.primary,
+                                  text: 'تفاصيل الرحلة',
                                 ),
-                                SizedBox(width: 4),
-                                Icon(Icons.arrow_drop_down,
-                                    color: MyColors.secondary),
-                              ],
+                              ),
+                              const PopupMenuItem(
+                                value: 'cancel',
+                                child: _PopupMenuRowModern(
+                                  icon: Icons.cancel_outlined,
+                                  color: Colors.red,
+                                  text: 'إلغاء الرحلة',
+                                ),
+                              ),
+                            ],
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 14, vertical: 8),
+                              decoration: BoxDecoration(
+                                color: MyColors.accent.withOpacity(0.4),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: const Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    'خيارات',
+                                    style: TextStyle(
+                                      color: MyColors.secondary,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  SizedBox(width: 4),
+                                  Icon(Icons.arrow_drop_down,
+                                      color: MyColors.secondary),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        // مسافة بين العناصر
-
-                        // زر إنهاء الرحلة
                       ],
                     )
                   : const SizedBox(),
@@ -383,4 +427,49 @@ class _PopupMenuRowModern extends StatelessWidget {
       ],
     );
   }
+}
+
+String formatRemainingTime(Duration duration) {
+  if (duration.inDays > 0) {
+    return 'متبقي ${duration.inDays} يوم و ${duration.inHours % 24} ساعة';
+  } else if (duration.inHours > 0) {
+    return 'متبقي ${duration.inHours} ساعة و ${duration.inMinutes % 60} دقيقة';
+  } else if (duration.inMinutes > 0) {
+    return 'متبقي ${duration.inMinutes} دقيقة';
+  } else {
+    return 'انتهى الوقت';
+  }
+}
+
+Widget buildRemainingTime(Duration duration) {
+  return Container(
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+    decoration: BoxDecoration(
+      color: Colors.amber.shade100,
+      borderRadius: BorderRadius.circular(12),
+      border: Border.all(color: Colors.amber, width: 1.5),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.1),
+          blurRadius: 6,
+          offset: const Offset(2, 2),
+        ),
+      ],
+    ),
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Icon(Icons.access_time, color: Colors.black54, size: 18),
+        const SizedBox(width: 6),
+        Text(
+          formatRemainingTime(duration),
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
+          ),
+        ),
+      ],
+    ),
+  );
 }

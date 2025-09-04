@@ -87,13 +87,14 @@ class HandelErorrMessage {
       return "يجب عليك توثيق حسابك لضمان الأمان";
     } else if (lowerCaseMessage.contains("insufficient wallet balance")) {
       return "لا يوجد رصيد كافي في المحفظة";
+    } else if (lowerCaseMessage.contains("departure_time")) {
+      return "لا يمكنك انشاء رحلة بتوقيت قريب اقل من 5 دقائق";
     } else {
       return "حدث خطأ غير متوقع";
     }
   }
 
-  static String finishRide(String message) { 
-    
+  static String finishRide(String message) {
     switch (message) {
       case "No confirmed bookings found for this ride":
         return "لا يوجد حجوزات في هذه الرحلة يمكنك الغائها بدلا من ذلك";
@@ -106,6 +107,13 @@ class HandelErorrMessage {
     switch (message) {
       case "You must be verified as a passenger to view bookings":
         return "لم يتم توثيق الحساب ";
+
+
+      case " Ride is not in confirmation state":
+
+        return "لم يتم توثيق انهاء الرحلة من قبل السائق بعد  ";
+
+
       default:
         return "حدث خطأ غير متوقع";
     }

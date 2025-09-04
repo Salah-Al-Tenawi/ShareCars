@@ -9,7 +9,6 @@ import 'package:sharecars/core/route/route_name.dart';
 import 'package:sharecars/core/them/my_colors.dart';
 import 'package:sharecars/core/them/text_style_app.dart';
 import 'package:sharecars/core/utils/functions/get_userid.dart';
-import 'package:sharecars/core/utils/widgets/my_button.dart';
 import 'package:sharecars/features/trip_create/data/model/booking_model.dart';
 import 'package:sharecars/features/trip_create/data/model/trip_model.dart';
 import 'package:sharecars/features/trip_details/data/model/trip_details_mode.dart';
@@ -64,13 +63,23 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
   }
 
   Widget _buildFinishRideButton() {
+    final departure = widget.trip.departure;
+    final now = DateTime.now();
+    final difference = departure.difference(now);
+
     return switch (widget.trip.status) {
       'active' => Container(
           width: double.infinity,
           margin: EdgeInsets.symmetric(vertical: 10.h),
           child: ElevatedButton(
             onPressed: () {
-              context.read<TripDetailsCubit>().finishRide(widget.trip.id);
+              if (widget.trip.booking.isEmpty) {
+                context.read<TripDetailsCubit>().finishRide(widget.trip.id);
+              } else if (difference.inSeconds <= 0) {
+                context
+                    .read<TripDetailsCubit>()
+                    .finishAndConfirmRide(widget.trip.id);
+              } else {}
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: MyColors.accent,
@@ -91,13 +100,21 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
                   color: Colors.white,
                 ),
                 SizedBox(width: 12.w),
-                Text(
-                  "إنهاء الرحلة",
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                difference.inSeconds <= 0
+                    ? Text(
+                        "إنهاء الرحلة",
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    : Text(
+                        "لم يحن وقت الرحلة",
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
               ],
             ),
           ),
@@ -795,9 +812,7 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
     );
   }
 
-// دالة لإظهار تفاصيل الحجز
   Widget _buildConditionalBookingButton(BuildContext context) {
-    // البحث عن حجز المستخدم الحالي، إذا وجد
     BookingModel? booking;
     for (var b in widget.trip.booking) {
       if (b.userId == myid()) {
@@ -807,7 +822,6 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
     }
 
     if (booking != null) {
-      // التحقق من حالة الحجز
       switch (booking.status) {
         case "confirmed":
           return _buildBookingStatusButton(
@@ -830,6 +844,28 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
             text: "تم رفض الحجز",
             icon: Icons.cancel,
           );
+        case "cancelled":
+          return _buildBookingStatusButton(
+            context,
+            color: Colors.red,
+            text: "الحجز ملغي",
+            icon: Icons.cancel,
+          );
+        case "completed":
+          return _buildBookingStatusButton(
+            context,
+            color: Colors.green,
+            text: "مؤكد",
+            icon: Icons.confirmation_num,
+          );
+        case "finished":
+          return _buildBookingStatusButton(
+            context,
+            color: Colors.grey,
+            text: "انتهت الرحلة",
+            icon: Icons.cancel,
+          );
+
         default:
           return _buildBookingButton(context);
       }
@@ -899,8 +935,8 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
   }
 
   void _showBookingDialog(BuildContext context) {
-    final _seatsController = TextEditingController();
-    final _contactController = TextEditingController();
+    final seatsController = TextEditingController();
+    final contactController = TextEditingController();
     final int maxSeats = widget.trip.seatsAvailable;
 
     showDialog(
@@ -930,7 +966,7 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
             ),
             SizedBox(height: 10.h),
             TextField(
-              controller: _seatsController,
+              controller: seatsController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 hintText: "أدخل عدد الكراسي",
@@ -946,7 +982,7 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
             ),
             SizedBox(height: 10.h),
             TextField(
-              controller: _contactController,
+              controller: contactController,
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
                 hintText: "أدخل رقم التواصل",
@@ -978,8 +1014,8 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
               ),
             ),
             onPressed: () {
-              final int? seats = int.tryParse(_seatsController.text);
-              final String contactNumber = _contactController.text.trim();
+              final int? seats = int.tryParse(seatsController.text);
+              final String contactNumber = contactController.text.trim();
 
               if (seats == null || seats < 1 || seats > maxSeats) {
                 ScaffoldMessenger.of(context).showSnackBar(

@@ -86,6 +86,8 @@ class _BookingMeListState extends State<BookingMeList> {
                     ),
             );
           } else if (state is BookingMeErorr) {
+            final String message = HandelErorrMessage.bookingMe(state.message);
+            showMySnackBar(context, message);
             return RefreshIndicator(
               onRefresh: _refreshData,
               child: SingleChildScrollView(

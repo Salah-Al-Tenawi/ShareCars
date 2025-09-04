@@ -152,8 +152,7 @@ class TripMeList extends StatelessWidget {
                                   .cancelTrip(trip.id);
                             }
                           },
-                        ); 
-                      
+                        );
                       },
                     ),
             );

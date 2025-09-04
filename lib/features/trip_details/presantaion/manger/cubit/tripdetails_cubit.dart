@@ -14,16 +14,16 @@ class TripDetailsCubit extends Cubit<TripDetailsState> {
   TripDetailsCubit({required this.tripDetailsRepoIM})
       : super(TripDetailsInitial());
 
-  booking(int seats, int tripId , String communicationNumber) async {
+  booking(int seats, int tripId, String communicationNumber) async {
     emit(TripDetailsLoading());
-    final response = await tripDetailsRepoIM.booking(seats, tripId ,communicationNumber);
+    final response =
+        await tripDetailsRepoIM.booking(seats, tripId, communicationNumber);
     response.fold((error) {
       emit(TripDetailsError(message: error.message));
     }, (booking) {
       emit(TripDetailsRequestBooking(booking: booking));
     });
   }
-
 
   fetchTrip(int tripId) async {
     emit(TripDetailsLoading());
@@ -45,9 +45,19 @@ class TripDetailsCubit extends Cubit<TripDetailsState> {
 
   gotoChatWithDriver(int userId) {
     emit(TripDetailsGoToChat(driverId: userId));
-  } 
+  }
 
   finishRide(int tripId) async {
+    emit(TripDetailsLoading());
+    final response = await tripDetailsRepoIM.finishTrip(tripId);
+    response.fold((erorr) {
+      emit(TripDetailsError(message: erorr.message));
+    }, (response) {
+      emit(TripDetailsFinishTrip());
+    });
+  }
+
+  finishAndConfirmRide(int tripId) async {
     emit(TripDetailsLoading());
     final response = await tripDetailsRepoIM.finishTrip(tripId);
     response.fold((erorr) {

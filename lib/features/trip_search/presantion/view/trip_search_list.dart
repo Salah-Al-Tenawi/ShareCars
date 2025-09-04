@@ -6,6 +6,7 @@ import 'package:sharecars/core/them/my_colors.dart';
 import 'package:sharecars/core/them/text_style_app.dart';
 import 'package:sharecars/features/trip_create/data/model/trip_model.dart';
 import 'package:sharecars/features/trip_me/presantion/view/widget/trip_item.dart';
+import 'package:sharecars/features/trip_search/presantion/view/widget/item_search_trip.dart';
 
 class TripSearchList extends StatefulWidget {
   const TripSearchList({super.key});
@@ -82,11 +83,8 @@ class _TripSearchListState extends State<TripSearchList> {
             );
           }
 
-          return ItemTrip(
+          return ItemSearchTrip(
             trip: trip,
-            onTap: () {
-              Get.toNamed(RouteName.tripDetails, arguments: trip.id);
-            },
           );
         },
       ),

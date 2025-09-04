@@ -89,8 +89,7 @@ class BookingMe {
       rideId: json['ride_id'] ?? 0,
       pickupAddress: json['pickup_address'] ?? "",
       destinationAddress: json['destination_address'] ?? "",
-      departureTime:
-          DateTime.tryParse(json['departure_time'] ?? "") ?? DateTime.now(),
+      departureTime: DateTime.parse(json['departure_time'] ?? "").toLocal(),
       distanceKm: (json['distance_km'] is num)
           ? (json['distance_km'] as num).toDouble()
           : 0.0,

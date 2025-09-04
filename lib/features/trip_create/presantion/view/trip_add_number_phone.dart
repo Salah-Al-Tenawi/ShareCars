@@ -66,6 +66,7 @@ class _TripAddNumberPhoneState extends State<TripAddNumberPhone> {
                   onConfirm: gotoVerfiyUser,
                   onCancel: gotoHome);
             }
+            showMySnackBar(context, state.message);
           }
         },
         child: Padding(

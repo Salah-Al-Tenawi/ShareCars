@@ -20,7 +20,6 @@ class _TripDetailsState extends State<TripDetails> {
   @override
   void initState() {
     tripId = Get.arguments as int;
-    // tripId = 1;
     context.read<TripDetailsCubit>().fetchTrip(tripId);
     super.initState();
   }
@@ -40,6 +39,7 @@ class _TripDetailsState extends State<TripDetails> {
               // todo add route name chat
               // todo don't forget that
               // todo
+              // state.driverId!=myid()?
               // Get.toNamed(RouteName.forgetpassword,
               //     arguments: {'userId': state.driverId});
             } else if (state is TripDetailsCancel) {
@@ -49,7 +49,6 @@ class _TripDetailsState extends State<TripDetails> {
               context.read<TripDetailsCubit>().fetchTrip(tripId);
               Get.snackbar('تم الحجز', 'رقم الطلب: ${state.booking.data?.id}',
                   snackPosition: SnackPosition.BOTTOM);
-               
             }
           },
           builder: (context, state) {
