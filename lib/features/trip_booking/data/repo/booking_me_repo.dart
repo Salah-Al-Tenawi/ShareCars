@@ -32,9 +32,9 @@ class BookingMeRepo {
     }
   }
 
-  Future<Either<Filuar, dynamic>> finshTrip(int tripId) async {
+  Future<Either<Filuar, dynamic>> finshTrip(int bookingId) async {
     try {
-      final response = await _remoteDataSource.finishRide(tripId);
+      final response = await _remoteDataSource.finishRide(bookingId);
       return right(response);
     } on ServerExpcptions catch (e) {
       return left(e.error);

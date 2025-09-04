@@ -15,4 +15,5 @@ abstract class AuthRepo {
   Future<Either<Filuar, UserModel>> login(String email, String password);
   Future<Either<Filuar, dynamic>> logout();
   Future<Either<Filuar, dynamic>> forgetPassword(String email);
+  // Future<Either<Filuar, UserModel>> singingWithGoogle();
 }

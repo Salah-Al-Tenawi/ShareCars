@@ -16,7 +16,7 @@ class BookingRemoteDataSource {
     );
 
     final bookingModel = BookingMeModel.fromJson(response);
-    return bookingModel.data; 
+    return bookingModel.data;
   }
 
 // todo Modleing
@@ -36,17 +36,15 @@ class BookingRemoteDataSource {
     return response;
   }
 
-  Future<dynamic> finishRide(int tripId) async {
+  Future<dynamic> finishRide(int bookingid) async {
     final response = await _api.post(
-      "${ApiEndPoint.rides}/$tripId/passenger-confirm",
+      "${ApiEndPoint.rides}/$bookingid/passenger-confirm",
       header: {
         ApiKey.authorization: "Bearer ${mytoken()}",
       },
     );
     return response;
-  } 
-
-
+  }
 
   Future<CommentModel> addcommit(String commit, int userId) async {
     final response = await _api.post("${ApiEndPoint.profile}/$userId/comments",
@@ -54,8 +52,8 @@ class BookingRemoteDataSource {
         data: {ApiKey.comment: commit});
 
     return CommentModel.fromJson(response);
-  } 
-  
+  }
+
   Future<RatingModle> rateUser(double rating, int userId) async {
     final response = await _api.post("${ApiEndPoint.profile}/$userId/rate",
         header: {ApiKey.authorization: "Bearer ${mytoken()}"},

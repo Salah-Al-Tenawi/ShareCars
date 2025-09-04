@@ -86,7 +86,9 @@ class ColumnButtonsLogin extends StatelessWidget {
                       const Text(".  .  .  .  .  .        ",
                           style: TextStyle(color: MyColors.blueColor)),
                       InkWell(
-                        onTap: () {},
+                        onTap: () { 
+                          // context.read<LoginCubit>().loginWithGoogle();
+                        },
                         child: const CircleAvatar(
                           child:
                               Image(image: AssetImage(ImagesUrl.imagegoogle)),

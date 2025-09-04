@@ -31,9 +31,9 @@ class BookingMeCubit extends Cubit<BookingMeState> {
     });
   }
 
-  finishTrip(int tripID) async {
+  finishTrip(int bookingId) async {
     emit(BookingMeloading());
-    final response = await _repo.finshTrip(tripID);
+    final response = await _repo.finshTrip(bookingId);
     response.fold((erorr) {
       emit(BookingMeErorr(message: erorr.message));
     }, (sucess) {

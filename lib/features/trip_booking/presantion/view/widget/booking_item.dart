@@ -496,7 +496,7 @@ class _BookingItemState extends State<BookingItem> {
                         if (confirm ?? false) {
                           context
                               .read<BookingMeCubit>()
-                              .finishTrip(widget.booking.rideId);
+                              .finishTrip(widget.booking.bookingId);
                         }
                       },
                       style: ElevatedButton.styleFrom(

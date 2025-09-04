@@ -78,19 +78,22 @@ class HandelErorrMessage {
   }
 
   static String createWithRoute(String message) {
-    switch (message) {
-      case "Missing required verification documents.":
-        return "يجب علك توثيق حسابك لضمان الأمان";
+    String lowerCaseMessage = message.toLowerCase();
 
-      case "You must be verified as a driver to create rides.":
-        return "يجب علك توثيق حسابك لضمان الأمان";
-
-      default:
-        return "حدث خطأ غير متوقع";
+    if (lowerCaseMessage.contains("missing required verification documents")) {
+      return "يجب عليك توثيق حسابك لضمان الأمان";
+    } else if (lowerCaseMessage
+        .contains("you must be verified as a driver to create rides")) {
+      return "يجب عليك توثيق حسابك لضمان الأمان";
+    } else if (lowerCaseMessage.contains("insufficient wallet balance")) {
+      return "لا يوجد رصيد كافي في المحفظة";
+    } else {
+      return "حدث خطأ غير متوقع";
     }
   }
 
-  static String finishRide(String message) {
+  static String finishRide(String message) { 
+    
     switch (message) {
       case "No confirmed bookings found for this ride":
         return "لا يوجد حجوزات في هذه الرحلة يمكنك الغائها بدلا من ذلك";

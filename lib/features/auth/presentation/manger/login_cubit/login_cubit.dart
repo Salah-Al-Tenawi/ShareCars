@@ -18,7 +18,21 @@ class LoginCubit extends Cubit<LoginState> {
     });
   }
 
-  loginWithGoogle() {}
+  // loginWithGoogle() async {
+  //   final response = await authRepoIm.singingWithGoogle();
+  //   response.fold((erorr) {
+  //     print("erorr===================================");
+
+  //     print(erorr.message);
+  //     print("erorr===================================");
+  //   }, (user) {
+  //     print("user===================================");
+  //     print(user.firstName);
+  //     print(user.lastName);
+  //     print(user.address);
+  //     print("user===================================");
+  //   });
+  // }
 
   emitgotoSingin() {
     emit(LoginNavigateToSignup());
