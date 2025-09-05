@@ -15,7 +15,7 @@ class ProfileSaveButton extends StatelessWidget {
     return Align(
       alignment: Alignment.topRight,
       child: MyButton(
-          color: MyColors.primary,
+          color: MyColors.accent,
           borderRadius: true,
           width: 80.w,
           onPressed: () {

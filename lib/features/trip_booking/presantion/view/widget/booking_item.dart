@@ -68,11 +68,6 @@ class _BookingItemState extends State<BookingItem> {
                 builder: (context, state) {
                   if (state is BookingMeloading) {
                     return const LoadingWidgetSize150();
-                  } else if (state is BookingMeFinish) {
-                    return MyButton(
-                      onPressed: () {},
-                      child: const Text("انتهت الرحلة "),
-                    );
                   } else if (state is BookingMeCanceled) {
                     return MyButton(
                       onPressed: () {},
@@ -260,6 +255,7 @@ class _BookingItemState extends State<BookingItem> {
         ),
         const SizedBox(height: 12),
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Icon(Icons.calendar_today,
                 size: 16, color: MyColors.secondary),
@@ -268,7 +264,8 @@ class _BookingItemState extends State<BookingItem> {
               _formatDate(widget.booking.bookingDate),
               style: const TextStyle(
                 fontSize: 13,
-                color: MyColors.secondary,
+                fontWeight: FontWeight.bold,
+                color: Colors.red,
               ),
             ),
             const SizedBox(width: 16),
@@ -277,21 +274,28 @@ class _BookingItemState extends State<BookingItem> {
             Text(
               _formatTime(widget.booking.departureTime),
               style: const TextStyle(
-                fontSize: 13,
-                color: MyColors.secondary,
-              ),
+                  fontSize: 13, color: Colors.red, fontWeight: FontWeight.bold),
             ),
             SizedBox(
               width: 30.w,
             ),
-            Text(
-              timeUntil(widget.booking.bookingDate),
-              style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 13,
-                  color: MyColors.accent),
-            ),
           ],
+        ),
+        Center(
+          child: Card(
+            margin: const EdgeInsets.all(10),
+            color: MyColors.greyTextField,
+            child: Padding(
+              padding: const EdgeInsetsGeometry.all(8),
+              child: Text(
+                timeUntil(widget.booking.departureTime),
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13,
+                    color: MyColors.secondary),
+              ),
+            ),
+          ),
         ),
       ],
     );
@@ -606,7 +610,7 @@ class _BookingItemState extends State<BookingItem> {
   String timeUntil(DateTime tripTime) {
     final now = DateTime.now();
     if (tripTime.isBefore(now)) {
-      return "انطلقت الرحلة"; // إذا كان الوقت قد مر
+      return "انطلقت الرحلة";
     }
 
     final difference = tripTime.difference(now);
@@ -615,10 +619,32 @@ class _BookingItemState extends State<BookingItem> {
     final hours = difference.inHours % 24;
     final minutes = difference.inMinutes % 60;
 
+    String formatUnit(int value, String singular, String dual, String plural) {
+      if (value == 1) {
+        return '$value $singular';
+      } else if (value == 2) {
+        return '$value $dual';
+      } else if (value >= 3 && value <= 10) {
+        return '$value $plural';
+      } else {
+        return '$value $singular';
+      }
+    }
+
     List<String> parts = [];
-    if (days > 0) parts.add("$days يوم${days > 1 ? "ين" : ""}");
-    if (hours > 0) parts.add("$hours ساعة${hours > 1 ? "ساعات" : ""}");
-    if (minutes > 0) parts.add("$minutes دقيقة");
+    if (days > 0) {
+      parts.add(formatUnit(days, "يوم", "يومين", "أيام"));
+    }
+    if (hours > 0) {
+      parts.add(formatUnit(hours, "ساعة", "ساعتين", "ساعات"));
+    }
+    if (minutes > 0) {
+      parts.add(formatUnit(minutes, "دقيقة", "دقيقتين", "دقائق"));
+    }
+
+    if (parts.isEmpty) {
+      return "انطلقت الرحلة ";
+    }
 
     return "باقٍ على الانطلاق: ${parts.join(" و ")}";
   }

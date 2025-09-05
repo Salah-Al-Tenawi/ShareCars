@@ -62,7 +62,7 @@ class _ProfileBodyState extends State<ProfileBody> {
 
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: MyColors.primaryBackground,
+            backgroundColor: MyColors.primary,
             actions: [
               if (mode == ProfileMode.myView || mode == ProfileMode.myEdit)
                 ProfileSaveAndEditButtons(
@@ -94,7 +94,8 @@ class _ProfileBodyState extends State<ProfileBody> {
                           averageRating: profile.averageRating,
                           tripsCount: profile.numberOfides,
                         ),
-                        Text(profile.address, style: font13boldNewRamadi),
+                        Text("العنوان  :${profile.address}",
+                            style: font13boldNewRamadi ,),
                         const ProfileContactMe(),
                       ],
                     ),

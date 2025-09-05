@@ -29,7 +29,7 @@ class RouteModel {
       startPoint: path.first,
       endPoint: path.last,
       path: path,
-      distance: (props['distance'] as num).toDouble(),
+      distance: (props['distance']??0.0 as num).toDouble() ,
       duration: (props['duration'] as num).toDouble(),
       serviceUsed: 'openroute',
     );

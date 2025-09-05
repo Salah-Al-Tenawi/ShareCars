@@ -20,9 +20,6 @@ class BookingMeList extends StatefulWidget {
 }
 
 class _BookingMeListState extends State<BookingMeList> {
-  Future<void> _refreshData() async {
-    await context.read<BookingMeCubit>().getMyBooking();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,13 +124,23 @@ class _BookingMeListState extends State<BookingMeList> {
               ),
             );
           } else {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              context.read<BookingMeCubit>().getMyBooking();
-            });
-            return const SizedBox.shrink();
-          }
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    final cubit = context.read<BookingMeCubit>();
+    if (cubit.state is! BookingMeFinish &&
+        cubit.state is! BookingMeCanceled &&
+        cubit.state is! BookingMeRated) {
+      cubit.getMyBooking();
+    }
+  });
+  return const SizedBox.shrink();
+}
+
         },
       ),
     );
+  } 
+    Future<void> _refreshData() async {
+    await context.read<BookingMeCubit>().getMyBooking();
   }
+
 }

@@ -5,6 +5,7 @@ import 'package:sharecars/features/profiles/presantaion/view/widget/car_image_vi
 import 'package:sharecars/features/profiles/presantaion/view/widget/car_radio_info_tile.dart';
 import 'package:sharecars/features/profiles/presantaion/view/widget/car_seats_tile.dart';
 import 'package:sharecars/features/profiles/presantaion/view/widget/car_smoking_info_tile.dart';
+
 class ProfileCarInfoView extends StatelessWidget {
   final CarEntity? car;
 
@@ -29,7 +30,8 @@ class ProfileCarInfoView extends StatelessWidget {
         Row(
           children: [
             Expanded(child: CarRadioInfoTile(hasRadio: car!.hasRadio)),
-            Expanded(child: CarSmokingInfoTile(allowsSmoking: car!.allowsSmoking)),
+            Expanded(
+                child: CarSmokingInfoTile(allowsSmoking: car!.allowsSmoking)),
           ],
         ),
       ],
