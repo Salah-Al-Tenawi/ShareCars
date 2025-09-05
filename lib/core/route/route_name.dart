@@ -1,18 +1,27 @@
-
+import 'package:sharecars/features/e_pay/presantion/view/verfiy_otp_epy.dart';
 
 class RouteName {
+  //  onboarding
+
+  static const onboarding = "/OnboardingScreen";
+
   static const test = "/test";
   static const splashView = "/splashView";
   static const singin = "/singin";
   static const login = "/login";
   static const forgetpassword = "/forgetpassword";
   static const profile = "/profile";
-
   static const updateprofile = "/updateprofile";
   static const home = "/home";
+  static const verfiyUser = "/verfiyUser";
+
+  static const verfiyEmailSingin = "/VerfiyEmailSingin";
+
 // map
-  static const maps = "/maps"; 
-  
+  static const pushRideMap = "/pushRideMap";
+  static const searchRideMap = "/SearchRideMap";
+  static const routeMapView = "/routeMapView";
+  static const pickLocation = "/pickLocation";
 
   //trip  create
   static const tripSelectSourceAndDistOnMap = "/TripSelectSourceAndDistOnMap";
@@ -20,9 +29,32 @@ class RouteName {
   static const tripSelectPriceAndBookingType = "/tripSelectPriceAndBookingType";
   static const tripAddNumberPhone = "/tripAddNumberPhone";
   static const tripDidYouBack = "/TripDidYouBack";
+<<<<<<< HEAD
 //chat
 static const chatListScreen = "/ChatListScreen";
 static const chatScreen = "/ChatScreen";
 
+=======
+
+  // trip me
+  static const tripMeList = "/tripMeList";
+
+  // trip search
+  static const tripSearch = "/tripSearch";
+  static const tripSearchList = "/tripSearchlist";
+
+  // trip details
+  static const tripDetails = "/tripDetails";
+  // trip user booking user
+
+  static const bookingUserInTrip = "/BookingUserINTrip";
+
+  // booking me
+  static const bookingMeList = "/BookingMeList";
+  // pilicy
+  static const policy = "/policy"; 
+  // verfiy otp epy 
+  static const verfiyOtpEpy = "/VerfiyotpEpy";
+>>>>>>> 3dde7578015b3894eab2dc1e9cd7375179ddb1af
 }
   

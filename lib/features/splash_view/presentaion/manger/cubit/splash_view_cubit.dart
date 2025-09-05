@@ -4,17 +4,20 @@ import 'package:sharecars/core/route/route_name.dart';
 import 'package:sharecars/core/service/hive_services.dart';
 
 class SplashCubit extends Cubit<void> {
+
   SplashCubit() : super(null);
 
   Future<void> initApp() async {
     await Future.delayed(const Duration(seconds: 2));
 
     final user = await HiveBoxes.authBox.get(HiveKeys.user);
+
     
     if (user != null) {
       Get.offAllNamed(RouteName.home);
     } else {
-      Get.offAllNamed(RouteName.login);
+      Get.offAllNamed(RouteName.onboarding);
     }
   }
+  
 }

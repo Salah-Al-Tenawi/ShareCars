@@ -1,7 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import 'package:sharecars/core/api/api_end_points.dart';
 import 'package:sharecars/core/api/dio_consumer.dart';
 import 'package:sharecars/core/service/hive_services.dart';
+import 'package:sharecars/core/utils/functions/get_token.dart';
 import 'package:sharecars/features/auth/data/model/user_model.dart';
 
 abstract class AuthRemoteDataSource {
@@ -15,6 +17,7 @@ abstract class AuthRemoteDataSource {
       String email, String address, String password, String verfiyPassword);
   Future forgetPassword(String email);
   Future logout();
+  // Future<UserModel> singInWithGoogle();
 }
 
 class AuthRemoteDataSourceIM extends AuthRemoteDataSource {
@@ -54,11 +57,9 @@ class AuthRemoteDataSourceIM extends AuthRemoteDataSource {
 
 // to do
   @override
-  Future<String> logout() async {
-    final response = await api.post(ApiEndPoint.logout, header: {
-      // "Authorization":
-      //     "Bearer ${token from cach}"
-    });
+  Future<dynamic> logout() async {
+    final response = await api.post(ApiEndPoint.logout,
+        header: {ApiKey.authorization: "Bearer ${mytoken()}"});
     return response;
   }
 
@@ -68,4 +69,28 @@ class AuthRemoteDataSourceIM extends AuthRemoteDataSource {
         await api.post(ApiEndPoint.forgetPassword, data: {ApiKey.email: email});
     return response;
   }
+
+  // Future<UserModel> singInWithGoogle() async {
+    // // 1. افتح صفحة تسجيل الدخول
+    // final result = await FlutterWebAuth2.authenticate(
+    //   url: ApiEndPoint.googleAuth, // http://localhost:8000/auth/google/redirect
+    //   callbackUrlScheme: "sharecars",
+    // );
+
+    // // 2. استخرج الـ code من رابط الـ redirect
+    // final code = Uri.parse(result).queryParameters['code'];
+    // if (code == null) throw Exception("لم يتم العثور على code");
+
+    // // 3. ابعت الـ code للباكند عشان يرجعلك JWT + بيانات المستخدم
+    // final response = await api.post(
+    //   ApiEndPoint.googleCallback, // http://localhost:8000/auth/google/callback
+    //   data: {"code": code},
+    // );
+
+    // // 4. حول البيانات لموديل مستخدم وخزنها
+    // final user = UserModel.fromjson(response);
+    // HiveBoxes.authBox.put(HiveKeys.user, user);
+
+    // return user;
+  // }
 }

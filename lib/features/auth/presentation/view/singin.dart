@@ -29,10 +29,24 @@ class _SinginState extends State<Singin> {
           key: formKey,
           child: Column(
             children: [
-              CricularDecoration(
-                heghit: 100,
-                width: 120,
-                color: MyColors.primary,
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  CricularDecoration(
+                    heghit: 100,
+                    width: 120,
+                    color: MyColors.primary,
+                  ),
+                  Positioned(
+                    top: 40.h, 
+                    child: Image.asset(
+                      "assets/images/iconpng.png", 
+                      height: 100.h,
+                      width: 100.w,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ],
               ),
               TextFieldsSingin(
                 firstname: firstname,

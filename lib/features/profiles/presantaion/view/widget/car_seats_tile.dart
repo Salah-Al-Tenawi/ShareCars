@@ -4,7 +4,7 @@ import 'package:sharecars/core/them/text_style_app.dart';
 import 'package:sharecars/core/utils/widgets/cutom_list_tile.dart';
 
 class CarSeatsTile extends StatelessWidget {
-  final int seats;
+  final int ?seats;
 
   const CarSeatsTile({super.key, required this.seats});
 

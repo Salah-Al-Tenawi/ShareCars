@@ -13,21 +13,22 @@ class ProfileSaveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-                alignment: Alignment.topRight,
-                child: MyButton(
-                    color: MyColors.primaryText,
-                    borderRadius: true,
-                    width: 80.w,
-                    onPressed: () {
-                      context.read<ProfileCubit>().saveMyProfile(profileEntityWithEdit);
-                    },
-                    child: const Text(
-                      "حفظ",
-                      style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.normal,
-                          color: MyColors.greyTextField),
-                    )),
-              );
+      alignment: Alignment.topRight,
+      child: MyButton(
+          color: MyColors.primary,
+          borderRadius: true,
+          width: 80.w,
+          onPressed: () {
+            print(profileEntityWithEdit!.description);
+            context.read<ProfileCubit>().saveMyProfile(profileEntityWithEdit);
+          },
+          child: const Text(
+            "حفظ",
+            style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.normal,
+                color: MyColors.greyTextField),
+          )),
+    );
   }
 }

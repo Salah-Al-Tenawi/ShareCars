@@ -8,33 +8,43 @@ import 'package:sharecars/core/them/my_colors.dart';
 import 'package:sharecars/core/them/text_style_app.dart';
 import 'package:sharecars/core/utils/widgets/my_button.dart';
 import 'package:sharecars/features/profiles/domain/entity/comment_entity.dart';
-
 class ProfileComments extends StatelessWidget {
   final List<CommentEntity>? feadBack;
+
   const ProfileComments({super.key, required this.feadBack});
 
   @override
   Widget build(BuildContext context) {
+    final comments = feadBack ?? [];
+
+    if (comments.isEmpty) {
+      return const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Text("لا توجد تعليقات بعد", textAlign: TextAlign.center),
+      );
+    }
+
     return Container(
-      // height: 500.h,
       margin: EdgeInsets.symmetric(vertical: 10.h),
       decoration: BoxDecoration(
-          border: Border.all(width: 0.3, color: MyColors.primaryBackground),
-          borderRadius: BorderRadius.circular(10)),
+        border: Border.all(width: 0.3, color: MyColors.primaryBackground),
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: feadBack?.length,
-          itemBuilder: (context, counter) {
-            return const Comment();
-          }),
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: comments.length,
+        itemBuilder: (context, index) {
+          return Comment(commentEntity: comments[index]);
+        },
+      ),
     );
   }
 }
-
 class Comment extends StatelessWidget {
-  final CommentEntity? commentEntity;
-  const Comment({super.key, this.commentEntity});
+  final CommentEntity commentEntity;
+
+  const Comment({super.key, required this.commentEntity});
 
   @override
   Widget build(BuildContext context) {
@@ -53,38 +63,39 @@ class Comment extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  commentEntity!.authorName,
+                  commentEntity.authorName,
                   style: font12boldRamadi,
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  commentEntity!.text,
+                  commentEntity.text,
                   style: font10boldRamadi,
                   textDirection: TextDirection.rtl,
                 ),
                 Align(
                   alignment: Alignment.bottomLeft,
                   child: Text(
-                    commentEntity!.createdAt,
+                    commentEntity.createdAt,
                     style: const TextStyle(
-                        fontSize: 6.2,
-                        fontWeight: FontWeight.bold,
-                        color: MyColors.greyTextColor),
+                      fontSize: 6.2,
+                      fontWeight: FontWeight.bold,
+                      color: MyColors.greyTextColor,
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           ),
           SizedBox(width: 10.w),
           MyButton(
             onPressed: () {
-              Get.toNamed(RouteName.profile, arguments: commentEntity!.iduser);
+              Get.toNamed(RouteName.profile, arguments: commentEntity.iduser);
             },
             child: CircleAvatar(
               maxRadius: 25,
               backgroundColor: MyColors.primary,
-              backgroundImage: commentEntity?.authorPhoto != null
-                  ? NetworkImage(commentEntity!.authorPhoto!)
+              backgroundImage: commentEntity.authorPhoto != null
+                  ? NetworkImage(commentEntity.authorPhoto!)
                   : const AssetImage(ImagesUrl.profileImage) as ImageProvider,
             ),
           ),

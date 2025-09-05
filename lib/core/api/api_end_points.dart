@@ -1,7 +1,12 @@
 
 class ApiEndPoint {
+<<<<<<< HEAD
    static const baserUrl = "http://192.168.1.6:8000/api";
   // static const baserUrl = "http://192.168.118.103:8000/api/";
+=======
+  static const baserUrl = "http://192.168.43.81:8000/api";
+  static const baseUrlGoogle ="http://192.168.43.81:8000";
+>>>>>>> 3dde7578015b3894eab2dc1e9cd7375179ddb1af
 
   static const mapsOpenRouteServices =
       "https://api.openrouteservice.org/v2/directions/driving-car/geojson";
@@ -21,12 +26,33 @@ class ApiEndPoint {
 
 //  trips endpoint
   static const rides = "$baserUrl/rides";
+<<<<<<< HEAD
   //chat
    static const chat = "$baserUrl/chat";
    static const startconversation = "$chat/conversations";
     static const getallconversations = "$chat/conversations";
  static const message = "$chat/conversations";
  static const deletmessage = "$chat/messages";
+=======
+  static const createRide = "$rides/create-with-route";
+  static const search = "$rides/search";
+
+  // epy
+  static const getbalance = "$baserUrl/wallet/balance";
+  static const initialwallet = "$baserUrl/wallet/initiate";
+static const createwallet = "$baserUrl/wallet/verify-and-create";
+
+  static const bookingme = "$baserUrl/my-bookings"; 
+  // google auth 
+
+  static const googleAuth ="http://localhost:8000/auth/google/redirect/auth/google/redirect";
+
+  static const googleCallback ="http://localhost:8000/auth/google/redirect/auth/google/callback?state=VgC5uvadDY7gzcpxrCAXiUIXT04LicXffXYgMA1A&code=4%2F0AVMBsJjYOIqet_hAntC8MPQ5MEQ4ZeJdUJHtThpTStPFXm_y7zJDD4DkzRXT-pPc1vekQg&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+openid&authuser=0&prompt=consent";
+
+
+
+
+>>>>>>> 3dde7578015b3894eab2dc1e9cd7375179ddb1af
 }
 
 class ApiKey {
@@ -34,12 +60,11 @@ class ApiKey {
   static const authorization = "Authorization";
   static const data = "data";
   static const success = "success";
-  static const message = "message"; 
-  
+  static const message = "message";
+
   static const error = "error";
   static const token = "access_token";
   static const contentType = "Content-Type";
-
 
   // User Info
   static const userId = "user_id";
@@ -58,10 +83,11 @@ class ApiKey {
   static const verificationStatus = "verification_status";
   static const numberOfRides = "number_of_rides";
   static const drivingLicensePic = "driving_license_pic";
-
   static const rating = "rating";
   static const totalRatings = "total_ratings";
   static const averageRating = "average_rating";
+  static const phoneNumber = "phone_number";
+  static const otpCode = "otp_code";
 
   // Car Info
   static const typeOfCar = "type_of_car";
@@ -86,13 +112,22 @@ class ApiKey {
   static const commenter = "commenter";
   static const createdAt = "created_at";
 
-  // rides
+  // rides crate
   static const pickupAddress = "pickup_address";
   static const destinationAddress = "destination_address";
   static const departureTime = "departure_time";
   static const availableSeats = "available_seats";
   static const seats = "seats";
   static const pricePerSeat = "price_per_seat";
+  static const pickuplat = "pickup_lat";
+  static const pickuplng = "pickup_lng";
+  static const destinationlat = "destination_lat";
+  static const destinationlng = "destination_lng";
+  static const notes = "notes";
+  static const routeIndex = "route_index";
+  static const paymentmethod = "payment_method";
+  static const bookingType = "booking_type";
+  static const communicationNumber = "communication_number";
 
   // maps
   static const coordinates = "coordinates";
@@ -100,6 +135,7 @@ class ApiKey {
   static const targetCount = "target_count";
   static const shareFactor = "share_factor";
   static const features = "features";
+<<<<<<< HEAD
   //chath
   static const  conversationid ="conversation_id";
    static const  type ="type";
@@ -118,4 +154,15 @@ class ApiKey {
              static const  sendername ="sender_name";
        
 
+=======
+
+// search trip
+  static const sourceAddress = "source_address";
+  static const departureDate = "departure_date";
+  static const seatsRequired = "seats_required";
+  static const sourcelat = "source_lat";
+  static const sourcelng = "source_lng";
+  static const destlat = "dest_lat";
+  static const destlng = "dest_lng";
+>>>>>>> 3dde7578015b3894eab2dc1e9cd7375179ddb1af
 }

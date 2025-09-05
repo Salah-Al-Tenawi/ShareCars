@@ -36,3 +36,9 @@ final class SinginChangeAddress extends SinginState {
 
   const SinginChangeAddress({required this.address});
 }
+
+final class SingInGotoVerfiyOtp extends SinginState {
+  final String numberPhone;
+
+  const SingInGotoVerfiyOtp({required this.numberPhone});
+}

@@ -34,4 +34,13 @@ class SinginCubit extends Cubit<SinginState> {
     this.address = address;
     emit(SinginChangeAddress(address: address));
   }
+//  todo
+  checkOTp(String numberPhone, String otp) {
+    emit(SinginLoading());
+    emit(SinginErorre("لسا ما عملت التابع بالcubit و الapi "));
+
+  } 
+
+
+  sendOtpAgain(){}
 }

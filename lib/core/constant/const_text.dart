@@ -5,13 +5,11 @@ const String bookingType = "يُحدد هذا الخيار طريقة حجز ا�
 String botomBarHomeTitles(int index) {
   switch (index) {
     case 0:
-      return "Home";
+      return "إنشاء رحلة";
     case 1:
-      return "Search";
+      return "البحث عن رحلة";
     case 2:
-      return "Likes";
-    case 3:
-      return "Profile";
+      return "رحلاتي";
     default:
       return "";
   }

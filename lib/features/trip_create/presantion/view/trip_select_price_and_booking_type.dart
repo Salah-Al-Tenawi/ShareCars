@@ -8,6 +8,7 @@ import 'package:sharecars/core/them/text_style_app.dart';
 import 'package:sharecars/core/utils/widgets/my_button.dart';
 import 'package:sharecars/features/trip_create/data/model/trip_from.dart';
 import 'package:sharecars/features/trip_create/presantion/view/widget/trip_select_booking_type.dart';
+import 'package:sharecars/features/trip_create/presantion/view/widget/trip_select_cash_type.dart';
 import 'package:sharecars/features/trip_create/presantion/view/widget/trip_select_price.dart';
 import 'package:sharecars/features/trip_create/presantion/view/widget/trip_text_note.dart';
 
@@ -28,7 +29,21 @@ class _TripSelectPriceAndBookingTypeState
   void initState() {
     super.initState();
     tripFrom = Get.arguments as TripFrom;
+    final price = calculateSuggestedPrice(tripFrom.distance);
+    tripFrom.price = price;
     recomandedprice = "السعر المناسب ";
+  }
+
+  int calculateSuggestedPrice(double distanceInKm) {
+    double rawPrice;
+    if (distanceInKm <= 65) {
+      rawPrice = distanceInKm * 500;
+    } else {
+      rawPrice = distanceInKm * 700;
+    }
+
+    // تقريب إلى أقرب 1000 للأسفل
+    return (rawPrice ~/ 1000) * 1000;
   }
 
   @override
@@ -40,15 +55,26 @@ class _TripSelectPriceAndBookingTypeState
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              SizedBox(
+                height: 20.h,
+              ),
               const Text(
                 " السعر للراكب الواحد بالليرة السورية",
                 style: font15BoldRamadi,
               ),
               SizedBox(
-                height: 30.h,
+                height: 20.h,
               ),
-              Text(recomandedprice, style: font25boldgreen),
+              // Text(recomandedprice, style: font25boldgreen),
               TripSelectPrice(tripFrom: tripFrom),
+
+              const Text(
+                "اختر نوع الدفع ",
+                style: font15BoldRamadi,
+              ),
+              TripSelectCashType(
+                tripFrom: tripFrom,
+              ),
               const Divider(
                 color: MyColors.primaryText,
                 endIndent: 100,

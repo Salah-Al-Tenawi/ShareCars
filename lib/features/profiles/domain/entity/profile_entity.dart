@@ -9,7 +9,7 @@ class ProfileEntity {
   final int totalRating;
   final double averageRating;
   final String verification;
-  late final String description;
+  final String description;  // <-- بدون late
   final String address;
   final String gender;
   final CarEntity? car;
@@ -61,36 +61,5 @@ class ProfileEntity {
     );
   }
 
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ProfileEntity &&
-          runtimeType == other.runtimeType &&
-          fullname == other.fullname &&
-          profilePhoto == other.profilePhoto &&
-          numberOfides == other.numberOfides &&
-          totalRating == other.totalRating &&
-          averageRating == other.averageRating &&
-          verification == other.verification &&
-          description == other.description &&
-          address == other.address &&
-          gender == other.gender &&
-          car == other.car &&
-          comments == other.comments &&
-          documents == other.documents;
-
-  @override
-  int get hashCode =>
-      fullname.hashCode ^
-      profilePhoto.hashCode ^
-      numberOfides.hashCode ^
-      totalRating.hashCode ^
-      averageRating.hashCode ^
-      verification.hashCode ^
-      description.hashCode ^
-      address.hashCode ^
-      gender.hashCode ^
-      car.hashCode ^
-      comments.hashCode ^
-      documents.hashCode;
+  // باقي الكود بدون تغيير
 }

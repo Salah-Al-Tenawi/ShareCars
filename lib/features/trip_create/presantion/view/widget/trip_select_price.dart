@@ -7,12 +7,53 @@ import 'package:sharecars/core/them/my_colors.dart';
 import 'package:sharecars/core/them/text_style_app.dart';
 import 'package:sharecars/features/trip_create/data/model/trip_from.dart';
 
-class TripSelectPrice extends StatelessWidget {
-  final TripFrom tripFrom;
-  const TripSelectPrice({
+class TripSelectPrice extends StatefulWidget {
+  TripFrom tripFrom;
+  TripSelectPrice({
     super.key,
     required this.tripFrom,
   });
+
+  @override
+  State<TripSelectPrice> createState() => _TripSelectPriceState();
+}
+
+class _TripSelectPriceState extends State<TripSelectPrice> {
+  incremant(int priceRecomanded) {
+    if (priceRecomanded > 40000) {
+      if (priceRecomanded < 60000) {
+        priceRecomanded += 10000;
+      }
+    } else if (priceRecomanded < 40000 && priceRecomanded > 20000) {
+      priceRecomanded += 5000;
+    } else if (priceRecomanded < 20000) {
+      priceRecomanded += 2000;
+    }
+    widget.tripFrom.price = priceRecomanded;
+
+    setState(() {
+      widget.tripFrom.price;
+    });
+  }
+
+  decremant(int priceRecomanded) {
+    int counter = 0;
+    if (priceRecomanded > 40000 && counter < 3) {
+      priceRecomanded -= 10000;
+      counter++;
+    } else if (priceRecomanded < 40000 &&
+        priceRecomanded > 20000 &&
+        counter < 3) {
+      priceRecomanded -= 5000;
+    } else if (priceRecomanded < 20000 && counter < 3) {
+      priceRecomanded -= 2000;
+    }
+    widget.tripFrom.price = priceRecomanded;
+
+    setState(() {
+      widget.tripFrom.price;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +65,7 @@ class TripSelectPrice extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () {
-              if (tripFrom.price < tripFrom.price + 15000) {
-                tripFrom.price + 1000;
-              }
+              incremant(widget.tripFrom.price);
             },
             icon: const FaIcon(
               FontAwesomeIcons.plus,
@@ -35,14 +74,12 @@ class TripSelectPrice extends StatelessWidget {
             ),
           ),
           Text(
-            "${tripFrom.price}",
-            style: font20normalsky,
+            "${widget.tripFrom.price}",
+            style: font20normalaccent,
           ),
           IconButton(
             onPressed: () {
-              if (tripFrom.price > 2000) {
-                tripFrom.price - 1000;
-              }
+              decremant(widget.tripFrom.price);
             },
             icon: const FaIcon(FontAwesomeIcons.minus,
                 size: 40, color: MyColors.primaryText),

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sharecars/core/constant/imagesUrl.dart';
+import 'package:sharecars/core/errors/handel_erorr_message.dart';
 import 'package:sharecars/core/route/route_name.dart';
 import 'package:sharecars/core/them/my_colors.dart';
 import 'package:sharecars/core/them/text_style_app.dart';
@@ -34,7 +35,8 @@ class ColumnButtonsLogin extends StatelessWidget {
         } else if (state is LoginNavigationToForgetPassword) {
           Get.toNamed(RouteName.forgetpassword);
         } else if (state is LoginError) {
-          showMySnackBar(context, state.message,
+          final message = HandelErorrMessage.login(state.message);
+          showMySnackBar(context, message,
               duration: const Duration(seconds: 3));
         }
       },
@@ -57,7 +59,7 @@ class ColumnButtonsLogin extends StatelessWidget {
                       }
                     },
                     borderRadius: true,
-                    color: MyColors.primaryText,
+                    color: MyColors.primary,
                     width: 140.w,
                     child: const Text(
                       "انطلق",
@@ -84,7 +86,9 @@ class ColumnButtonsLogin extends StatelessWidget {
                       const Text(".  .  .  .  .  .        ",
                           style: TextStyle(color: MyColors.blueColor)),
                       InkWell(
-                        onTap: () {},
+                        onTap: () { 
+                          // context.read<LoginCubit>().loginWithGoogle();
+                        },
                         child: const CircleAvatar(
                           child:
                               Image(image: AssetImage(ImagesUrl.imagegoogle)),

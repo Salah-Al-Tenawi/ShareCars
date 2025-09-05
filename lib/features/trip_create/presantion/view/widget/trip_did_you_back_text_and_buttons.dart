@@ -25,10 +25,17 @@ class TripDidYouBackTextAndButtons extends StatefulWidget {
 class _TripDidYouBackTextAndButtonsState
     extends State<TripDidYouBackTextAndButtons> {
   void _swapSourceAndDestination() {
-    final source = widget.tripFrom.source;
-    final dist = widget.tripFrom.dest;
-    widget.tripFrom.source = dist;
-    widget.tripFrom.dest = source;
+    final statrLat = widget.tripFrom.startLat;
+    final statrLng = widget.tripFrom.startLng;
+    final endLat = widget.tripFrom.endLat;
+    final endLng = widget.tripFrom.endLng;
+
+    widget.tripFrom.startLat = endLat;
+    widget.tripFrom.startLng = endLng;
+
+    widget.tripFrom.endLat = statrLat;
+    widget.tripFrom.endLng = statrLng;
+
     widget.tripFrom.reverseTripRoute = true;
   }
 
@@ -36,7 +43,7 @@ class _TripDidYouBackTextAndButtonsState
   Widget build(BuildContext context) {
     return Column(children: [
       const Text(
-        "هل ترغب بإنشاء رحلة عودة من الوجهة الحالية ",
+        " هل ترغب بإنشاء رحلة للعودة  ",
         style: font14boldblueblack,
       ),
       SizedBox(
@@ -48,25 +55,23 @@ class _TripDidYouBackTextAndButtonsState
           MyButton(
             onPressed: () {
               _swapSourceAndDestination();
-              Get.toNamed(RouteName.tripSelectSourceAndDistOnMap,
+              Get.toNamed(RouteName.tripSelectDateAndSeats,
                   arguments: widget.tripFrom);
             },
             color: MyColors.primary,
-            splashcolor: MyColors.primaryText,
             width: 120.w,
             height: 50,
             borderRadius: true,
             child: const Text(
               "نعم ",
-              style: font12boldRamadi,
+              style: font12boldgray,
             ),
           ),
           MyButton(
             onPressed: () {
               Get.offAllNamed(RouteName.home);
             },
-            color: MyColors.primaryText,
-            splashcolor: MyColors.primaryText,
+            color: MyColors.accent,
             width: 120.w,
             height: 50,
             borderRadius: true,

@@ -1,24 +1,36 @@
 class TripFrom {
-  String? source;
-  String? dest;
-  List<String>? path;
+  String? startLat;
+  String? endLat;
+  String? startLng;
+  String? endLng;
+  int path;
   String? date;
   int numberSeats;
-  double price;
+  int price;
   double recomandedPrice;
   String? numberPhone;
-  int bookingType;
-  bool reverseTripRoute ;
+  String bookingType;
+  bool reverseTripRoute;
+  dynamic distance;
+  dynamic duration;
+  String cashType;
+  String notes;
 
   TripFrom(
-      {this.source,
-      this.dest,
-      this.path,
+      {this.startLat,
+      this.startLng,
+      this.endLat,
+      this.endLng,
+      this.path = 0,
       this.date,
       this.numberSeats = 0,
       this.price = 0,
       this.recomandedPrice = 0,
-      this.numberPhone, 
-      this.reverseTripRoute =false,
-      this.bookingType = 0});
+      this.numberPhone,
+      this.reverseTripRoute = false,
+      this.bookingType = "Direct",
+      this.distance,
+      this.duration,
+      this.cashType = "cash" ,
+      this.notes =""});
 }

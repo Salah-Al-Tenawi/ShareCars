@@ -47,3 +47,7 @@ final class ProfileLoadedState extends ProfileState {
   @override
   List<Object?> get props => [mode, profileEntity];
 } 
+
+
+
+

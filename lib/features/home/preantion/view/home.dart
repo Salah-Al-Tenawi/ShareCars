@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
-import 'package:sharecars/core/constant/const_text.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:sharecars/core/api/dio_consumer.dart';
 import 'package:sharecars/core/them/my_colors.dart';
-import 'package:sharecars/core/utils/functions/get_token.dart';
+import 'package:sharecars/features/e_pay/data/data_source/e_pay_remote_data_source.dart';
+import 'package:sharecars/features/e_pay/data/repo/e_pay_repo_im.dart';
+import 'package:sharecars/features/home/preantion/view/widget/home_appbar.dart';
+import 'package:sharecars/features/home/preantion/view/widget/home_botom_nav_bar.dart';
+import 'package:sharecars/features/home/preantion/view/widget/home_drawer.dart';
+import 'package:sharecars/features/trip_booking/presantion/view/booking_me_list.dart';
+import 'package:sharecars/features/trip_create/presantion/view/trip_select_source_and_dist_on_map.dart';
+import 'package:sharecars/features/trip_me/presantion/view/trip_me_list.dart';
+import 'package:sharecars/features/trip_search/presantion/view/trip_search.dart';
+
+
+
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -13,104 +24,110 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _currentIndex = 0;
-  final _pageController = PageController();
+  final _pageController = PageController(initialPage: 1);
+  final EPayRepoIm _epy =
+      EPayRepoIm(remoteDataSource: EPayRemoteDataSource(api: DioConSumer()));
+  String balance = "";
+  
+  // مفتاح لتحديث FutureBuilder
+  final GlobalKey _refreshKey = GlobalKey();
 
-  final List<IconData> _navIcons = [
-    Icons.home_rounded,
-    Icons.search_rounded,
-    Icons.favorite_rounded,
-    Icons.person_rounded,
-  ];
-
-  final List<Color> _activeColors = [
-    MyColors.primary,
-    MyColors.primaryBackground,
-    MyColors.primary,
-    MyColors.primaryBackground,
-  ];
+  // دالة لتحديث الرصيد
+  Future<void> _refreshBalance() async {
+    setState(() {
+      // إعادة بناء الـ FutureBuilder عن طريق تغيير المفتاح
+      _refreshKey.currentState?.setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: MyColors.primaryBackground,
-
-      // extendBody: true,
-      body: PageView(
-        controller: _pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        children: const [
-          Center(child: Text("Home Page")),
-          Center(child: Text("Search Page")),
-          Center(child: Text("Favorites Page")),
-          Center(child: Text("Profile Page")),
-        ],
-      ),
-      bottomNavigationBar: _buildFloatingNavBar(),
-    );
-  }
-
-  Widget _buildFloatingNavBar() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: MyColors.primaryBackground, width: 0.2),
-          borderRadius: BorderRadius.circular(24.0),
-          boxShadow: const [
-            BoxShadow(
-              color: Color.fromRGBO(0, 0, 0, 0.1),
-              blurRadius: 16.0,
-              spreadRadius: 2.0,
-              offset: Offset(0, 6),
-            ),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(24.0),
-          child: Container(
-            height: 77.h,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(
-                color: const Color.fromRGBO(158, 158, 158, 0.1),
-                width: 1.5,
-              ),
-            ),
-            child: SalomonBottomBar(
-              currentIndex: _currentIndex,
-              onTap: (index) {
-                setState(() => _currentIndex = index);
-                _pageController.jumpToPage(index);
-              },
-              selectedItemColor: _activeColors[_currentIndex],
-              unselectedItemColor: Colors.grey[400],
-              margin:
-                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-              itemPadding:
-                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
-              items: _navIcons.asMap().entries.map((entry) {
-                final index = entry.key;
-                final icon = entry.value;
-                return SalomonBottomBarItem(
-                  icon: Icon(icon, size: 26),
-                  title: Text(
-                    botomBarHomeTitles(index),
-                    style: const TextStyle(fontSize: 12),
-                  ),
-                  selectedColor: _activeColors[index],
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        drawer: Drawer(child: HomeDrawer(scaffoldContext: context)),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(60),
+          child: FutureBuilder(
+            key: _refreshKey, // إضافة المفتاح للتحديث
+            future: _epy.getBalance(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return HomeAppBar(
+                  balance: "Loading...",
+                  onRefresh: _refreshBalance, // تمرير دالة التحديث
                 );
-              }).toList(),
-            ),
+              } else if (snapshot.hasData) {
+                return snapshot.data!.fold(
+                  (error) {
+                    return HomeAppBar(
+                      balance: error.message,
+                      onRefresh: _refreshBalance, // تمرير دالة التحديث
+                    );
+                  },
+                  (balanceModel) {
+                    return HomeAppBar(
+                      balance: balanceModel.balance,
+                      onRefresh: _refreshBalance, // تمرير دالة التحديث
+                    );
+                  },
+                );
+              } else {
+                return HomeAppBar(
+                  balance: "خطأ",
+                  onRefresh: _refreshBalance, // تمرير دالة التحديث
+                );
+              }
+            },
           ),
         ),
+        body: PageView(
+          controller: _pageController,
+          physics: const NeverScrollableScrollPhysics(),
+          children: const [
+            TripSelectSourceAndDistOnMap(),
+            TripSearch(),
+            TripMeList(),
+            BookingMeList()
+          ],
+        ),
+        bottomNavigationBar:
+            ModernBottomNavBar(pageController: _pageController),
       ),
     );
   }
-
-  @override
+@override
   void dispose() {
     _pageController.dispose();
     super.dispose();
+  }
+
+  Future<bool> _onWillPop() async {
+    final shouldExit = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("تأكيد"),
+        content: const Text("هل تريد الخروج من التطبيق؟"),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(result: false),
+            style: TextButton.styleFrom(
+              foregroundColor: MyColors.accent,
+              backgroundColor: Colors.grey[200],
+            ),
+            child: const Text("لا"),
+          ),
+          TextButton(
+            onPressed: () => Get.back(result: true),
+            style: TextButton.styleFrom(
+              foregroundColor: MyColors.primary,
+              backgroundColor: Colors.grey[200],
+            ),
+            child: const Text("نعم"),
+          ),
+        ],
+      ),
+    );
+    return shouldExit ?? false;
   }
 }

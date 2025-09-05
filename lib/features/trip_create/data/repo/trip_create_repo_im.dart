@@ -10,11 +10,18 @@ class TripCreateRepoIm extends TripCreateRepo {
 
   TripCreateRepoIm({required this.tripCreateRemoteDataSource});
   @override
-  Future<Either<Filuar, TripModel>> createTrip(String source,
-      String destination, String date, int seats, String price) async {
+  Future<Either<Filuar, TripModel>> createTrip(String startLat,
+  String startLng ,String endLat ,String endLng ,
+       String date, int seats, int price ,
+    String? notes,
+    int routeIndex,
+    String paymentMethod, String bookingType ,String communicationNumber
+    
+    
+    ) async {
     try {
       final response = await tripCreateRemoteDataSource.createTrip(
-          source, destination, date, seats, price);
+          startLat ,startLng ,endLat ,endLng, date, seats, price , notes ,routeIndex ,paymentMethod ,bookingType ,communicationNumber) ;
       return right(response);
     } on ServerExpcptions catch (e) {
       return left(e.error);

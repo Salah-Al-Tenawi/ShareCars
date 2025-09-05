@@ -3,10 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sharecars/core/them/my_colors.dart';
 import 'package:sharecars/core/them/text_style_app.dart';
+import 'package:sharecars/core/utils/widgets/loading_widget_size_150.dart';
 import 'package:sharecars/features/profiles/data/model/enum/profile_mode.dart';
 import 'package:sharecars/features/profiles/domain/entity/profile_entity.dart';
 import 'package:sharecars/features/profiles/presantaion/manger/profile_cubit.dart';
 import 'package:sharecars/features/profiles/presantaion/view/widget/profile_car.dart';
+import 'package:sharecars/features/profiles/presantaion/view/widget/profile_comments.dart';
 import 'package:sharecars/features/profiles/presantaion/view/widget/profile_contact_me.dart';
 import 'package:sharecars/features/profiles/presantaion/view/widget/profile_hintline.dart';
 import 'package:sharecars/features/profiles/presantaion/view/widget/profile_image_and_name.dart';
@@ -26,81 +28,129 @@ class _ProfileBodyState extends State<ProfileBody> {
   TextEditingController? controllerEditAboutMe;
   ProfileEntity? _profileCopyWithforEdit;
 
+  void _initEditState(ProfileEntity profile) {
+    if (_profileCopyWithforEdit == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        setState(() {
+          _profileCopyWithforEdit = profile.copyWith();
+        });
+
+        controllerEditAboutMe =
+            TextEditingController(text: profile.description);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ProfileCubit, ProfileState>(
-      listener: (context, state) {
-        if (state is ProfileLoadedState && state.mode == ProfileMode.myEdit) {
-          _profileCopyWithforEdit = widget.profileEntity;
-          controllerEditAboutMe =
-              TextEditingController(text: widget.profileEntity.description);
+    return BlocBuilder<ProfileCubit, ProfileState>(
+      builder: (context, state) {
+        if (state is! ProfileLoadedState) {
+          return const Center(child: LoadingWidgetSize150());
         }
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: MyColors.primaryBackground,
-          actions: [
-            ProfileSaveAndEditButtons(
-              profileEntityWithEdit: _profileCopyWithforEdit,
-            )
-          ],
-        ),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Padding(
+
+        final mode = state.mode;
+        final profile = state.profileEntity!;
+        final isEdit = mode == ProfileMode.myEdit;
+
+        if (isEdit) {
+          _initEditState(profile);
+        }
+
+        final displayCar = _profileCopyWithforEdit?.car ?? profile.car;
+
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: MyColors.primaryBackground,
+            actions: [
+              if (mode == ProfileMode.myView || mode == ProfileMode.myEdit)
+                ProfileSaveAndEditButtons(
+                  profileEntityWithEdit: _profileCopyWithforEdit,
+                ),
+            ],
+          ),
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
-                child: Column(children: [
-                  ProfileImageAndName(
-                    verification: widget.profileEntity.verification,
-                    name: widget.profileEntity.fullname,
-                    imageurl: widget.profileEntity.profilePhoto,
-                    profileEntitYEdit: _profileCopyWithforEdit,
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  Row(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ProfileImageAndName(
+                      verification: profile.verification,
+                      name: profile.fullname,
+                      imageurl: profile.profilePhoto,
+                      profileEntitYEdit:
+                          isEdit ? _profileCopyWithforEdit : null,
+                      mode: mode,
+                    ),
+                    SizedBox(height: 20.h),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         ProfileRating(
-                          totalRating: widget.profileEntity.totalRating,
-                          averageRating: widget.profileEntity.averageRating,
-                          tripsCount: widget.profileEntity.numberOfides,
+                          totalRating: profile.totalRating,
+                          averageRating: profile.averageRating,
+                          tripsCount: profile.numberOfides,
                         ),
-                        Text(widget.profileEntity.address,
-                            style: font13boldNewRamadi),
-                        const ProfileContactMe()
-                      ]),
-                  ProfileHintline(
-                    hintLine: widget.profileEntity.description,
-                    controllerAboutme: controllerEditAboutMe,
-                    profileCopyWithEdit: _profileCopyWithforEdit,
-                  ),
-
-                  ProfileCar(
-                    car: widget.profileEntity.car,
-                    carWitheidt: _profileCopyWithforEdit?.car,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 30.h),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Icon(Icons.comment_outlined),
-                        Text(
-                          "آراء الناس بي",
-                          style: font15BoldRamadi,
-                        ),
+                        Text(profile.address, style: font13boldNewRamadi),
+                        const ProfileContactMe(),
                       ],
                     ),
-                  ),
-                  // ProfileComments(
-                  //   feadBack: widget.profileEntity.comments,
-                  // ),
-                ])),
+                    ProfileHintline(
+                      hintLine: profile.description,
+                      controllerAboutme: controllerEditAboutMe,
+                      mode: mode,
+                      onDescriptionChanged: (value) {
+                        setState(() {
+                          _profileCopyWithforEdit = _profileCopyWithforEdit
+                              ?.copyWith(description: value);
+                        });
+                      },
+                    ),
+                    ProfileCar(
+                      car: displayCar,
+                      carWitheidt: _profileCopyWithforEdit?.car,
+                      mode: mode,
+                      onCarChanged: (newCar) {
+                        setState(() {
+                          if (_profileCopyWithforEdit != null) {
+                            _profileCopyWithforEdit =
+                                _profileCopyWithforEdit!.copyWith(car: newCar);
+                          } else {
+                            _profileCopyWithforEdit =
+                                profile.copyWith(car: newCar);
+                          }
+                        });
+                      },
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 30.h),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Icon(Icons.comment_outlined),
+                          Text("آراء الناس بي", style: font15BoldRamadi),
+                        ],
+                      ),
+                    ),
+                    ProfileComments(
+                      feadBack: profile.comments,
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
+  }
+
+  @override
+  void dispose() {
+    controllerEditAboutMe?.dispose();
+    super.dispose();
   }
 }

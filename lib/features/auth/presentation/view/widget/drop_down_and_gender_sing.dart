@@ -18,7 +18,10 @@ class DropDownAndGenderSing extends StatelessWidget {
           options: syrianProvinces,
           validator: (val) =>
               val == null || val.isEmpty ? "الرجاء اختيار المحافظة" : null,
-          icon: const Icon(Icons.location_city_outlined),
+          icon: const Icon(
+            Icons.location_city_outlined,
+            color: MyColors.accent,
+          ),
           onChanged: (val) {
             context.read<SinginCubit>().changAddress(val!);
           },

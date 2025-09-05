@@ -20,12 +20,14 @@ class ProfileImageAndName extends StatelessWidget {
   final String? imageurl;
   final String name;
   final String verification;
+  final ProfileMode mode;
 
   const ProfileImageAndName({
     super.key,
     required this.imageurl,
     required this.name,
     required this.verification,
+    required this.mode,
     this.profileEntitYEdit,
   });
 
@@ -50,25 +52,35 @@ class ProfileImageAndName extends StatelessWidget {
       children: [
         Align(
           alignment: Alignment.topLeft,
-          child: BlocBuilder<ProfileCubit, ProfileState>(
-            builder: (context, state) {
-              if (state is ProfileLoadedState) {
-                final mode = state.mode;
+          child: mode == ProfileMode.myEdit
+              ? BlocBuilder<ProfileCubit, ProfileState>(
+                  buildWhen: (previous, current) =>
+                      current is ProfileLoadedState,
+                  builder: (context, state) {
+                    final cubit = context.read<ProfileCubit>();
 
-                if (mode == ProfileMode.myEdit) {
-                  return MyButton(
-                    splashcolor: Colors.white,
-                    onPressed: () => _onPickImage(context),
-                    child: CircleAvatar(
+                    final imageProvider = () {
+                      if (cubit.userPhoto != null) {
+                        return FileImage(File(cubit.userPhoto!.path));
+                      }
+                      return getProfileImage(
+                          context, profileEntitYEdit?.profilePhoto);
+                    }();
+
+                    final avatar = CircleAvatar(
                       backgroundColor: MyColors.primary,
                       maxRadius: 45,
-                      backgroundImage: getProfileImage(
-                          context, profileEntitYEdit?.profilePhoto),
-                    ),
-                  );
-                }
+                      backgroundImage: imageProvider,
+                    );
 
-                return MyButton(
+                    return MyButton(
+                      splashcolor: Colors.white,
+                      onPressed: () => _onPickImage(context),
+                      child: avatar,
+                    );
+                  },
+                )
+              : MyButton(
                   splashcolor: Colors.white,
                   onPressed: () {
                     openImage(imageurl ?? ImagesUrl.profileImage);
@@ -80,37 +92,18 @@ class ProfileImageAndName extends StatelessWidget {
                         ? const AssetImage(ImagesUrl.profileImage)
                         : NetworkImage(imageurl!) as ImageProvider,
                   ),
-                );
-              }
-
-              return CircleAvatar(
-                backgroundColor: MyColors.primary,
-                maxRadius: 45,
-                backgroundImage: imageurl == null
-                    ? const AssetImage(ImagesUrl.profileImage)
-                    : NetworkImage(imageurl!) as ImageProvider,
-              );
-            },
-          ),
+                ),
         ),
         const ProfileVerificationIcon(),
         SizedBox(width: 15.w),
         Expanded(
-          child: BlocBuilder<ProfileCubit, ProfileState>(
-            builder: (context, state) {
-              if (state is ProfileLoadedState) {
-                return Text(
-                  name,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: MyColors.primaryText,
-                  ),
-                );
-              }
-
-              return const SizedBox();
-            },
+          child: Text(
+            name,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: MyColors.primaryText,
+            ),
           ),
         ),
       ],

@@ -34,9 +34,12 @@ class ButtonSingin extends StatelessWidget {
 
     return BlocConsumer<SinginCubit, SinginState>(
       listener: (context, state) {
+        if (state is SingInGotoVerfiyOtp) {
+          Get.toNamed(RouteName.verfiyEmailSingin,
+              arguments: state.numberPhone);
+        }
         if (state is SinginSuccess) {
-          Get.offAllNamed(RouteName.profile ,arguments: state.user.id);
-          
+          Get.offAllNamed(RouteName.home);
         } else if (state is SinginErorre) {
           showMySnackBar(context, state.message);
         }
@@ -69,7 +72,7 @@ class ButtonSingin extends StatelessWidget {
                   }
                 },
                 borderRadius: true,
-                color: MyColors.primaryText,
+                color: MyColors.primary,
                 height: 50.h,
                 width: 170.w,
                 child: const Text(

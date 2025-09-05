@@ -46,7 +46,7 @@ class _TripDidYouBackState extends State<TripDidYouBack> {
                   child: const FaIcon(
                     FontAwesomeIcons.circleCheck,
                     size: 150,
-                    color: MyColors.primary,
+                    color: MyColors.accent,
                   ),
                 ),
                 tripFrom.reverseTripRoute == false

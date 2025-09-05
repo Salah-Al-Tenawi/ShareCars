@@ -7,13 +7,18 @@ import 'package:sharecars/core/them/my_colors.dart';
 import 'package:sharecars/core/them/text_style_app.dart';
 import 'package:sharecars/features/trip_create/data/model/trip_from.dart';
 
-class TripSelectSeats extends StatelessWidget {
+class TripSelectSeats extends StatefulWidget {
   final TripFrom tripFrom;
   const TripSelectSeats({
     super.key,
     required this.tripFrom,
   });
 
+  @override
+  State<TripSelectSeats> createState() => _TripSelectSeatsState();
+}
+
+class _TripSelectSeatsState extends State<TripSelectSeats> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -23,7 +28,9 @@ class TripSelectSeats extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () {
-              tripFrom.numberSeats++;
+              setState(() {
+                widget.tripFrom.numberSeats++;
+              });
             },
             icon: const FaIcon(
               FontAwesomeIcons.plus,
@@ -32,14 +39,16 @@ class TripSelectSeats extends StatelessWidget {
             ),
           ),
           Text(
-            "${tripFrom.numberSeats}",
-            style: font20normalsky,
+            "${widget.tripFrom.numberSeats}",
+            style: font20normalaccent,
           ),
           IconButton(
             onPressed: () {
-              if (tripFrom.numberSeats > 0) {
-                tripFrom.numberSeats--;
-              }
+              setState(() {
+                if (widget.tripFrom.numberSeats > 0) {
+                  widget.tripFrom.numberSeats--;
+                }
+              });
             },
             icon: const FaIcon(FontAwesomeIcons.minus,
                 size: 40, color: MyColors.primaryText),

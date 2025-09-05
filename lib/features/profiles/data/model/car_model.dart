@@ -26,10 +26,10 @@ class CarModel extends CarEntity {
 
   factory CarModel.fromJson(Map<String, dynamic> json) {
     return CarModel(
-      typeOfCar: json[ApiKey.typeOfCar],
-      colorOfCar: json[ApiKey.colorOfCar],
-      numberOfSeats: json[ApiKey.numberOfSeats],
-      carPic: json[ApiKey.carPic],
+      typeOfCar: json[ApiKey.typeOfCar]??"",
+      colorOfCar: json[ApiKey.colorOfCar]??"",
+      numberOfSeats: json[ApiKey.numberOfSeats]??0,
+      carPic: json[ApiKey.carPic]??"",
       radio: json[ApiKey.radio] == 1 ? true : false,
       smoking: json[ApiKey.smoking] == 1 ? true : false,
     );

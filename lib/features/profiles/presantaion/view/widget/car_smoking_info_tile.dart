@@ -4,7 +4,7 @@ import 'package:sharecars/core/them/text_style_app.dart';
 import 'package:sharecars/core/utils/widgets/cutom_list_tile.dart';
 
 class CarSmokingInfoTile extends StatelessWidget {
-  final bool allowsSmoking;
+  final bool ?allowsSmoking;
 
   const CarSmokingInfoTile({super.key, required this.allowsSmoking});
 
@@ -17,22 +17,22 @@ class CarSmokingInfoTile extends StatelessWidget {
       subtitle: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
-          color: allowsSmoking ? Colors.green.withOpacity(0.1) : Colors.red.withOpacity(0.1),
+          color: allowsSmoking! ? Colors.green.withOpacity(0.1) : Colors.red.withOpacity(0.1),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              allowsSmoking ? Icons.check : Icons.close,
+              allowsSmoking! ? Icons.check : Icons.close,
               size: 16,
-              color: allowsSmoking ? Colors.green : Colors.red,
+              color: allowsSmoking! ? Colors.green : Colors.red,
             ),
             const SizedBox(width: 4),
             Text(
-              allowsSmoking ? "مسموح" : "ممنوع",
+              allowsSmoking! ? "مسموح" : "ممنوع",
               style: TextStyle(
-                color: allowsSmoking ? Colors.green : Colors.red,
+                color: allowsSmoking! ? Colors.green : Colors.red,
                 fontWeight: FontWeight.w500,
               ),
             ),

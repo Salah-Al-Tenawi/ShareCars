@@ -41,7 +41,7 @@ class TripDateShow extends StatelessWidget {
                 width: 37.w,
               ),
               const FaIcon(FontAwesomeIcons.calendarDay,
-                  size: 14, color: MyColors.primary),
+                  size: 14, color: MyColors.accent),
             ],
           ),
           Row(
@@ -52,7 +52,7 @@ class TripDateShow extends StatelessWidget {
                 width: 50.w,
               ),
               const FaIcon(FontAwesomeIcons.clock,
-                  size: 15, color: MyColors.primary),
+                  size: 15, color: MyColors.accent),
             ],
           ),
         ],

@@ -2,30 +2,33 @@ import 'package:sharecars/core/api/api_consumer.dart';
 import 'package:sharecars/core/api/api_end_points.dart';
 
 import 'package:sharecars/core/utils/functions/get_token.dart';
+import 'package:sharecars/features/trip_create/data/model/trip_model.dart';
 
 class TripMeRemoteDataSource {
   final ApiConSumer api;
 
   TripMeRemoteDataSource({required this.api});
+  Future<List<TripModel>> getMyTrip() async {
+    final response = await api.get(
+      ApiEndPoint.rides,
+      header: {ApiKey.authorization: "Bearer ${mytoken()}"},
+    );
 
-// todo return type
-  Future<dynamic> getMyTrip() async {
-    final response = await api
-        .get(ApiEndPoint.rides, header: {ApiKey.authorization: mytoken()});
-    return response;
+    final List<TripModel> trips = TripModel.fromJson(response);
+    return trips;
   }
 
-// todo return type
-  Future<dynamic> showOneTrip(int tripId) async {
-    final response = await api.post("${ApiEndPoint.rides}/$tripId",
-        header: {ApiKey.authorization: mytoken()});
+  Future<TripModel> showOneTrip(int tripId) async {
+    final response = await api.get("${ApiEndPoint.rides}/$tripId",
+        header: {ApiKey.authorization: "Bearer ${mytoken()}"});
 
-    return response;
+    return TripModel.fromMap(response);
   }
 
   Future<dynamic> cancelTrip(int tripId) async {
     final response = await api.patch("${ApiEndPoint.rides}/$tripId/cancel",
-        header: {ApiKey.authorization: mytoken()});
+        header: {ApiKey.authorization: "Bearer ${mytoken()}"});
     return response;
   }
+
 }

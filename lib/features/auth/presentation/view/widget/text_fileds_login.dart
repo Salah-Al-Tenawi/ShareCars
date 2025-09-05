@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sharecars/core/them/my_colors.dart';
 import 'package:sharecars/core/them/text_style_app.dart';
 import 'package:sharecars/core/utils/functions/input_valid.dart';
 import 'package:sharecars/core/utils/widgets/custom_text_form.dart';
@@ -32,7 +31,7 @@ class TextFiledsLogin extends StatelessWidget {
         ),
         SizedBox(height: 20.h),
         CustomTextformfild(
-          validator: (val) => inputvaild(val!, "password", 35, 9),
+          validator: (val) => inputvaild(val!, "password", 35, 8),
           keyboardType: TextInputType.visiblePassword,
           scureText: true,
           icon: const Icon(Icons.lock_clock_outlined),
@@ -47,7 +46,7 @@ class TextFiledsLogin extends StatelessWidget {
                 onPressed: () {
                   context.read<LoginCubit>().emitGotoForgetPassword();
                 },
-                child: Text(
+                child: const Text(
                   "هل نسيت كلمة المرور؟",
                   style: font16blacknormal,
                 )),

@@ -6,9 +6,9 @@ class ApiInterCeptor extends Interceptor {
 
     options.headers['Accept'] = "application/json";
 
-    // if (options.path.contains('/v2/directions/driving-car/geojson')) {
-    //   options.headers['Accept'] = "application/geo+json";
-    // }
+    if (options.path.contains('/v2/directions/driving-car/geojson')) {
+      options.headers['Accept'] = "application/geo+json";
+    }
 
     super.onRequest(options, handler);
   }
