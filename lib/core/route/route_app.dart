@@ -1,8 +1,15 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:sharecars/core/api/dio_consumer.dart';
 import 'package:sharecars/core/route/route_name.dart';
 import 'package:sharecars/core/service/locator_ser.dart';
+import 'package:sharecars/features/chat/domain/repo/chat_repo.dart';
+import 'package:sharecars/features/chat/presentation/manger/conversation_cubit/conversation_cubit.dart';
+import 'package:sharecars/features/chat/presentation/manger/messages_cubit/message_cubit.dart';
+import 'package:sharecars/features/chat/presentation/view/page/chat_list_screen.dart';
+import 'package:sharecars/features/chat/presentation/view/page/chat_screen.dart';
 import 'package:sharecars/features/profiles/data/date_source/profile_remote_date_source.dart';
 import 'package:sharecars/features/splash_view/presentaion/manger/cubit/splash_view_cubit.dart';
 import 'package:sharecars/features/test/my_test.dart';
@@ -88,5 +95,28 @@ List<GetPage<dynamic>> appRoute = [
 
   // home
 
-  GetPage(name: RouteName.home, page: () => const Home())
+  GetPage(name: RouteName.home, page: () => const Home()),
+GetPage(
+  name: RouteName.chatListScreen, 
+  page: () => BlocProvider(
+    create: (context) => ConversationCubit(getit<ChatRepo>()), 
+    child:  ChatListScreen(),
+  ),
+),
+
+GetPage(
+  name: RouteName.chatScreen,
+  page: () {
+    final args = Get.arguments as Map<String, dynamic>;
+
+    return BlocProvider(
+      create: (context) => MessageCubit(getit<ChatRepo>()),
+      child: ChatScreen(
+        conversationId: args['conversationId'],
+        sender: args['sender'],
+      ),
+    );
+  },
+),
+
 ];

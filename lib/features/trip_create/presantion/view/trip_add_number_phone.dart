@@ -20,11 +20,9 @@ class _TripAddNumberPhoneState extends State<TripAddNumberPhone> {
   late TripFrom tripFrom;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _isValid = false;
-
   @override
   void initState() {
     super.initState();
-
     tripFrom = Get.arguments as TripFrom;
     if (tripFrom.numberPhone != null) {
       _phoneController.text = tripFrom.numberPhone!;

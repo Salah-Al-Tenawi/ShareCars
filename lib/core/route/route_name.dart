@@ -20,4 +20,9 @@ class RouteName {
   static const tripSelectPriceAndBookingType = "/tripSelectPriceAndBookingType";
   static const tripAddNumberPhone = "/tripAddNumberPhone";
   static const tripDidYouBack = "/TripDidYouBack";
+//chat
+static const chatListScreen = "/ChatListScreen";
+static const chatScreen = "/ChatScreen";
+
 }
+  

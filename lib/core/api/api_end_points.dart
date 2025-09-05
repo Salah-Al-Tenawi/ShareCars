@@ -1,5 +1,7 @@
+
 class ApiEndPoint {
-  static const baserUrl = "http://192.168.43.81:8000/api";
+   static const baserUrl = "http://192.168.1.6:8000/api";
+  // static const baserUrl = "http://192.168.118.103:8000/api/";
 
   static const mapsOpenRouteServices =
       "https://api.openrouteservice.org/v2/directions/driving-car/geojson";
@@ -19,6 +21,12 @@ class ApiEndPoint {
 
 //  trips endpoint
   static const rides = "$baserUrl/rides";
+  //chat
+   static const chat = "$baserUrl/chat";
+   static const startconversation = "$chat/conversations";
+    static const getallconversations = "$chat/conversations";
+ static const message = "$chat/conversations";
+ static const deletmessage = "$chat/messages";
 }
 
 class ApiKey {
@@ -92,4 +100,22 @@ class ApiKey {
   static const targetCount = "target_count";
   static const shareFactor = "share_factor";
   static const features = "features";
+  //chath
+  static const  conversationid ="conversation_id";
+   static const  type ="type";
+    static const  title ="title";
+     static const  otherparticipant ="other_participant";
+      static const  lastmessage ="last_message";
+       static const  updatedat ="updated_at";
+        static const  content ="content";
+         static const  metadata ="metadata";
+          static const  isedited ="is_edited";
+        static const  avatar ="avatar";
+          static const  caption ="caption";
+            static const  image ="image";
+         static const  createdat ="created_at";
+            static const  sender ="sender";
+             static const  sendername ="sender_name";
+       
+
 }
