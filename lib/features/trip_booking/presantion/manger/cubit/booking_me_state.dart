@@ -12,6 +12,7 @@ final class BookingMeInitial extends BookingMeState {}
 final class BookingMeListloading extends BookingMeState {}
 
 final class BookingMeloading extends BookingMeState {}
+final class BookingMeButtonloading extends BookingMeState {}
 
 final class BookingMeErorr extends BookingMeState {
   final String message;
@@ -35,6 +36,7 @@ final class BookingMeFinish extends BookingMeState {
 
   const BookingMeFinish({required this.message});
 }
+
 
 final class BookingMeRated extends BookingMeState {
   final double rate;

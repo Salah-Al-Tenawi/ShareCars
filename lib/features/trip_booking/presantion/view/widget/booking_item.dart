@@ -9,7 +9,6 @@ import 'package:sharecars/core/constant/imagesUrl.dart';
 import 'package:sharecars/core/route/route_name.dart';
 import 'package:sharecars/core/them/my_colors.dart';
 import 'package:sharecars/core/utils/functions/show_my_snackbar.dart';
-import 'package:sharecars/core/utils/widgets/loading_widget_size_150.dart';
 import 'package:sharecars/core/utils/widgets/my_button.dart';
 import 'package:sharecars/features/trip_booking/data/model/booking_me_model.dart';
 import 'package:sharecars/features/trip_booking/presantion/manger/cubit/booking_me_cubit.dart';
@@ -66,8 +65,8 @@ class _BookingItemState extends State<BookingItem> {
               SizedBox(height: 16.h),
               BlocBuilder<BookingMeCubit, BookingMeState>(
                 builder: (context, state) {
-                  if (state is BookingMeloading) {
-                    return const LoadingWidgetSize150();
+                  if (state is BookingMeButtonloading) {
+                    return const CircularProgressIndicator();
                   } else if (state is BookingMeCanceled) {
                     return MyButton(
                       onPressed: () {},
@@ -89,7 +88,8 @@ class _BookingItemState extends State<BookingItem> {
                         context, widget.booking.userDriver);
                   }
 
-                  return _buildActionButtons(context, widget.booking.status);
+                  return _buildActionButtons(context, widget.booking.status,
+                      widget.booking.userDriver);
                 },
               )
             ],
@@ -379,7 +379,8 @@ class _BookingItemState extends State<BookingItem> {
     );
   }
 
-  Widget _buildActionButtons(BuildContext context, String bookingState) {
+  Widget _buildActionButtons(
+      BuildContext context, String bookingState, int userId) {
     final departure = widget.booking.departureTime;
     final now = DateTime.now();
     final difference = departure.difference(now);
@@ -389,20 +390,25 @@ class _BookingItemState extends State<BookingItem> {
         switch (bookingState) {
           "completed" => Expanded(
               child: ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () => _showRatingDialog(context, userId),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue.shade100,
+                  backgroundColor:
+                      Colors.blue.shade100, // لون يوحي بالنجاح والانتهاء
                   foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  elevation: 4,
+                  elevation: 6,
+                  // shadowColor: Colors.yellowAccent,
                 ),
-                icon: const Icon(Icons.check_circle, size: 20),
+                icon: const Icon(Icons.star_rate, size: 22), // أيقونة تقييم
                 label: const Text(
-                  "تمت الرحلة ",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  "الرحلة انتهت - قيم الآن",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
                 ),
               ),
             ),

@@ -17,10 +17,12 @@ class PickLocationCubit extends Cubit<PickLocationState> {
 
     result.fold(
       (error) {
-        emit(PickLocationError(
-          point: point,
-          message: "تعذر جلب اسم المكان 😢",
-        ));
+        try {
+          emit(PickLocationError(
+            point: point,
+            message: "تعذر جلب اسم المكان 😢",
+          ));
+        } catch (e) {}
       },
       (name) {
         emit(PickLocationLoaded(
