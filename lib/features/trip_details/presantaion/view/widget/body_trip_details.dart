@@ -9,6 +9,7 @@ import 'package:sharecars/core/route/route_name.dart';
 import 'package:sharecars/core/them/my_colors.dart';
 import 'package:sharecars/core/them/text_style_app.dart';
 import 'package:sharecars/core/utils/functions/get_userid.dart';
+import 'package:sharecars/core/utils/widgets/custom_text_form.dart';
 import 'package:sharecars/features/trip_create/data/model/booking_model.dart';
 import 'package:sharecars/features/trip_create/data/model/trip_model.dart';
 import 'package:sharecars/features/trip_details/data/model/trip_details_mode.dart';
@@ -67,60 +68,62 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
     final now = DateTime.now();
     final difference = departure.difference(now);
 
-    return switch (widget.trip.status) {
-      'active' => Container(
-          width: double.infinity,
-          margin: EdgeInsets.symmetric(vertical: 10.h),
-          child: ElevatedButton(
-            onPressed: () {
-              if (widget.trip.booking.isEmpty) {
-                context.read<TripDetailsCubit>().finishRide(widget.trip.id);
-              } else if (difference.inSeconds <= 0) {
-                context
-                    .read<TripDetailsCubit>()
-                    .finishAndConfirmRide(widget.trip.id);
-              } else {}
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: MyColors.accent,
-              foregroundColor: Colors.white,
-              padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 24.w),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.r),
+    // نتحقق إذا كانت الحالة active أو full
+    if (widget.trip.status == 'active' || widget.trip.status == 'full') {
+      return Container(
+        width: double.infinity,
+        margin: EdgeInsets.symmetric(vertical: 10.h),
+        child: ElevatedButton(
+          onPressed: () {
+            if (widget.trip.booking.isEmpty) {
+              context.read<TripDetailsCubit>().finishRide(widget.trip.id);
+            } else if (difference.inSeconds <= 0) {
+              context
+                  .read<TripDetailsCubit>()
+                  .finishAndConfirmRide(widget.trip.id);
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: MyColors.accent,
+            foregroundColor: Colors.white,
+            padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 24.w),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            elevation: 4,
+            shadowColor: MyColors.accent.withOpacity(0.3),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.flag_rounded,
+                size: 24.w,
+                color: Colors.white,
               ),
-              elevation: 4,
-              shadowColor: MyColors.accent.withOpacity(0.3),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.flag_rounded,
-                  size: 24.w,
-                  color: Colors.white,
-                ),
-                SizedBox(width: 12.w),
-                difference.inSeconds <= 0
-                    ? Text(
-                        "إنهاء الرحلة",
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )
-                    : Text(
-                        "لم يحن وقت الرحلة",
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )
-              ],
-            ),
+              SizedBox(width: 12.w),
+              difference.inSeconds <= 0
+                  ? Text(
+                      "إنهاء الرحلة",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  : Text(
+                      "لم يحن وقت الرحلة",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+            ],
           ),
         ),
-      _ => const SizedBox(),
-    };
+      );
+    }
+
+    return const SizedBox();
   }
 
   ElevatedButton showBookingButton() {
@@ -938,6 +941,8 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
     final seatsController = TextEditingController();
     final contactController = TextEditingController();
     final int maxSeats = widget.trip.seatsAvailable;
+    final GlobalKey<FormState> _formKey =
+        GlobalKey<FormState>(); // مفتاح للتحقق من صحة النموذج
 
     showDialog(
       context: context,
@@ -947,56 +952,72 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
           borderRadius: BorderRadius.circular(16.r),
         ),
         title: Text(
-          "حجز الرحلة",
+          "حجز في الرحلة",
           style: TextStyle(
             color: MyColors.primaryText,
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
           ),
         ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              "العدد يجب أن يكون أكبر من 0 وأقل أو يساوي $maxSeats",
-              style: TextStyle(
-                color: MyColors.primaryBackground,
-                fontSize: 14.sp,
-              ),
-            ),
-            SizedBox(height: 10.h),
-            TextField(
-              controller: seatsController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                hintText: "أدخل عدد الكراسي",
-                hintStyle:
-                    TextStyle(color: MyColors.primaryText.withOpacity(0.5)),
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
+        content: Form(
+          key: _formKey, // ربط النموذج بالمفتاح
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "العدد يجب أن يكون أكبر من 0 وأقل أو يساوي $maxSeats",
+                style: TextStyle(
+                  color: MyColors.primaryBackground,
+                  fontSize: 14.sp,
                 ),
               ),
-            ),
-            SizedBox(height: 10.h),
-            TextField(
-              controller: contactController,
-              keyboardType: TextInputType.phone,
-              decoration: InputDecoration(
-                hintText: "أدخل رقم التواصل",
-                hintStyle:
-                    TextStyle(color: MyColors.primaryText.withOpacity(0.5)),
-                filled: true,
+              SizedBox(height: 10.h),
+              CustomTextformfild(
+                title: "أدخل عدد الكراسي ",
+                controller: seatsController,
+                fill: true,
                 fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
+                icon: const Icon(
+                  Icons.event_seat,
+                  color: MyColors.accent,
                 ),
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'الرجاء إدخال عدد الكراسي';
+                  }
+                  final int? seats = int.tryParse(value);
+                  if (seats == null || seats < 1 || seats > maxSeats) {
+                    return 'الرجاء إدخال عدد بين 1 و $maxSeats';
+                  }
+                  return null;
+                },
               ),
-            ),
-          ],
+              SizedBox(height: 10.h),
+              CustomTextformfild(
+                title: "أدخل رقم التواصل ",
+                controller: contactController,
+                fill: true,
+                fillColor: Colors.white,
+                icon: const Icon(
+                  Icons.phone,
+                  color: MyColors.accent,
+                ),
+                keyboardType: TextInputType.phone,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'الرجاء إدخال رقم الهاتف';
+                  }
+                  // التحقق من أن الرقم يحتوي على 10 أرقام فقط
+                  final RegExp phoneRegex = RegExp(r'^[0-9]{10}$');
+                  if (!phoneRegex.hasMatch(value)) {
+                    return 'يجب أن يتكون رقم الهاتف من 10 أرقام';
+                  }
+                  return null;
+                },
+              )
+            ],
+          ),
         ),
         actions: [
           TextButton(
@@ -1014,31 +1035,36 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
               ),
             ),
             onPressed: () {
-              final int? seats = int.tryParse(seatsController.text);
-              final String contactNumber = contactController.text.trim();
+              // التحقق من صحة النموذج قبل المتابعة
+              if (_formKey.currentState!.validate()) {
+                final int? seats = int.tryParse(seatsController.text);
+                final String contactNumber = contactController.text.trim();
 
-              if (seats == null || seats < 1 || seats > maxSeats) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text("الرجاء إدخال عدد صحيح بين 1 و $maxSeats"),
-                    backgroundColor: Colors.red,
-                  ),
-                );
-                return;
+                // هذه الشروط أصبحت زائدة عن الحاجة بسبب الـ validator
+                // ولكن نتركها للاحتياط
+                if (seats == null || seats < 1 || seats > maxSeats) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("الرجاء إدخال عدد صحيح بين 1 و $maxSeats"),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                  return;
+                }
+
+                if (contactNumber.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("الرجاء إدخال رقم التواصل"),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                  return;
+                }
+
+                _bookSeats(seats, widget.trip.id, contactNumber);
+                Navigator.pop(context);
               }
-
-              if (contactNumber.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("الرجاء إدخال رقم التواصل"),
-                    backgroundColor: Colors.red,
-                  ),
-                );
-                return;
-              }
-
-              _bookSeats(seats, widget.trip.id, contactNumber);
-              Navigator.pop(context);
             },
             child: const Text(
               "موافق",

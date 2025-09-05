@@ -21,7 +21,7 @@ class SearchRideMap extends StatefulWidget {
 }
 
 class _SearchRideMapState extends State<SearchRideMap> {
-  static const _defaultCenter = LatLng(33.5138, 36.2765); // دمشق
+  static const _defaultCenter = LatLng(33.5138, 36.2765);
   static const _initialZoom = 9.2;
   static const _markerSize = 40.0;
   static const _polylineStrokeWidth = 4.0;

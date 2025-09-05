@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sharecars/features/trip_booking/data/model/booking_me_model.dart';
+import 'package:sharecars/features/trip_booking/data/model/cancel_booking_model.dart';
 import 'package:sharecars/features/trip_booking/data/repo/booking_me_repo.dart';
 
 part 'booking_me_state.dart';
@@ -26,8 +27,8 @@ class BookingMeCubit extends Cubit<BookingMeState> {
     final response = await _repo.cancelBooking(bookingId, seats);
     response.fold((erorr) {
       emit(BookingMeErorr(message: erorr.message));
-    }, (sucess) {
-      emit(const BookingMeCanceled(message: "تم الغاء الحجز بنجاح"));
+    }, (cancel) {
+      emit(BookingMeCanceled(cancelModel: cancel));
     });
   }
 

@@ -397,7 +397,7 @@ class _BookingItemState extends State<BookingItem> {
                 ),
                 icon: const Icon(Icons.check_circle, size: 20),
                 label: const Text(
-                  "انتهى الحجز",
+                  "تمت الرحلة ",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),

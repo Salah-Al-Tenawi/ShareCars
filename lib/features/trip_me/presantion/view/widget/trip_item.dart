@@ -86,6 +86,24 @@ class ItemTrip extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 12),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Row(
+                  children: [
+                    Icon(Icons.airline_seat_recline_normal,
+                        size: 16, color: MyColors.primary.withOpacity(0.7)),
+                    Expanded(
+                      child: Divider(
+                        thickness: 1,
+                        height: 1,
+                        color: Colors.grey.shade300,
+                        indent: 8,
+                        endIndent: 8,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -94,13 +112,23 @@ class ItemTrip extends StatelessWidget {
                       iconColor: MyColors.primary,
                       text: trip.pickup.address),
                   const SizedBox(height: 6),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 7.w,
+                    ),
+                    child: Container(
+                      height: 20.h,
+                      width: 2.w,
+                      color: Colors.grey.shade300,
+                    ),
+                  ),
                   _LocationRowModern(
                       icon: Icons.location_pin,
                       iconColor: MyColors.accent,
                       text: trip.destination.address),
                 ],
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 30.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -111,7 +139,7 @@ class ItemTrip extends StatelessWidget {
                   _InfoChip(
                       icon: Icons.access_time,
                       label: DateTimeUtils.formatTime(trip.departure),
-                      color: MyColors.secondary),
+                      color: Colors.red),
                   _InfoChip(
                     icon: Icons.event_seat,
                     label: " ${trip.seatsAvailable} | ${trip.seatsBooked}",
@@ -119,112 +147,54 @@ class ItemTrip extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 35.h),
               trip.driver.id == myid()
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        if (trip.status == "finished")
-                          ElevatedButton(
-                            onPressed: null,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue,
-                              disabledBackgroundColor: Colors.blueGrey,
-                            ),
-                            child: const Text(
-                              "الرحلة انتهت",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          )
-                        else if (trip.status == "awaiting_confirmation")
-                          ElevatedButton(
-                            onPressed: () {
-                              // Get.toNamed(RouteName.bookingUserInTrip,
-                              //     arguments: trip.booking);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.amber,
-                              disabledBackgroundColor: Colors.amber,
-                            ),
-                            child: const Text(
-                              "بانتظار تأكيد الركاب",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12.11,
-                              ),
-                            ),
-                          )
-                        else if (trip.status == "cancelled")
-                          ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red.shade300, // أحمر فاتح
-                            ),
-                            child: const Text(
-                              "ملغية",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 13,
-                              ),
-                            ),
-                          )
-                        else
-                          difference.inSeconds <= 0
-                              ? ButtonFinishRide(context, trip.id)
-                              : buildRemainingTime(difference),
-                        SizedBox(width: 70.w),
                         if (trip.status == "active")
-                          PopupMenuButton<String>(
-                            onSelected: (value) {
-                              if (value == 'details' && onTap != null) onTap!();
-                              if (value == 'cancel' && onCancel != null)
-                                onCancel!();
-                            },
-                            itemBuilder: (_) => [
-                              const PopupMenuItem(
-                                value: 'details',
-                                child: _PopupMenuRowModern(
-                                  icon: Icons.info_outline,
-                                  color: MyColors.primary,
-                                  text: 'تفاصيل الرحلة',
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              onPressed: onCancel,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: MyColors.accent,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 14, horizontal: 20),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                elevation: 4,
+                              ).copyWith(
+                                backgroundColor:
+                                    MaterialStateProperty.resolveWith<Color>(
+                                  (states) =>
+                                      states.contains(MaterialState.pressed)
+                                          ? Colors.red.shade700
+                                          : Colors.red,
                                 ),
                               ),
-                              const PopupMenuItem(
-                                value: 'cancel',
-                                child: _PopupMenuRowModern(
-                                  icon: Icons.cancel_outlined,
-                                  color: Colors.red,
-                                  text: 'إلغاء الرحلة',
-                                ),
-                              ),
-                            ],
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 14, vertical: 8),
-                              decoration: BoxDecoration(
-                                color: MyColors.accent.withOpacity(0.4),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: const Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    'خيارات',
-                                    style: TextStyle(
-                                      color: MyColors.secondary,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  SizedBox(width: 4),
-                                  Icon(Icons.arrow_drop_down,
-                                      color: MyColors.secondary),
-                                ],
+                              icon: const Icon(Icons.cancel, size: 20),
+                              label: const Text(
+                                "إلغاء الرحلة",
+                                style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        if (trip.status != "finished" &&
+                            trip.status != "awaiting_confirmation" &&
+                            trip.status != "cancelled") ...[
+                          if (difference.inSeconds <= 0)
+                            ButtonFinishRide(context, trip.id)
+                          else
+                            buildRemainingTime(difference),
+                        ],
                       ],
                     )
-                  : const SizedBox(),
+                  : const SizedBox.shrink(),
             ],
           ),
         ),
@@ -233,40 +203,36 @@ class ItemTrip extends StatelessWidget {
   }
 
   // ignore: non_constant_identifier_names
-  Align ButtonFinishRide(BuildContext context, int tripId) {
-    return Align(
-      alignment: Alignment.bottomRight,
-      child: ElevatedButton(
+  Widget ButtonFinishRide(BuildContext context, int tripId) {
+    return Expanded(
+      child: ElevatedButton.icon(
         onPressed: () {
           Get.toNamed(RouteName.tripDetails, arguments: tripId);
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: MyColors.accent,
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 14.h),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.r),
+            borderRadius: BorderRadius.circular(16), // موحد مع زر الإلغاء
           ),
-          elevation: 6,
-          shadowColor: MyColors.accent.withOpacity(0.4),
+          elevation: 4,
+          foregroundColor: Colors.white,
+        ).copyWith(
+          backgroundColor: MaterialStateProperty.resolveWith<Color>(
+            (states) => states.contains(MaterialState.pressed)
+                ? MyColors.accent
+                : MyColors.accent,
+          ),
+          shadowColor:
+              MaterialStateProperty.all(MyColors.accent.withOpacity(0.4)),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(
-              Icons.flag,
-              color: Colors.white,
-              size: 20,
-            ),
-            SizedBox(width: 8.w),
-            Text(
-              "إنهاء الرحلة",
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-          ],
+        icon: const Icon(
+          Icons.flag,
+          size: 20,
+          color: Colors.white,
+        ),
+        label: const Text(
+          "إنهاء الرحلة",
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -409,25 +375,25 @@ class _InfoChip extends StatelessWidget {
   }
 }
 
-class _PopupMenuRowModern extends StatelessWidget {
-  final IconData icon;
-  final Color color;
-  final String text;
+// class _PopupMenuRowModern extends StatelessWidget {
+//   final IconData icon;
+//   final Color color;
+//   final String text;
 
-  const _PopupMenuRowModern(
-      {required this.icon, required this.color, required this.text});
+//   const _PopupMenuRowModern(
+//       {required this.icon, required this.color, required this.text});
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon, color: color),
-        const SizedBox(width: 8),
-        Text(text),
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       children: [
+//         Icon(icon, color: color),
+//         const SizedBox(width: 8),
+//         Text(text),
+//       ],
+//     );
+//   }
+// }
 
 String formatRemainingTime(Duration duration) {
   if (duration.inDays > 0) {

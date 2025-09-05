@@ -1,3 +1,5 @@
+import 'package:sharecars/features/trip_booking/data/model/cancel_booking_model.dart';
+
 class HandelErorrMessage {
   static String login(String message) {
     switch (message) {
@@ -93,6 +95,7 @@ class HandelErorrMessage {
       return "حدث خطأ غير متوقع";
     }
   }
+
 
   static String finishRide(String message) {
     switch (message) {

@@ -4,6 +4,7 @@ import 'package:sharecars/core/utils/functions/get_token.dart';
 import 'package:sharecars/features/profiles/data/model/comment_model.dart';
 import 'package:sharecars/features/profiles/data/model/rating_modle.dart';
 import 'package:sharecars/features/trip_booking/data/model/booking_me_model.dart';
+import 'package:sharecars/features/trip_booking/data/model/cancel_booking_model.dart';
 
 class BookingRemoteDataSource {
   final ApiConSumer _api;
@@ -20,7 +21,7 @@ class BookingRemoteDataSource {
   }
 
 // todo Modleing
-  Future<dynamic> cancelBooking(int bookingId, int seats) async {
+  Future<CancelBookingModel> cancelBooking(int bookingId, int seats) async {
     final url = "${ApiEndPoint.baserUrl}/bookings/$bookingId/cancel-seats";
 
     final response = await _api.post(

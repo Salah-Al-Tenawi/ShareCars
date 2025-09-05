@@ -6,6 +6,7 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:sharecars/core/errors/handel_erorr_message.dart';
 import 'package:sharecars/core/route/route_name.dart';
 import 'package:sharecars/core/them/my_colors.dart';
+import 'package:sharecars/core/utils/functions/my_dilaog.dart';
 import 'package:sharecars/core/utils/functions/show_my_snackbar.dart';
 import 'package:sharecars/core/utils/widgets/loading_widget_size_150.dart';
 import 'package:sharecars/features/trip_booking/presantion/manger/cubit/booking_me_cubit.dart';
@@ -29,9 +30,15 @@ class _BookingMeListState extends State<BookingMeList> {
       body: BlocConsumer<BookingMeCubit, BookingMeState>(
         listener: (context, state) {
           if (state is BookingMeCanceled) {
-            showMySnackBar(context, "تم الغاء الحجز بنجاح");
+            final refund = state.cancelModel.data.refundPolicy.refundPercentage;
+            myConfirmDilaogWithPolicy(
+              context,
+              "تم استرداد $refund ل.س من قيمة الحجز",
+              title: "تم إلغاء الحجز",
+            );
           } else if (state is BookingMeErorr) {
             final message = HandelErorrMessage.bookingMe(state.message);
+            
             showMySnackBar(context, message);
           }
         },

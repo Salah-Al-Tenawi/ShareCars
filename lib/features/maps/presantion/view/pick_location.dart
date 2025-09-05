@@ -35,7 +35,7 @@ class PickLocation extends StatelessWidget {
               FlutterMap(
                 options: MapOptions(
                   initialCenter: const LatLng(33.5138, 36.2765),
-                  initialZoom: 13,
+                  initialZoom: 9.2,
                   onTap: (tapPosition, point) {
                     context.read<PickLocationCubit>().selectPoint(point);
                   },

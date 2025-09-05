@@ -25,9 +25,9 @@ final class BookingMeListLoaded extends BookingMeState {
 }
 
 final class BookingMeCanceled extends BookingMeState {
-  final String message;
+  final CancelBookingModel cancelModel ;
 
-  const BookingMeCanceled({required this.message});
+  const BookingMeCanceled({required this.cancelModel});
 }
 
 final class BookingMeFinish extends BookingMeState {

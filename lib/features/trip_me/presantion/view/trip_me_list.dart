@@ -92,7 +92,7 @@ class TripMeList extends StatelessWidget {
                                 title: const Row(
                                   children: [
                                     Icon(Icons.warning_amber_rounded,
-                                        color: MyColors.accent, size: 28),
+                                        color: Colors.red, size: 28),
                                     SizedBox(width: 8),
                                     Text(
                                       'تأكيد',
@@ -116,21 +116,26 @@ class TripMeList extends StatelessWidget {
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor:
                                           MyColors.secondaryBackground,
-                                      foregroundColor: MyColors.primaryText,
+                                      foregroundColor: Colors
+                                          .white, 
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(12),
                                       ),
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 24, vertical: 12),
                                     ),
-                                    child: const Text('لا',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
+                                    child: const Text(
+                                      'لا',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white, 
+                                      ),
+                                    ),
                                   ),
                                   ElevatedButton(
                                     onPressed: () => Navigator.pop(ctx, true),
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: MyColors.accent,
+                                      backgroundColor: Colors.red,
                                       foregroundColor: Colors.white,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(12),
@@ -138,9 +143,13 @@ class TripMeList extends StatelessWidget {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 24, vertical: 12),
                                     ),
-                                    child: const Text('نعم',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
+                                    child: const Text(
+                                      'نعم',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white, 
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
