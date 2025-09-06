@@ -39,7 +39,7 @@ class ButtonSingin extends StatelessWidget {
               arguments: state.numberPhone);
         }
         if (state is SinginSuccess) {
-          Get.offAllNamed(RouteName.home);
+          Get.offAllNamed(RouteName.home ,arguments: true);
         } else if (state is SinginErorre) {
           showMySnackBar(context, state.message);
         }

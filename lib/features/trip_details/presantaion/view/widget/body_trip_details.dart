@@ -45,6 +45,7 @@ class _BodyTripDetailsState extends State<BodyTripDetails> {
         _buildDistanceDurationRow(),
 
         _buildDepartureBadge(),
+        
         _buildSeatsInfo(),
 
         SizedBox(height: 17.h),

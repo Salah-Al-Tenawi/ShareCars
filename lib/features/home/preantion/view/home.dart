@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:sharecars/core/api/dio_consumer.dart';
 import 'package:sharecars/core/them/my_colors.dart';
 import 'package:sharecars/features/e_pay/data/data_source/e_pay_remote_data_source.dart';
 import 'package:sharecars/features/e_pay/data/repo/e_pay_repo_im.dart';
+import 'package:sharecars/features/home/preantion/manger/cubit/home_nav_cubit_cubit.dart';
 import 'package:sharecars/features/home/preantion/view/widget/home_appbar.dart';
 import 'package:sharecars/features/home/preantion/view/widget/home_botom_nav_bar.dart';
 import 'package:sharecars/features/home/preantion/view/widget/home_drawer.dart';
+import 'package:sharecars/features/policy/policy_dilaog.dart';
+import 'package:sharecars/features/policy/text/pollicy_text.dart';
 import 'package:sharecars/features/trip_booking/presantion/view/booking_me_list.dart';
 import 'package:sharecars/features/trip_create/presantion/view/trip_select_source_and_dist_on_map.dart';
 import 'package:sharecars/features/trip_me/presantion/view/trip_me_list.dart';
 import 'package:sharecars/features/trip_search/presantion/view/trip_search.dart';
-
-
-
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -24,20 +24,51 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  bool isNew = false;
   final _pageController = PageController(initialPage: 1);
   final EPayRepoIm _epy =
       EPayRepoIm(remoteDataSource: EPayRemoteDataSource(api: DioConSumer()));
   String balance = "";
-  
-  // مفتاح لتحديث FutureBuilder
+
   final GlobalKey _refreshKey = GlobalKey();
 
-  // دالة لتحديث الرصيد
   Future<void> _refreshBalance() async {
     setState(() {
-      // إعادة بناء الـ FutureBuilder عن طريق تغيير المفتاح
       _refreshKey.currentState?.setState(() {});
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    try {
+      isNew = Get.arguments as bool;
+    } catch (e) {}
+    super.initState();
+    try {
+      if (isNew) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Future.delayed(const Duration(seconds: 3), () {
+            _showPrivacy();
+          });
+        });
+      }
+    } catch (e) {}
+  }
+
+  Future<void> _showPrivacy() async {
+    final accepted = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => PrivacyPolicyDialog(
+        policyText: PolicyText.text,
+      ),
+    );
+
+    if (accepted != true) {
+      await context.read<HomeNavCubit>().logout(context);
+      // Get.offAllNamed(RouteName.singin);
+    }
   }
 
   @override
@@ -96,7 +127,8 @@ class _HomeState extends State<Home> {
       ),
     );
   }
-@override
+
+  @override
   void dispose() {
     _pageController.dispose();
     super.dispose();
