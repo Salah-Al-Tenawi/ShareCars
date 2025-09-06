@@ -147,12 +147,50 @@ class ItemTrip extends StatelessWidget {
                   ),
                 ],
               ),
+              Align(
+                alignment: Alignment.center,
+                child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
+                  child: Card(
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    color: MyColors.secondaryBackground,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.monetization_on,
+                            color: MyColors.accent,
+                            size: 22,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            "للراكب ${trip.pricePerSeat}  ل.س",
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: MyColors.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               SizedBox(height: 35.h),
               trip.driver.id == myid()
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        if (trip.status == "active")
+                        if (trip.status == "active" &&
+                            difference.inSeconds >= 0)
                           Expanded(
                             child: ElevatedButton.icon(
                               onPressed: onCancel,

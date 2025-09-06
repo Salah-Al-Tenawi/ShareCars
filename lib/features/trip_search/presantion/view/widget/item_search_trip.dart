@@ -169,7 +169,6 @@ class _ItemSearchTripState extends State<ItemSearchTrip> {
 
               const SizedBox(height: 16),
 
-              // Info chips
               Wrap(
                 spacing: 8,
                 runSpacing: 8,
@@ -187,6 +186,15 @@ class _ItemSearchTripState extends State<ItemSearchTrip> {
                     icon: Icons.access_time,
                     label: DateTimeUtils.formatTime(widget.trip.departure),
                     color: MyColors.accent,
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: _InfoChip(
+                      icon: Icons.price_change,
+                      label:
+                          " تكلفة الراكب الواحد   ${widget.trip.pricePerSeat} ل.س",
+                      color: Colors.red,
+                    ),
                   ),
                   Align(
                     alignment: Alignment.center,

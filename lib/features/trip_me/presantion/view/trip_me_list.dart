@@ -45,7 +45,6 @@ class TripMeList extends StatelessWidget {
                         width: double.infinity,
                         height: MediaQuery.of(context).size.height,
                         child: Column(
-                          // mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SizedBox(
                               height: 80.h,
