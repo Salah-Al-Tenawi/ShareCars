@@ -393,16 +393,15 @@ class _BookingItemState extends State<BookingItem> {
                 onPressed: () => _showRatingDialog(context, userId),
                 style: ElevatedButton.styleFrom(
                   backgroundColor:
-                      Colors.blue.shade100, // لون يوحي بالنجاح والانتهاء
+                      Colors.blue.shade100, 
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
                   elevation: 6,
-                  // shadowColor: Colors.yellowAccent,
                 ),
-                icon: const Icon(Icons.star_rate, size: 22), // أيقونة تقييم
+                icon: const Icon(Icons.star_rate, size: 22), 
                 label: const Text(
                   "الرحلة انتهت - قيم الآن",
                   style: TextStyle(
