@@ -184,7 +184,7 @@ class ItemTrip extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 35.h),
+              SizedBox(height: 30.h),
               trip.driver.id == myid()
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,

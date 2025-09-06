@@ -22,7 +22,7 @@ class _TripSelectPriceState extends State<TripSelectPrice> {
   incremant(int priceRecomanded) {
     if (priceRecomanded > 40000) {
       if (priceRecomanded < 60000) {
-        priceRecomanded += 10000;
+        priceRecomanded += 5000;
       }
     } else if (priceRecomanded < 40000 && priceRecomanded > 20000) {
       priceRecomanded += 5000;
